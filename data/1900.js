@@ -1,4 +1,5 @@
     var バージョン="2.05.2";
+    var 最新内部バージョン="3"
     var 正解回数 = 0;
     var 問題数 = 0;
     var 正解;
@@ -24,6 +25,16 @@
     var 問題番号 = 0;
     var csv = ""
 
+var 利用者内部版 = (typeof 内部版 !== "undefined") ? 内部版 : null;
+if (利用者内部版 !== 最新内部版) {
+    alert(
+        "このバージョンではデータが古いため、正常に動作しません。\n" +
+        "Gmailより最新のデータをダウンロードしてください。"
+    );
+    // 必要に応じて処理停止
+} else {
+    // バージョン一致時の処理
+}
     var ABCnum = [];
     document.addEventListener("keydown", function(event) {
   var hintElement = document.getElementById('shortcut-hint');
