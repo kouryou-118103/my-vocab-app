@@ -1,4 +1,3 @@
-    const バージョン="2.05.1";
     let 正解回数 = 0;
     let 問題数 = 0;
     let 正解;
@@ -24,32 +23,7 @@
     let 問題番号 = 0;
     let csv = ""
 
-    let latest_version = '';
     let ABCnum = [];
-    const localKey = 'vocabData';
-    async function loadData() {
-      try {
-        const res = await fetch('https://kouryou-118103.github.io/my-vocab-app/data/data.json');
-        if (!res.ok) throw new Error('ネットデータ取得失敗');
-        const data = await res.json();
-        localStorage.setItem(localKey, JSON.stringify(data));
-        latest_version = data.latest_version;
-        ABCnum = data.abcnum;
-        console.log('ネットデータ使用:', latest_version, ABCnum);
-      } catch (err) {
-        console.warn('ネットデータ取得失敗:', err.message);
-        const localDataStr = localStorage.getItem(localKey);
-        if (localDataStr) {
-          const data = JSON.parse(localDataStr);
-          latest_version = data.latest_version;
-          ABCnum = data.abcnum;
-         console.log('localStorage データ使用:', latest_version, ABCnum);
-        } else {
-          alert('インターネットに接続していないため、いやらしいモードが使えません。(1回接続すれば以降はオフラインでも使えます。)');
-        }
-      }
-    }
-    loadData();
     document.addEventListener("keydown", function(event) {
   const hintElement = document.getElementById('shortcut-hint');
   const active = document.activeElement;
@@ -841,20 +815,3 @@ function startNextRound() {
   正解回数 = 0;
   showNextQuestion();
 }
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      const versionInfo = document.getElementById("versionInfo");
-
-      if (バージョン !== latest_version) {
-        versionInfo.innerHTML = `
-          <span class="icon">!</span>v<span class="alert" title="古いバージョンです。最新バージョンは ${latest_version} です。アップデートをお願いします。">${バージョン}</span>
-          | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
-        `;
-      } else {
-        versionInfo.innerHTML = `
-          v${バージョン}
-          | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
-        `;
-      }
-    }, 500);
-  });
