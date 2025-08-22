@@ -622,86 +622,10 @@ window.addEventListener('load', () => {
     }
   })();
 
-function compareVersions(a, b) {
-  let pa = a.replace(/^v/, '')
-  let pb = b.replace(/^v/, '')
-  pa = pa.split('.').map(Number);
-  pb = pb.split('.').map(Number);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const na = pa[i] || 0;
-    const nb = pb[i] || 0;
-    if (na !== nb) return na - nb;
-  }
-  return 0;
-}
-
 function extractVersionFromHTML(html) {
   const match = html.match(/v(\d+(?:\.\d+)*)(?:（|\()/);
   return match ? match[1] : null;
 }
-
-function showUpdateNoticeIfNeeded() {
-  const oldVersion = localStorage.getItem('前回開いたバージョン');
-
-  if (!oldVersion || oldVersion !== バージョン) {
-    fetch("https://kouryou-118103.github.io/my-vocab-app/data/updatelog.json")
-      .then(res => res.json())
-      .then(data => {
-        const updates = [data.newFeature, ...data.updates];
-
-        // oldVersion 以降の更新だけ抽出
-        const newUpdates = updates.filter(u => !oldVersion || compareVersions(u.version.replace("v",""), oldVersion.replace("v","")) > 0);
-
-        const liHTML = newUpdates.map(u => 
-          `<strong>${u.version}</strong> (${u.date})<ul>${u.changes.map(c => `<li>${c}</li>`).join("")}</ul>`
-        ).join("");
-
-        const message = oldVersion
-          ? `アップデートありがとうございます！<br>${oldVersion} → ${バージョン} にアップデートしました！<br><ul>${liHTML}</ul>`
-          : `ご利用ありがとうございます！現在のバージョンは ${バージョン} です。<ul>${liHTML}</ul>`;
-
-        const dialog = document.createElement('div');
-        dialog.className = 'update-dialog';
-        dialog.style.cssText = `
-          position: fixed; inset: 0;
-          background: rgba(0,0,0,0.5);
-          display: flex; align-items: center; justify-content: center;
-          z-index: 9999;
-        `;
-
-        dialog.innerHTML = `
-          <div style="
-            background: var(--cbg);
-            color: var(--t);
-            padding: 20px;
-            max-width: 90vw;
-            max-height: 80vh;
-            overflow-y: auto;
-            border-radius: 10px;
-            box-shadow: var(--csh);
-          ">
-            ${message}
-            <div style="text-align: right; margin-top: 1em;">
-              <button style="
-                background: var(--bbg);
-                color: var(--bt);
-                border: none;
-                padding: 5px 10px;
-                border-radius: 5px;
-                cursor: pointer;
-              " onclick="this.closest('.update-dialog').remove()">閉じる</button>
-            </div>
-          </div>
-        `;
-        document.body.appendChild(dialog);
-
-        localStorage.setItem('前回開いたバージョン', バージョン);
-      })
-      .catch(err => console.error("アップデートログ取得失敗:", err));
-  }
-}
-
-document.addEventListener('DOMContentLoaded', showUpdateNoticeIfNeeded);
 
 function updateCSVStatus(loaded) {
   const label = document.getElementById("csvStatus");
