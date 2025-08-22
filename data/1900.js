@@ -1,4 +1,4 @@
-    const バージョン="2.05.2";
+    let バージョン="2.05.2";
     let 正解回数 = 0;
     let 問題数 = 0;
     let 正解;
@@ -26,9 +26,9 @@
 
     let ABCnum = [];
     document.addEventListener("keydown", function(event) {
-  const hintElement = document.getElementById('shortcut-hint');
-  const active = document.activeElement;
-  const modeToggle = document.getElementById("mode-toggle");
+  let hintElement = document.getElementById('shortcut-hint');
+  let active = document.activeElement;
+  let modeToggle = document.getElementById("mode-toggle");
   if (event.key === 'd'){
     dark = !dark;
     document.body.classList.toggle('dark', dark);
@@ -40,15 +40,15 @@
   }
   if (フラッシュカード && ゲーム中) {
   if (event.key === "1") {
-    const meaning = document.getElementById("flashcard-meaning");
+    let meaning = document.getElementById("flashcard-meaning");
     if (meaning) meaning.style.display = 'block';
   }
   if (event.key === "2") {
     markKnown(問題番号);
   }
   if (event.key === "3") {
-    const 表示語句 = document.querySelector("#quiz strong, #quiz p").textContent.trim();
-    const 正解 = document.getElementById("flashcard-meaning")?.textContent.trim();
+    let 表示語句 = document.querySelector("#quiz strong, #quiz p").textContent.trim();
+    let 正解 = document.getElementById("flashcard-meaning")?.textContent.trim();
     markUnknown(問題番号);
   }
 }
@@ -68,7 +68,7 @@
     return;
   }
 
-  const quizDiv = document.getElementById("quiz");
+  let quizDiv = document.getElementById("quiz");
   if (!quizDiv.innerHTML.trim()) return;
 
   if (event.key === "Enter" || event.key === " ") {
@@ -78,36 +78,36 @@
     if (active === modeToggle) {
       return;
     } else {
-      const sendButton = document.querySelector("#quiz button");
+      let sendButton = document.querySelector("#quiz button");
       if (sendButton) if(ゲーム中){sendButton.click();}else{if (confirm("ホーム画面に戻ります。")){sendButton.click();}};
     }
   }
 
-  const key = parseInt(event.key);
+  let key = parseInt(event.key);
   if (!isNaN(key) && key >= 1 && key <= numChoices + 1) {
-    const buttons = document.querySelectorAll("#quiz .option button");
+    let buttons = document.querySelectorAll("#quiz .option button");
     if (buttons[key - 1]) {
       buttons[key - 1].click();
     }
   }
 });
 document.addEventListener('keyup', (event) => {
-    const hintElement = document.getElementById('shortcut-hint');
+    let hintElement = document.getElementById('shortcut-hint');
     if (event.key === '/' || event.key.toLowerCase() === 'h') {
         hintElement.style.display = 'none';
     }
 });
 document.addEventListener('click', () => {
-    const hintElement = document.getElementById('shortcut-hint');
+    let hintElement = document.getElementById('shortcut-hint');
     hintElement.style.display = 'none';
 });
   function onSettingsChanged() {
-      const newUrl = generateShareableLink(false); // ← 関数の返り値を受け取る
+      let newUrl = generateShareableLink(false); // ← 関数の返り値を受け取る
       window.history.replaceState({}, '', newUrl); // ← URLだけを書き換える（リロードなし）
   }
 
   // イベントを登録する対象の要素たち
-  const settingElements = [
+  let settingElements = [
     document.getElementById('direction'),
     document.getElementById('numChoices'),
     document.getElementById('rangeSelect'),
@@ -122,13 +122,13 @@ document.addEventListener('click', () => {
 
   // それぞれにイベントリスナーを追加
   settingElements.forEach(el => {
-    const eventType = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
+    let eventType = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
     el.addEventListener(eventType, onSettingsChanged);
   });
     
     function startQuiz() {
       ゲーム中 = true;
-      const newUrl = generateShareableLink(); // ← 関数の返り値を受け取る
+      let newUrl = generateShareableLink(); // ← 関数の返り値を受け取る
       window.history.replaceState({}, '', newUrl); // ← URLだけを書き換える（リロードなし）
       numChoices = parseInt(document.getElementById("numChoices").value);
       範囲下 = parseInt(document.getElementById("rangeLow").value)-1;
@@ -213,11 +213,11 @@ if (残り問題番号.length === 0) {
       } else {
         問題番号 = 残り問題番号[0];
       }
-      const 表示語句 = 表示語句範囲[問題番号];
+      let 表示語句 = 表示語句範囲[問題番号];
       正解 = 選択肢範囲[問題番号];
       if (document.getElementById("flashcard-mode").checked) {
-      const totalCount = 表示語句範囲.length;
-      const solvedCount = totalCount - 残り問題番号.length;
+      let totalCount = 表示語句範囲.length;
+      let solvedCount = totalCount - 残り問題番号.length;
       let html = `<p>${escapeHTML(solvedCount)}/${escapeHTML(totalCount)}`;
 html += `<p style="font-size: 2em; font-weight: bold; margin-bottom: 1.5em;">${escapeHTML(表示語句)}</p>`;
 html += `<p id="flashcard-meaning" style="font-size: 1.5em; display:none; margin-bottom: 1.5em;">${escapeHTML(正解)}</p>`;
@@ -238,8 +238,8 @@ html += `</div>`;
         選択肢ABC用 = 出題語句ABC.slice(Math.max(0, Math.min(出題語句ABC.length - numChoices*2, index - Math.floor(numChoices))), Math.max(0, Math.min(出題語句ABC.length - numChoices*2, index - Math.floor(numChoices))) + numChoices*2);
         let choice;
         while (options.length < numChoices) {
-        const randIndex = Math.floor(Math.random() * 選択肢ABC用.length);
-        const abcIndex = ABCnum.indexOf(選択肢ABC用[randIndex]);
+        let randIndex = Math.floor(Math.random() * 選択肢ABC用.length);
+        let abcIndex = ABCnum.indexOf(選択肢ABC用[randIndex]);
 
         if (出題方向 === "ja-en") {
           choice = 英語[abcIndex];
@@ -252,8 +252,8 @@ html += `</div>`;
       }      
       }else{
         while (options.length < numChoices) {
-          const randIndex = Math.floor(Math.random() * 選択肢範囲.length);
-          const choice = 選択肢範囲[randIndex];
+          let randIndex = Math.floor(Math.random() * 選択肢範囲.length);
+          let choice = 選択肢範囲[randIndex];
           if (!options.includes(choice)) {
             options.push(choice);
           }
@@ -296,8 +296,8 @@ html += `</div>`;
     }
 
     function submitAnswer(表示語句, 正解, 問題番号) {
-      const userInput = document.getElementById("userInput").value.trim();
-      const selected = userInput;
+      let userInput = document.getElementById("userInput").value.trim();
+      let selected = userInput;
       let 正誤 = selected === 正解 ? "○" : "×";
 
       if (記録モード || 入力モード) {
@@ -311,7 +311,7 @@ if (selected === 正解) {
   result += `<p class="correct">✅ 正解！</p>`;
   result += `<p class="question">${escapeHTML(表示語句)}<br>${escapeHTML(selected)}</p>`;
 } else {
-  const userLang = 日本語[英語.indexOf(selected)] ?? "不明";
+  let userLang = 日本語[英語.indexOf(selected)] ?? "不明";
   result += `<p class="incorrect">❌ 不正解</p>`;
   result += `<p class="question">${escapeHTML(表示語句)}<br>${escapeHTML(正解)}</p>`;
   result += `<p>${escapeHTML(userLang)}<br>${escapeHTML(selected)}</p>`;
@@ -331,8 +331,8 @@ document.getElementById("quiz").innerHTML = result;
 }
 
 function checkAnswer(selected, answer, 問題番号) {
-  const 表示語句 = 表示語句範囲[問題番号];
-  const isCorrect = selected === answer;
+  let 表示語句 = 表示語句範囲[問題番号];
+  let isCorrect = selected === answer;
   let 正誤 = isCorrect ? "○" : "×";
 
   if (記録モード) {
@@ -352,10 +352,10 @@ if (isCorrect) {
   result += `<p class="question">${escapeHTML(表示語句)}<br>${answer}</p>`;
 
   if (出題方向 == "ja-en") {
-    const en = 日本語[英語.indexOf(selected)];
+    let en = 日本語[英語.indexOf(selected)];
     result += `<p>${escapeHTML(en)}<br>${escapeHTML(selected)}</p>`;
   } else {
-    const ja = 英語[日本語.indexOf(selected)];
+    let ja = 英語[日本語.indexOf(selected)];
     result += `<p>${escapeHTML(ja)}<br>${escapeHTML(selected)}</p>`;
   }
 }
@@ -401,20 +401,20 @@ if (isCorrect) {
 
     function shuffle(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
+        let j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
     }
     function updateCharCount() {
-  const input = document.getElementById("userInput").value;
+  let input = document.getElementById("userInput").value;
   document.getElementById("charCount").innerText = `現在の文字数: ${input.length}文字`;
 }
 function toggleUpdateLog() {
-  const log = document.getElementById("updateLog");
+  let log = document.getElementById("updateLog");
   log.classList.toggle("hidden");
 
   // JSONを初めて読み込むときだけfetch
-  const changelog = document.getElementById("changelog");
+  let changelog = document.getElementById("changelog");
   if (!changelog.dataset.loaded) {
     fetch('https://kouryou-118103.github.io/my-vocab-app/data/updatelog.json')
       .then(res => {
@@ -437,20 +437,20 @@ changelog.innerHTML = html;
         changelog.innerHTML = `<p>読み込みに失敗しました: ${err}</p>`;
       });
   }
-}const observer = new MutationObserver(() => {
-    const input = document.getElementById("userInput");
+}let observer = new MutationObserver(() => {
+    let input = document.getElementById("userInput");
     if (input) input.focus();
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
 function getURLParams() {
-  const params = new URLSearchParams(window.location.search);
-  const encoded = params.get('data');
+  let params = new URLSearchParams(window.location.search);
+  let encoded = params.get('data');
   if (encoded) {
     try {
-      const base64 = decodeURIComponent(encoded); // 👈 これを入れる！
-      const json = atob(base64);
-      const obj = JSON.parse(json);
+      let base64 = decodeURIComponent(encoded); // 👈 これを入れる！
+      let json = atob(base64);
+      let obj = JSON.parse(json);
       if (obj.v && parseInt(obj.v) > 0) {
         return {
           direction: obj.d,
@@ -473,7 +473,7 @@ function getURLParams() {
 }
 function loadSettings() {
   setTimeout(() => {
-  const urlParams = getURLParams();
+  let urlParams = getURLParams();
   console.log("読み込まれたURLパラメータ:", urlParams);
 
   // 各項目：URLパラメータが優先
@@ -499,11 +499,11 @@ window.addEventListener("load", function() {
 });
 document.getElementById('resetSettings').addEventListener('click', function() {
   if (confirm('設定を初期状態に戻しますか？OKを押したら自動で再読み込みします。')) {
-    const cleanUrl = window.location.origin + window.location.pathname;
+    let cleanUrl = window.location.origin + window.location.pathname;
     window.location.href = cleanUrl;  }
 });
 function generateShareableLink(showUI = true) {
-  const settings = {
+  let settings = {
     v: バージョン,
     d: document.getElementById("direction").value,
     n: document.getElementById("numChoices").value,
@@ -516,26 +516,26 @@ function generateShareableLink(showUI = true) {
     a: document.getElementById("autoNextInterval").value
   };
 
-  const json = JSON.stringify(settings);
-  const base64 = btoa(json);
-  const safe = encodeURIComponent(base64);
+  let json = JSON.stringify(settings);
+  let base64 = btoa(json);
+  let safe = encodeURIComponent(base64);
   console.log("base64:", base64);
 
-  const baseUrl = location.origin + location.pathname;
-  const fullUrl = `${baseUrl}?data=${safe}`;
+  let baseUrl = location.origin + location.pathname;
+  let fullUrl = `${baseUrl}?data=${safe}`;
   console.log("生成されたURL:", fullUrl);
   if (showUI) {
-  const linkInput = document.getElementById("shareableLink");
+  let linkInput = document.getElementById("shareableLink");
   linkInput.value = fullUrl;
   linkInput.select();
 
-  const dialog = document.getElementById("linkDialog");
+  let dialog = document.getElementById("linkDialog");
   dialog.classList.add("show");}
 
   return fullUrl;
 }
 function copyLink() {
-  const linkInput = document.getElementById("shareableLink");
+  let linkInput = document.getElementById("shareableLink");
   linkInput.select();
   linkInput.setSelectionRange(0, 99999); // モバイル対応
 
@@ -553,7 +553,7 @@ function copyLink() {
 }
 
 function openLinkInNewTab() {
-  const url = document.getElementById("shareableLink").value;
+  let url = document.getElementById("shareableLink").value;
   toast.classList.remove("show");
   if (url) window.open(url, "_blank");
 }
@@ -562,7 +562,7 @@ function closeDialog() {
 }
 
 function showToast(message = "コピーしました！") {
-  const toast = document.getElementById("toast");
+  let toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.add("show");
 
@@ -570,16 +570,16 @@ function showToast(message = "コピーしました！") {
     toast.classList.remove("show");
   }, 1500); // 1.5秒後に非表示
 }
-const rangeSelect = document.getElementById('rangeSelect');
-const rangeLowInput = document.getElementById('rangeLow');
-const rangeHighInput = document.getElementById('rangeHigh');
+let rangeSelect = document.getElementById('rangeSelect');
+let rangeLowInput = document.getElementById('rangeLow');
+let rangeHighInput = document.getElementById('rangeHigh');
 
 rangeSelect.addEventListener('change', () => {
-  const selectedValue = rangeSelect.value; // 選択されたoptionのvalue属性の値を取得
+  let selectedValue = rangeSelect.value; // 選択されたoptionのvalue属性の値を取得
 
-  const ranges = selectedValue.split('-');
-  const low = parseInt(ranges[0], 10);   // 範囲下を数値に変換
-  const high = parseInt(ranges[1], 10);  // 範囲上を数値に変換
+  let ranges = selectedValue.split('-');
+  let low = parseInt(ranges[0], 10);   // 範囲下を数値に変換
+  let high = parseInt(ranges[1], 10);  // 範囲上を数値に変換
 
   rangeLowInput.value = low;
   rangeHighInput.value = high;
@@ -587,17 +587,17 @@ rangeSelect.addEventListener('change', () => {
 
 // 初期表示時に「全範囲」が選択されている状態にする場合
 window.addEventListener('load', () => {
-  const initialValue = rangeSelect.value;
-  const initialRanges = initialValue.split('-');
+  let initialValue = rangeSelect.value;
+  let initialRanges = initialValue.split('-');
   rangeLowInput.value = parseInt(initialRanges[0], 10);
   rangeHighInput.value = parseInt(initialRanges[1], 10);
 });
-  const btn = document.getElementById('mode-toggle');
+  let btn = document.getElementById('mode-toggle');
 
   // 初期状態の取得
   let dark;
 
-  const saved = localStorage.getItem('darkMode');
+  let saved = localStorage.getItem('darkMode');
   if (saved !== null) {
     dark = saved === 'true'; // 文字列なので変換
   } else {
@@ -616,20 +616,20 @@ window.addEventListener('load', () => {
     localStorage.setItem('darkMode', dark); // 保存
   });
   (function() {
-    const saved = localStorage.getItem('darkMode');
-    const dark = saved !== null ? saved === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let saved = localStorage.getItem('darkMode');
+    let dark = saved !== null ? saved === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (dark) {
       document.documentElement.classList.add('dark');
     }
   })();
 
 function extractVersionFromHTML(html) {
-  const match = html.match(/v(\d+(?:\.\d+)*)(?:（|\()/);
+  let match = html.match(/v(\d+(?:\.\d+)*)(?:（|\()/);
   return match ? match[1] : null;
 }
 
 function updateCSVStatus(loaded) {
-  const label = document.getElementById("csvStatus");
+  let label = document.getElementById("csvStatus");
   label.textContent = loaded ? "   CSV: 読み込み済み" : "   CSV: なし";
 }
 
@@ -637,7 +637,7 @@ let 間違い英単語 = [];
 let 間違い日本語 = [];
 
 function loadMistakeCSV() {
-  const csv = prompt("間違えた単語のCSV(記録モードで取得可能)を貼ってください：");
+  let csv = prompt("間違えた単語のCSV(記録モードで取得可能)を貼ってください：");
   if (!csv) {
     間違い英単語 = [];
     間違い日本語 = [];
@@ -645,17 +645,17 @@ function loadMistakeCSV() {
     return;
   }
 
-  const lines = csv.trim().split('\n');
+  let lines = csv.trim().split('\n');
   間違い英単語 = [];
   間違い日本語 = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const cols = lines[i].split(',');
-    const result = cols[4]?.trim();
+    let cols = lines[i].split(',');
+    let result = cols[4]?.trim();
 
     if (result === "×") {
-      const english = cols[1]?.trim();  // 出題語句
-      const japanese = cols[2]?.trim(); // 日本語訳（列インデックスは元仕様に合わせています）
+      let english = cols[1]?.trim();  // 出題語句
+      let japanese = cols[2]?.trim(); // 日本語訳（列インデックスは元仕様に合わせています）
       if (english && japanese) {
         間違い英単語.push(english);
         間違い日本語.push(japanese);
@@ -674,11 +674,11 @@ function loadMistakeCSV() {
   }
 
   function parseCSVLine(line){
-    const out = [];
+    let out = [];
     let cur = '';
     let inQuotes = false;
     for (let i = 0; i < line.length; i++){
-      const ch = line[i];
+      let ch = line[i];
       if (ch === '"') {
         if (inQuotes && line[i+1] === '"') {
           cur += '"';
@@ -699,7 +699,7 @@ function loadMistakeCSV() {
     return out.map(s => s.trim().replace(/^"|"$/g, ''));
   }
 
-  const directionSelect = document.getElementById('direction');
+  let directionSelect = document.getElementById('direction');
 
   function updateTitle() {
     let titleText = '問題にする言語を変更できます。';
