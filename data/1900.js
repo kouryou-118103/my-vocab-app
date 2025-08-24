@@ -1,31 +1,36 @@
-(function suppressInitialTransitionAndDark(){
+(function superEarlyBlackoutAndNoTransition(){
   try {
-    var st = document.createElement('style');
-    st.id = 'suppress-trans';
-    st.textContent = '* { transition: none !important; }';
-    document.head.appendChild(st);
-
     const saved = localStorage.getItem('darkMode');
     const wantDark = saved !== null
       ? (saved === 'true')
       : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (!wantDark) return;
+
+    const st = document.createElement('style');
+    st.id = 'dark-prevent-flash';
+    st.textContent = `
+      html, body { background: #000 !important; }
+      * { transition: none !important; }
+    `;
+    document.head.appendChild(st);
 
     function ensureDarkBody() {
       if (!document.body) {
         requestAnimationFrame(ensureDarkBody);
         return;
       }
-      if (wantDark) {
-        document.body.classList.add('dark');
-      }
-      requestAnimationFrame(() => {
-        var s = document.getElementById('suppress-trans');
-        if (s) s.remove();
+      document.body.classList.add('dark');
+      requestAnimationFrame(()=> {
+        requestAnimationFrame(()=> {
+          const s = document.getElementById('dark-prevent-flash');
+          if (s) s.remove();
+        });
       });
     }
     ensureDarkBody();
-  } catch (e) {}
-})();　　　if (typeof バージョン === "undefined") {var バージョン = "2.05.3";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
+  } catch(e){}
+})();
+    if (typeof バージョン === "undefined") {var バージョン = "2.05.3";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
     var 最新内部バージョン="3"
     var 正解回数 = 0;
     var 問題数 = 0;
