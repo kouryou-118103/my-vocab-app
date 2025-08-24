@@ -1,31 +1,17 @@
-(function earlyThemeHide(){
+(function earlyDarkHack(){
   try {
-    function run(){
-      const saved = localStorage.getItem('darkMode'); // 'true' / 'false' / null
-      const wantDark = saved !== null
-        ? (saved === 'true')
-        : window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-      if (wantDark) {
-        const ensureBody = () => {
-          if (!document.body) {
-            requestAnimationFrame(ensureBody);
-            return;
-          }
-          document.body.style.visibility = 'hidden';
-          document.documentElement.classList.add('dark');
-          requestAnimationFrame(()=>{
-            document.body.style.visibility = '';
-          });
-          setTimeout(()=>{ document.body && (document.body.style.visibility=''); }, 500);
-        };
-        ensureBody();
-      }
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', run);
-    } else {
-      run();
+    const saved = localStorage.getItem('darkMode');
+    const wantDark = saved !== null
+      ? (saved === 'true')
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (wantDark) {
+      document.documentElement.style.background = '#121212';
+      document.documentElement.classList.add('dark');
+      requestAnimationFrame(()=> {
+        requestAnimationFrame(()=> {
+          document.documentElement.style.background = '';
+        });
+      });
     }
   } catch(e){}
 })();
