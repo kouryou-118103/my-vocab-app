@@ -40,12 +40,6 @@ if (利用者内部版 !== 最新内部バージョン) {
   var hintElement = document.getElementById('shortcut-hint');
   var active = document.activeElement;
   var modeToggle = document.getElementById("mode-toggle");
-  if (event.key === 'd'){
-    dark = !dark;
-    document.body.classList.toggle('dark', dark);
-    btn.textContent = dark ? '明るくする' : '暗くする';
-    localStorage.setItem('darkMode', dark);    
-  }
   if (event.key === '/' || event.key.toLowerCase() === 'h') {
     hintElement.style.display = 'block';
   }
