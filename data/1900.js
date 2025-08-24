@@ -107,6 +107,12 @@ document.addEventListener('keyup', (event) => {
     if (event.key === '/' || event.key.toLowerCase() === 'h') {
         hintElement.style.display = 'none';
     }
+  if (event.key === "d") {
+    dark = !dark;
+    document.body.classList.toggle("dark", dark);
+    btn.textContent = dark ? "明るくする" : "暗くする";
+    localStorage.setItem("darkMode", dark);
+  }
 });
 document.addEventListener('click', () => {
     var hintElement = document.getElementById('shortcut-hint');
