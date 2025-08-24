@@ -1,4 +1,35 @@
-    if (typeof バージョン === "undefined") {var バージョン = "2.05.3";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
+(function earlyThemeHide(){
+  try {
+    function run(){
+      const saved = localStorage.getItem('darkMode'); // 'true' / 'false' / null
+      const wantDark = saved !== null
+        ? (saved === 'true')
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (wantDark) {
+        const ensureBody = () => {
+          if (!document.body) {
+            requestAnimationFrame(ensureBody);
+            return;
+          }
+          document.body.style.visibility = 'hidden';
+          document.documentElement.classList.add('dark');
+          requestAnimationFrame(()=>{
+            document.body.style.visibility = '';
+          });
+          setTimeout(()=>{ document.body && (document.body.style.visibility=''); }, 500);
+        };
+        ensureBody();
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run);
+    } else {
+      run();
+    }
+  } catch(e){}
+})();
+　　　if (typeof バージョン === "undefined") {var バージョン = "2.05.3";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
     var 最新内部バージョン="3"
     var 正解回数 = 0;
     var 問題数 = 0;
