@@ -1,18 +1,25 @@
-(function earlyDarkHack(){
+(function ultraEarlyDark(){
   try {
     const saved = localStorage.getItem('darkMode');
     const wantDark = saved !== null
       ? (saved === 'true')
       : window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (wantDark) {
-      document.documentElement.style.background = '#121212';
-      document.documentElement.classList.add('dark');
-      requestAnimationFrame(()=> {
+    function ensureDarkBody() {
+      if (!document.body) {
+        requestAnimationFrame(ensureDarkBody);
+        return;
+      }
+      if (wantDark) {
+        document.body.style.background = '#161514';
+        document.body.classList.add('dark');
         requestAnimationFrame(()=> {
-          document.documentElement.style.background = '';
+          requestAnimationFrame(()=> {
+            document.body.style.background = '';
+          });
         });
-      });
+      }
     }
+    ensureDarkBody();
   } catch(e){}
 })();
 　　　if (typeof バージョン === "undefined") {var バージョン = "2.05.3";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
