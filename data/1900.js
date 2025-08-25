@@ -779,3 +779,7 @@ function startNextRound() {
   正解回数 = 0;
   showNextQuestion();
 }
+function normalizeForAnswer(s) {
+  if (s == null) return "";
+  return s.normalize("NFKC").trim().toLowerCase();
+}
