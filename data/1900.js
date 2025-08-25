@@ -337,8 +337,8 @@ html += `</div>`;
     function submitAnswer(表示語句, 正解, 問題番号) {
       var userInput = document.getElementById("userInput").value.trim();
       var selected = userInput;
-      var 正誤 = selected === 正解 ? "○" : "×";
-
+      var isCorrect = normalizeForAnswer(selected) === normalizeForAnswer(正解);
+      var 正誤 = isCorrect ? "○" : "×";
       if (記録モード || 入力モード) {
         全結果.push(`${範囲下 + 問題番号 + 1},${escapeHTML(表示語句)},${escapeHTML(正解)},${escapeHTML(selected)},${正誤}`);
       }
