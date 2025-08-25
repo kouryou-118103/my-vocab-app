@@ -1,45 +1,111 @@
-Custom License for my-vocab-app
+【日本語版（優先 / Japanese Governs）】
+
+本ソフトウェア（以下「本ソフトウェア」）の著作権は著作者に帰属します。下記に明示された限定的許諾を除き、すべての権利を留保します。
+
+1. 許可される利用（GitHub 内および私的領域）
+   (1) 個人用途での閲覧・ローカル複製（clone）・改変・ローカル実行  
+   (2) 教育目的（授業・ゼミ・学習会等）での閲覧・改変・ローカル実行  
+   (3) 非送信表示（No-Transfer Display）  
+       - 定義: 第三者にファイル・ソースコード本文・録画・恒久コピー（コード全体を再構成できる連続スクリーンショット群等）を渡さず、物理的同席または限定的スクリーンシェアによる一時的な画面上の視認のみを行う態様。  
+       - 表示が終わった時点で第三者側に本ソフトウェア（またはその実質的部分）の恒久的コピーが残らないこと。  
+       - チャットやメール等でコード断片を貼り送信することは非送信表示には含まれません（引用許諾の範囲内の小規模引用は第4項を参照）。
+
+2. GitHub プラットフォーム内でのフォーク黙認 (GitHub Fork Tolerance)
+   本リポジトリが GitHub 上で public であることに伴い、利用者が個人検証目的でフォーク（派生リポジトリ）を生成できる技術的可能性があります。以下の条件を満たす “個人検証目的フォーク” とそのフォーク内部での第1項各号に掲げる行為は、第3項(2) の公開再配布禁止の例外として黙認します。  
+   条件:  
+   - フォークを第三者へ積極的に宣伝・広報しない（SNS 等で反復拡散、ランキング投稿等を含む）  
+   - フォークを GitHub 以外の公開サービスへミラー/転載しない  
+   - 商用利用を行わない  
+   - 本ライセンス表示を削除・改変しない  
+   これら条件を満たさなくなった時点で当該フォークは黙認対象外となり、本ライセンス違反です。
+
+3. 禁止事項
+   (1) 商用利用  
+       - 定義: 営利を目的又は主要動機とする利用、派生物の販売、SaaS への組込み、継続的ホスティングによる収益化、広告・スポンサー収益獲得を主目的とする提供等。  
+       - 但し、個人ブログ上の軽微で付随的な小型バナー 1～2 枠程度はここでいう商用利用に含めません。  
+   (2) 公開再配布  
+       - 定義: 不特定多数（又はそれに準ずる広範な層）がアクセス可能な形でコード（全部または実質的部分）や派生物を掲載・頒布・再公開する行為。  
+       - 具体例: 他の Git/ソースホスト（GitLab, Bitbucket 等）への転載、パッケージレジストリ（npm, PyPI 等）への公開、アプリストア配布、Web/ブログへの全体掲載、SNS での大量抜粋共有、Public または Secret/Unlisted Gist・Paste サービスへの掲載。  
+       - 第2項の条件を満たす GitHub 上の個人検証目的フォークは例外。  
+   (3) 上記許諾範囲（第1項・第2項）を超える派生物の頒布・提供  
+   (4) 著作権表示または本ライセンス文の削除・改変  
+   (5) 自動化ツール等を用いた大規模再配布・体系的スクレイピング結果の公開  
+   (6) GitHub Pages その他ホスティング機能を利用し本ソフトウェア全部または実質的部分を不特定多数へ提供する行為  
+   (7) 非送信表示の範囲を超えて第三者（個人・団体を問わず）が本ソフトウェア（全部または実質的部分）や改変版の複製を保持できる形で提供・送信・共有する行為  
+       - 例: ファイル/アーカイブ送付、Gist/Paste への貼付、録画/配信アーカイブの公開、長文コピペ、体系的スクリーンショット群、クラウドストレージへの恒常的配置リンク共有（第2項の条件を満たすフォークを除く）
+
+4. 小規模引用
+   批評・レビュー・学術目的に限り、1 回につき 10 行以内のコード抜粋を公開資料に引用可。著作者名と本リポジトリ URL を明示すること。複数回引用を組み合わせて全体又は実質的部分を再構成することは禁止。  
+   （参考: “実質的部分” は文脈により判断され、例として全体行数の 10% 超または 50 行超が該当し得ます。）
+
+5. 外部サービスへの転載
+   第2項で黙認されたフォーク内容を含め、本ソフトウェアの全部または実質的部分を他の公開ホスティング、パッケージレジストリ、アーカイブサイト、Paste サービス、Public / Secret/Unlisted Gist 等へ転載することは禁止。非公開クラウドストレージ内で自己利用のみを目的とする保存は本条の転載に該当しません（第三者可視化を伴う共有リンク提供は除く）。
+
+6. 免責（NO WARRANTY）
+   本ソフトウェアは “現状のまま (AS IS)” で提供され、商品性・特定目的適合性・非侵害性その他一切の明示黙示の保証を行いません。本ソフトウェアまたはその利用・不能に起因または関連して生じるあらゆる損害・責任について、著作者は一切責任を負いません。
+
+7. 優先言語
+   日本語版と英語版に齟齬がある場合、日本語版を優先します。
+
+8. ライセンス変更・遡及的緩和
+   著作者は将来のバージョンについて、より緩いオープンソースライセンス（例: MIT License）または追加のデュアルライセンス形態を宣言することがあります。変更前に頒布されたバージョンは当時の条件で引き続き利用できます。著作者が明示的に遡及的緩和（過去バージョンにも新ライセンスを適用）を宣言しない限り、自動的に過去へ遡及しません。
+
+9. 違反対応
+   著作者は本ライセンス違反を確認した場合、是正要求または合理的な削除・公開停止要請等の措置を取ることがあります。
 
 Copyright (c) 2025 kouryou-118103
 
-This license is provided in both English and Japanese.
-In case of any ambiguity or conflict in interpretation, the Japanese version shall prevail.
+--------------------------------
+【English Version (Reference Only; Japanese Governs)】
 
----
+This is a custom, platform-limited license. The Japanese text governs in case of conflict.
 
-[English Version]
+1. Permitted (within GitHub + private local use)
+   (a) Personal use: viewing, local cloning, modification, local execution  
+   (b) Educational use: classes, seminars, study groups  
+   (c) No-Transfer Display  
+       - Definition: transient in-person or limited screen-share viewing without transmitting source files, code text, recordings, or any persistent copy (including reconstructable full screenshot sets) to the viewer.  
+       - After the display the viewer retains no persistent copy (file, recording, systematic screenshots).  
+       - Sending code snippets in chat/email is not “No-Transfer Display” (see Section 4 for limited quotation).
 
-Permissions:
-- Personal use, including modification, is allowed.
-- Use and modification within educational settings (such as classrooms) are allowed.
-- Sharing with friends for non-commercial personal use (including modified versions) is allowed.
+2. GitHub Fork Tolerance
+   Because the repository is public on GitHub, technical personal-evaluation forks may occur. Such forks (and activities within them limited to Section 1) are tolerated as an exception to the public redistribution ban in Section 3(2) provided that ALL of the following hold:  
+   - No active promotion or broad advertising (e.g., repeated social media amplification, ranking submissions)  
+   - No mirroring or reposting of the fork outside GitHub  
+   - No commercial use  
+   - This license notice remains intact  
+   Breach of any condition removes the tolerance and constitutes a violation.
 
-Restrictions:
-- Redistribution on the internet is prohibited.
-- Commercial use is prohibited.
+3. Prohibited
+   (a) Commercial use  
+       Definition: use whose primary intent or purpose is profit; resale; SaaS integration; continuous hosting aimed at monetization; providing the Software with advertising or sponsorship primarily for revenue. Incidental minimal ads (e.g., one small banner on a personal blog) are not treated as commercial use here.  
+   (b) Public redistribution  
+       Definition: making the code (in whole or substantial part) or derivative works available to the general public or a broad, unrestricted audience.  
+       Examples: reposting to other source hosts (GitLab, Bitbucket, etc.); publishing to package registries (npm, PyPI, etc.); app store publication; posting the full code on websites/blogs; mass excerpt sharing on social networks; posting to public or secret/unlisted gists or paste services.  
+       Personal evaluation forks meeting Section 2 conditions are excepted.  
+   (c) Distribution of derivative works beyond the permitted scope (Sections 1 & 2)  
+   (d) Removing or altering copyright or this license text  
+   (e) Large-scale automated redistribution / systematic scraping publication  
+   (f) Serving the Software (in whole or substantial part) via GitHub Pages or other hosting features to the general public  
+   (g) Providing any means for third parties to retain a copy (in whole or substantial part) beyond No-Transfer Display (e.g., sending files/archives, gists/paste postings, recording/stream archives, bulk copy/paste, systematic screenshot sets, persistent cloud links) except for tolerated forks under Section 2
 
-Notes:
-- This license grants limited permissions only.
-- All other rights are reserved by the author.
+4. Limited Quotation
+   Up to 10 lines per instance for commentary/review/academic citation with attribution (author + repository URL). Combining multiple excerpts to reconstruct the whole or a substantial part is prohibited.  
+   Reference: “Substantial part” may contextually include more than 10% of total lines or any portion exceeding 50 lines.
 
----
+5. External Reposting
+   Reposting (in whole or substantial part) — including tolerated fork contents — to other public hosting platforms, package registries, archives, paste services, or public/secret/unlisted gists is prohibited. Private local storage for your own use (without enabling third-party access) is not “reposting.”
 
-[日本語版]
+6. Disclaimer (NO WARRANTY)
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-my-vocab-app 利用許諾条件
+7. Governing Language
+   The Japanese version controls in case of inconsistency.
+
+8. Future (Re)Licensing
+   The author may adopt for future versions a more permissive open-source license (e.g., MIT) or introduce dual-licensing. Versions distributed prior to such change remain under the terms in effect at the time of their distribution unless the author explicitly declares that the new (more permissive) terms also apply retroactively.
+
+9. Enforcement
+   Upon confirmed violations the author may issue remediation or takedown requests or pursue other reasonable actions.
 
 Copyright (c) 2025 kouryou-118103
-
-許可されること:
-- 個人での利用（改変を含む）
-- 教育目的での利用（授業やクラス内など）および改変
-- 友人同士での非営利かつ個人利用のための共有（改変を含む）
-
-禁止されること:
-- インターネット上での再配布
-- 商用利用
-
-備考:
-- 本ライセンスは上記の範囲に限定して利用を許可します。
-- その他の権利はすべて著作者に留保されます。
-- 英語版と日本語版の解釈に不一致や曖昧さがある場合は、日本語版を正式なものとします。
