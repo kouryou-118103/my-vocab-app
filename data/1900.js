@@ -323,7 +323,7 @@ html += `</div>`;
       if (入力モード && 出題方向 === "ja-en") {
   html += `<p><strong>${escapeHTML(表示語句)}</strong> を英語で？</p>`;
   html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${正解[0]}」</div>`;
-  html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocompvare="off">`;
+  html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocomplete="off">`;
   html += `<p id="charCount">現在の文字数: 0文字</p>`;
   html += `<button onclick="submitAnswer('${escapeHTML(表示語句)}', '${escapeHTML(正解)}', ${問題番号})">送信</button>`;      } else {
         html += `<p><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？</p>`;
