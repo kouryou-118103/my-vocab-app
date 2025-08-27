@@ -26,7 +26,7 @@
     ensureDarkBody();
   } catch (e) {}
 })();
-    if (typeof バージョン === "undefined") {var バージョン = "2.05.6";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
+    if (typeof バージョン === "undefined") {var バージョン = "2.05.7";}//過去バージョンで、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
     if (typeof アクセス元 === "undefined") {var アクセス元 = "1900";}
     var 最新内部バージョン="3"
     var 正解回数 = 0;
@@ -130,7 +130,7 @@ document.addEventListener('keyup', (event) => {
     if (event.key === '/' || event.key.toLowerCase() === 'h') {
         hintElement.style.display = 'none';
     }
-  if (event.key === "d") {
+  if (event.key === "d" && document.activeElement !== document.getElementById("userInput")) {
     dark = !dark;
     document.body.classList.toggle("dark", dark);
     btn.textContent = dark ? "明るくする" : "暗くする";
