@@ -357,8 +357,7 @@ if (selected === 正解) {
   var userLang = 日本語[英語.indexOf(selected)] ?? "不明";
   result += `<p class="incorrect">❌ 不正解</p>`;
   result += `<p class="question">${escapeHTML(表示語句)}<br>${escapeHTML(正解)}</p>`;
-  result += `<p>${escapeHTML(userLang)}<br>${escapeHTML(selected)}</p>`;
-  ミス記録.push({ 表示語句, 正解, あなたの答え: selected });
+  result += `<p>${escapeHTML(userLang)}<br>${escapeHTML(selected).replace(/(.{100})/g, '$1<br>')}</p>`;  ミス記録.push({ 表示語句, 正解, あなたの答え: selected });
 }
 
 result += `<p>${問題数}問中${正解回数}問正解 (${Math.floor(正解回数 / 問題数 * 100)}%)</p>`;
