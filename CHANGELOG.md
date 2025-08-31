@@ -1,21 +1,42 @@
 # 更新履歴 / Changelog
 
-### v2.05.2 (2025/08/22)
-- JavaScriptの大半をネットに置く形式に変更  
-  - Most of the JavaScript has been moved to load from the network.
-- 1日1回しかロードしない仕組み  
-  - Now it only loads once per day.
-- コンソールで <code>強制読み込み()</code> を実行すれば最新版を強制ロード可能  
-  - You can force-load the latest version by running <code>強制読み込み()</code> in the console.
-- オフラインでもローカルストレージにJSを保存しているため実行可能  
-  - Works offline using JavaScript stored in local storage.
+### v2.06 (2025/08/31)
+- 過去の正解度が右上に表示されるように  
+  - フラッシュカードモードでは表示のみで計算には含まれません  
+  - Past correctness is now displayed at the top right  
+  - Flashcards are only displayed and not counted in calculations
 
-### v2.05.1 (2025/08/21)
-- データをネットから取得する際の順序バグを修正  
-  - Fixed a bug caused by the order of data fetching from the network.
-- 過去バージョンユーザーに警告を表示する機能を追加  
-  - Added a feature to warn users using older versions.
+### v2.05.8 (2025/08/30)
+- ABCnumがオフライン時に読み込めない時がある不具合を修正  
+  - アプリバージョン4以降で動作  
+  - Fixed an issue where ABCnum might not load offline  
+  - Works on app version 4 or later
 
+### v2.05.7 (2025/08/27)
+- 入力モードで入力中にDキーを押すとダークモードが切り替わるバグを修正  
+  - Fixed a bug where pressing the D key in input mode toggled dark mode
+
+### v2.05.6 (2025/08/26)
+- 使っている単語リストによって、いやらしいモードが無効になるように  
+  - データがなくてエラーになるため  
+  - Certain word lists now disable the “naughty mode”  
+  - This prevents errors when the data is missing
+
+### v2.05.5 (2025/08/26)
+- ばかみたいなタイポを修正  
+  - `autocompvare` → `autocomplete`  
+  - Fixed a silly typo  
+  - `autocompvare` → `autocomplete`
+
+### v2.05.4 (2025/08/25)
+- 入力モードで大文字で入力すると不正解扱いになるバグを修正  
+  - Fixed a bug where uppercase input in input mode was marked incorrect
+
+### v2.05.3 (2025/08/24)
+- Dキーを長押しすると重くなる不具合を修正  
+- ダークモード設定時に最初にぴかってなる現象の低減  
+  - Fixed performance issue when holding down the D key  
+  - Reduced the initial flash when dark mode is enabled
 ### v2.05 (2025/08/20)
 - いやらしいモードのデータをネットに置くことで容量を11%削減  
   - Reduced file size by 11% by moving "tricky mode" data online.
