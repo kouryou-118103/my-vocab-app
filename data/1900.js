@@ -410,7 +410,12 @@ function checkAnswer(selected, answer, 問題番号) {
   var 表示語句 = 表示語句範囲[問題番号];
   var isCorrect = selected === answer;
   var 正誤 = isCorrect ? "○" : "×";
-
+  let wordStats = JSON.parse(localStorage.getItem("wordStats") || "{}");
+  let word = 出題方向 == "ja-en" ? answer : 英語[日本語.indexOf(answer)];
+  if (!wordStats[word]) wordStats[word] = { correct: 0, total: 0 };
+  wordStats[word].total += 1;
+  if (isCorrect) wordStats[word].correct += 1;
+  localStorage.setItem("wordStats", JSON.stringify(wordStats));
   if (記録モード) {
     全結果.push(`${範囲下 + 問題番号 + 1},${escapeHTML(表示語句)},${answer},${escapeHTML(selected)},${正誤}`);
   }
