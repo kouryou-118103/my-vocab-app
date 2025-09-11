@@ -851,29 +851,44 @@ function getWordMark(word, stats) {
   if (rate >= 0.2) return "🌧️";
   return "⚡";
 }
-window.onload = () => {
-  setTimeout(() => {
-    console.log("setTimeout 実行");
-    const versionInfo = document.getElementById("versionInfo");
-    if (!versionInfo) {
-      console.warn("versionInfo 要素が見つかりません");
-      return;
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded 発火確認");
+  const versionInfo = document.getElementById("versionInfo");
+  if (versionInfo) {
+    initializeVersionInfo(versionInfo);
+  } else {
+    console.warn("versionInfo が見つかりません。MutationObserver を設定します");
+    observeForVersionInfo();
+  }
+});
+function initializeVersionInfo(versionInfo) {
+  console.log("versionInfo を初期化します");
+  versionInfo.innerHTML = `
+    v${バージョン}(${内部バージョン})
+    | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
+    | <a href="javascript:void(0)" id="openSettings">設定</a>
+  `;
+  document.getElementById("openSettings").addEventListener("click", () => {
+    showSettingsDialog();
+  });
+  showUpdateNoticeIfNeeded();
+}
+
+function observeForVersionInfo() {
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        const versionInfo = document.getElementById("versionInfo");
+        if (versionInfo) {
+          initializeVersionInfo(versionInfo);
+          observer.disconnect();
+          break;
+        }
+      }
     }
-    console.log("versionInfo を発見");
-    versionInfo.innerHTML = `
-      v${バージョン}(${内部バージョン})
-      | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
-      | <a href="javascript:void(0)" id="openSettings">設定</a>
-    `;
-
-    document.getElementById("openSettings").addEventListener("click", () => {
-      console.log("設定リンクがクリックされました");
-      showSettingsDialog();
-    });
-    showUpdateNoticeIfNeeded();
-  }, 550);
-};
-
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
 function showSettingsDialog() {
   const dialog = document.createElement('div');
   dialog.className = 'update-dialog';
