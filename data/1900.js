@@ -852,19 +852,23 @@ function getWordMark(word, stats) {
   return "⚡";
 }
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded 発火");
   setTimeout(() => {
+    console.log("setTimeout 実行");
     const versionInfo = document.getElementById("versionInfo");
-    if (!versionInfo) return;
-
-    // versionInfo の innerHTML 上書きは既存通り
+    if (!versionInfo) {
+      console.warn("versionInfo 要素が見つかりません");
+      return;
+    }
+    console.log("versionInfo を発見");
     versionInfo.innerHTML = `
       v${バージョン}(${内部バージョン})
       | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
       | <a href="javascript:void(0)" id="openSettings">設定</a>
     `;
 
-    // 設定リンククリックで設定ダイアログを表示
     document.getElementById("openSettings").addEventListener("click", () => {
+      console.log("設定リンクがクリックされました");
       showSettingsDialog();
     });
     showUpdateNoticeIfNeeded();
