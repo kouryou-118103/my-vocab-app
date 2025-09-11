@@ -851,8 +851,7 @@ function getWordMark(word, stats) {
   if (rate >= 0.2) return "🌧️";
   return "⚡";
 }
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded 発火");
+window.onload = () => {
   setTimeout(() => {
     console.log("setTimeout 実行");
     const versionInfo = document.getElementById("versionInfo");
@@ -873,7 +872,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     showUpdateNoticeIfNeeded();
   }, 550);
-});
+};
 
 function showSettingsDialog() {
   const dialog = document.createElement('div');
