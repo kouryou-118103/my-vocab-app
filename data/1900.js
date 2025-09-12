@@ -854,6 +854,7 @@ function getWordMark(word, stats) {
 const versionInfo = document.getElementById("versionInfo");
 if (versionInfo) {
   initializeVersionInfo(versionInfo);
+  protectVersionInfo(versionInfo);
 } else {
   console.warn("versionInfo が見つかりません。MutationObserver を設定します");
   observeForVersionInfo();
@@ -878,6 +879,7 @@ function initializeVersionInfo(versionInfo) {
   if (typeof showUpdateNoticeIfNeeded === "function") {
     showUpdateNoticeIfNeeded();
   }
+  protectVersionInfo(versionInfo);
 }
 
 function observeForVersionInfo() {
@@ -963,4 +965,35 @@ function showSettingsDialog() {
       alert("記録を消去しました");
     }
   });
+}
+let __viGuard = false;
+function protectVersionInfo(el) {
+  if (!el || el.__viObserved) return;
+  el.__viObserved = true;
+
+  // 変更監視して、「設定」リンクが消されたら復元
+  const obs = new MutationObserver(() => {
+    if (__viGuard) return;
+    if (!el.querySelector('#openSettings')) {
+      __viGuard = true;
+      try {
+        initializeVersionInfo(el);
+      } finally {
+        __viGuard = false;
+      }
+    }
+  });
+  obs.observe(el, { childList: true, subtree: true });
+
+  // HTML側の setTimeout(…, 500) 対策として念のため遅延復元も
+  setTimeout(() => {
+    if (!el.querySelector('#openSettings')) {
+      __viGuard = true;
+      try {
+        initializeVersionInfo(el);
+      } finally {
+        __viGuard = false;
+      }
+    }
+  }, 700);
 }
