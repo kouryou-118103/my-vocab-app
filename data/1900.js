@@ -870,9 +870,6 @@ function getWordMark(word, stats) {
     // ここに実行したい処理を記述
     runCustomLogic();
   }
-
-document.addEventListener("DOMContentLoaded", () => {
-});
 function initializeVersionInfo(versionInfo) {
   console.log("versionInfo を初期化します");
   versionInfo.innerHTML = `
