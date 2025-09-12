@@ -851,7 +851,9 @@ function getWordMark(word, stats) {
   if (rate >= 0.2) return "🌧️";
   return "⚡";
 }
-document.addEventListener("DOMContentLoaded", () => {
+(function () {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
   console.log("DOMContentLoaded 発火確認");
   const versionInfo = document.getElementById("versionInfo");
   if (versionInfo) {
@@ -860,6 +862,16 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("versionInfo が見つかりません。MutationObserver を設定します");
     observeForVersionInfo();
   }
+
+    });
+  } else {
+    // ドキュメントが既に読み込み済みの場合
+    console.log("DOMContentLoaded が既に実行されています！");
+    // ここに実行したい処理を記述
+    runCustomLogic();
+  }
+
+document.addEventListener("DOMContentLoaded", () => {
 });
 function initializeVersionInfo(versionInfo) {
   console.log("versionInfo を初期化します");
