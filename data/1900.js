@@ -851,40 +851,42 @@ function getWordMark(word, stats) {
   if (rate >= 0.2) return "🌧️";
   return "⚡";
 }
-(function () {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOMContentLoaded 発火確認");
-  const versionInfo = document.getElementById("versionInfo");
-  if (versionInfo) {
-    initializeVersionInfo(versionInfo);
-  } else {
-    console.warn("versionInfo が見つかりません。MutationObserver を設定します");
-    observeForVersionInfo();
-  }
+const versionInfo = document.getElementById("versionInfo");
+if (versionInfo) {
+  initializeVersionInfo(versionInfo);
+} else {
+  console.warn("versionInfo が見つかりません。MutationObserver を設定します");
+  observeForVersionInfo();
+}
 
-    });
-  } else {
-    // ドキュメントが既に読み込み済みの場合
-    console.log("DOMContentLoaded が既に実行されています！");
-    // ここに実行したい処理を記述
-    runCustomLogic();
-  }
 function initializeVersionInfo(versionInfo) {
   console.log("versionInfo を初期化します");
+
+  const v = (typeof window.バージョン !== "undefined") ? window.バージョン : "不明";
+  const iv = (typeof window.内部バージョン !== "undefined") ? window.内部バージョン : "不明";
+
   versionInfo.innerHTML = `
-    v${バージョン}(${内部バージョン})
+    v${v}(${iv})
     | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
     | <a href="javascript:void(0)" id="openSettings">設定</a>
   `;
-  document.getElementById("openSettings").addEventListener("click", () => {
+  const btn = document.getElementById("openSettings");
+  if (btn) btn.addEventListener("click", () => {
     showSettingsDialog();
   });
-  showUpdateNoticeIfNeeded();
+
+  if (typeof showUpdateNoticeIfNeeded === "function") {
+    showUpdateNoticeIfNeeded();
+  }
 }
 
 function observeForVersionInfo() {
-  const observer = new MutationObserver((mutationsList, observer) => {
+  if (!document.body) {
+    document.addEventListener("DOMContentLoaded", () => observeForVersionInfo(), { once: true });
+    return;
+  }
+
+  const observer = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
         const versionInfo = document.getElementById("versionInfo");
@@ -898,6 +900,7 @@ function observeForVersionInfo() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 }
+
 function showSettingsDialog() {
   const dialog = document.createElement('div');
   dialog.className = 'update-dialog';
