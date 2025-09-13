@@ -918,33 +918,61 @@ function showSettingsDialog() {
       background: var(--cbg);
       color: var(--t);
       padding: 20px;
-      width: 500px;
+      width: 600px;
       max-height: 80vh;
       overflow-y: auto;
       border-radius: 10px;
       box-shadow: var(--csh);
+      display: flex;
     ">
-      <h2>設定</h2>
-      <label><input type="checkbox" id="showHistory"> 過去の記録を表示</label>
-      <p>すべてのモードにおいて、右上に過去の正解率が表示されます。<br>(80%以上:☀️ 50%以上:⛅ 20%以上:🌧️ それ未満:⚡)</p>
-      <label><input type="checkbox" id="saveResults"> 結果を記録</label>
-      <p>この設定をオフにしても上記のアイコンは表示されます。</p>
-      <button id="clearAll" style="margin-top: 10px;">すべて記録を消去</button>
-      <p>いままでのすべての記録を消去します。もとに戻すことはできません。</p>
-      <div style="text-align: right; margin-top: 1em;">
-        <button style="
-          background: var(--bbg);
-          color: var(--bt);
-          border: none;
-          padding: 5px 10px;
-          border-radius: 5px;
-          cursor: pointer;
-        " onclick="this.closest('.update-dialog').remove()">閉じる</button>
+      <div style="flex: 0 0 150px; border-right: 1px solid var(--t); padding-right: 10px;">
+        <h2>設定</h2>
+        <ul id="settingsTabs" style="list-style: none; padding: 0; margin: 0;">
+          <li data-target="sec-display" style="cursor: pointer; padding: 5px;">表示</li>
+          <li data-target="sec-storage" style="cursor: pointer; padding: 5px;">記録</li>
+        </ul>
+      </div>
+      <div style="flex: 1; padding-left: 20px;">
+        <section id="sec-display" class="settings-section">
+          <h3>表示</h3>
+          <label><input type="checkbox" id="showHistory"> 過去の記録を表示</label>
+          <p>すべてのモードにおいて、右上に過去の正解率が表示されます。<br>(80%以上:☀️ 50%以上:⛅ 20%以上:🌧️ それ未満:⚡)</p>
+        </section>
+        <section id="sec-storage" class="settings-section" style="display:none;">
+          <h3>記録</h3>
+          <label><input type="checkbox" id="saveResults"> 結果を記録</label>
+          <p>この設定をオフにしても上記のアイコンは表示されます。</p>
+          <button id="clearAll" style="margin-top: 10px;">すべて記録を消去</button>
+          <p>いままでのすべての記録を消去します。もとに戻すことはできません。</p>
+        </section>
+        <div style="text-align: right; margin-top: 1em;">
+          <button style="
+            background: var(--bbg);
+            color: var(--bt);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+          " onclick="this.closest('.update-dialog').remove()">閉じる</button>
+        </div>
       </div>
     </div>
   `;
   document.body.appendChild(dialog);
 
+  // タブ切り替え処理
+  const tabs = dialog.querySelectorAll('#settingsTabs li');
+  const sections = dialog.querySelectorAll('.settings-section');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      sections.forEach(sec => sec.style.display = 'none');
+      tabs.forEach(t => t.style.fontWeight = 'normal');
+      const target = dialog.querySelector('#' + tab.dataset.target);
+      if (target) target.style.display = 'block';
+      tab.style.fontWeight = 'bold';
+    });
+  });
+  tabs[0].style.fontWeight = 'bold';
   const defaults = { showHistory: true, saveResults: true };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
