@@ -910,7 +910,7 @@ function showSettingsDialog() {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.5);
     display: flex; align-items: center; justify-content: center;
-    z-index: 9999;
+    z-index: 1000;
   `;
 
   dialog.innerHTML = `
