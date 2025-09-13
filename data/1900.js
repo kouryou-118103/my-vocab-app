@@ -918,41 +918,43 @@ function showSettingsDialog() {
       background: var(--cbg);
       color: var(--t);
       padding: 20px;
-      width: 500px;
+      width: 600px;
       height: 400px;
+      overflow-y: auto;
       border-radius: 10px;
       box-shadow: var(--csh);
       display: flex;
-      flex-direction: column;
     ">
-      <h2>設定</h2>
-      <div class="tabs" style="display:flex; border-bottom:1px solid #888; margin-bottom:10px;">
-        <div class="tab active" data-tab="general" style="padding:5px 15px; cursor:pointer;">全般</div>
-        <div class="tab" data-tab="record" style="padding:5px 15px; cursor:pointer;">記録</div>
+      <div style="flex: 0 0 150px; border-right: 1px solid var(--t); padding-right: 10px;">
+        <h2>設定</h2>
+        <ul id="settingsTabs" style="list-style: none; padding: 0; margin: 0;">
+          <li data-target="sec-display" style="cursor: pointer; padding: 5px;">記録・表示</li>
+          <li data-target="sec-storage" style="cursor: pointer; padding: 5px;">その他</li>
+        </ul>
       </div>
-      <div class="tab-content active" id="tab-general" style="flex:1; overflow:auto;">
-        <label><input type="checkbox" id="showHistory"> 過去の記録を表示</label>
-        <p>すべてのモードにおいて、右上に過去の正解率が表示されます。<br>(80%以上:☀️ 50%以上:⛅ 20%以上:🌧️ それ未満:⚡)</p>
-      </div>
-      <div class="tab-content" id="tab-record" style="flex:1; overflow:auto; display:none;">
-        <label><input type="checkbox" id="saveResults"> 結果を記録</label>
-        <p>この設定をオフにしても上記のアイコンは表示されます。</p>
-        <button id="clearAll" style="margin-top: 10px;">すべて記録を消去</button>
-        <p>いままでのすべての記録を消去します。もとに戻すことはできません。</p>
-      </div>
-      <div style="text-align: right; margin-top: 1em;">
-        <button style="
-          background: var(--bbg);
-          color: var(--bt);
-          border: none;
-          padding: 5px 10px;
-          border-radius: 5px;
-          cursor: pointer;
-        " onclick="this.closest('.update-dialog').remove()">閉じる</button>
+      <div style="flex: 1; padding-left: 20px;">
+        <section id="sec-display" class="settings-section">
+          <h3>記録・表示</h3>
+          <label><input type="checkbox" id="showHistory"> 過去の記録を表示</label>
+          <p>すべてのモードにおいて、右上に過去の正解率が表示されます。<br>(80%以上:☀️ 50%以上:⛅ 20%以上:🌧️ それ未満:⚡)</p>
+          <label><input type="checkbox" id="saveResults"> 結果を記録</label>
+          <p>この設定をオフにしても上記のアイコンは表示されます。</p>
+          <button id="clearAll" style="margin-top: 10px;">すべて記録を消去</button>
+          <p>いままでのすべての記録を消去します。もとに戻すことはできません。</p>
+        </section>
+        <div style="text-align: right; margin-top: 1em;">
+          <button style="
+            background: var(--bbg);
+            color: var(--bt);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+          " onclick="this.closest('.update-dialog').remove()">閉じる</button>
+        </div>
       </div>
     </div>
   `;
-
   document.body.appendChild(dialog);
 
   // タブ切り替え処理
@@ -967,7 +969,10 @@ function showSettingsDialog() {
       tab.style.fontWeight = 'bold';
     });
   });
+  // 初期タブを強調
   tabs[0].style.fontWeight = 'bold';
+
+  // 既存の設定保存処理はそのまま
   const defaults = { showHistory: true, saveResults: true };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
