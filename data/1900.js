@@ -61,7 +61,8 @@ if (window.内部バージョン === "3") {
     var usersettings = {
       showHistory: localStorage.getItem("showHistory") === null ? true : localStorage.getItem("showHistory") === "true",
       saveResults: localStorage.getItem("saveResults") === null ? true : localStorage.getItem("saveResults") === "true",
-      leave_confirmation: localStorage.getItem("leave_confirmation") === null ? false : localStorage.getItem("leave_confirmation") === "true"
+      leave_confirmation: localStorage.getItem("leave_confirmation") === null ? false : localStorage.getItem("leave_confirmation") === "true",
+      SpeakingWord: localStorage.getItem("SpeakingWord") === null ? false : localStorage.getItem("SpeakingWord") === "true"
     };
     let mark_タイトル = ``;
     let mark = "";
@@ -968,6 +969,8 @@ function showSettingsDialog() {
           <h3>クイズ中</h3>
           <label><input type="checkbox" id="leave_confirmation"> ページ離脱確認を有効にする</label>
           <p>クイズ中にタブを閉じようとすると警告を出します。</p>
+          <label><input type="checkbox" id="SpeakingWord"> 単語を読み上げる</label>
+          <p>注意:単語の読み上げが正確ではない虞があります。</p>
         </section>
 
         <section id="style" class="settings-section" style="display:none">
@@ -1018,10 +1021,11 @@ function showSettingsDialog() {
       tab.style.fontWeight = 'bold';
     });
   });
-  const defaults = { showHistory: true, saveResults: true, leave_confirmation: false };
+  const defaults = { showHistory: true, saveResults: true, leave_confirmation: false, SpeakingWord: false };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
   const leaveConfirmVal = localStorage.getItem("leave_confirmation");
+  const SpeakingWord = localStorage.getItem("SpeakingWord");
 
   document.getElementById("showHistory").checked =
     showHistoryVal === null ? defaults.showHistory : (showHistoryVal === "true");
@@ -1031,6 +1035,9 @@ function showSettingsDialog() {
 
   document.getElementById("leave_confirmation").checked =
     leaveConfirmVal === null ? defaults.leave_confirmation : (leaveConfirmVal === "true");
+
+  document.getElementById("SpeakingWord").checked =
+    SpeakingWord === null ? defaults.SpeakingWord : (SpeakingWord === "true");
 
   document.getElementById("showHistory").addEventListener("change", e => {
     usersettings.showHistory = e.target.checked;
@@ -1049,6 +1056,10 @@ function showSettingsDialog() {
   document.getElementById("leave_confirmation").addEventListener("change", e => {
     usersettings.leave_confirmation = e.target.checked;
     localStorage.setItem("leave_confirmation", e.target.checked);
+  });
+  document.getElementById("SpeakingWord").addEventListener("change", e => {
+    usersettings.leave_confirmation = e.target.checked;
+    localStorage.setItem("SpeakingWord", e.target.checked);
   });
 }
 
@@ -1089,3 +1100,18 @@ window.addEventListener("beforeunload", function (event) {
     event.returnValue = "";
   }
 });
+function initializeSpeechSynthesis() {
+  const dummyUtterance = new SpeechSynthesisUtterance("Initializing");
+  dummyUtterance.lang = "en-US";
+  dummyUtterance.volume = 0;
+  window.speechSynthesis.speak(dummyUtterance);
+}
+initializeSpeechSynthesis();
+function speakWord(word) {
+  if (usersettings.SpeakingWord){
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-US";
+  window.speechSynthesis.speak(utterance);
+  }
+}
