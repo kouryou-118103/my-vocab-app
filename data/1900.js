@@ -82,7 +82,7 @@ document.addEventListener("keydown", function(event) {
 if (event.key === '/' || event.key.toLowerCase() === 'h') {
   hintElement.style.display = 'block';
   const dl = hintElement.querySelector("dl.shortcuts");
-  if (dl && !dl.querySelector("dt:contains('S')")){
+  if (dl && !Array.from(dl.querySelectorAll("dt")).some(dt => dt.textContent === "S")) {
     const dt = document.createElement("dt");
     dt.textContent = "S";
     const dd = document.createElement("dd");
@@ -144,9 +144,13 @@ if (event.key === '/' || event.key.toLowerCase() === 'h') {
     }
   }
   if (event.key.toLowerCase() === "s" && document.activeElement !== document.getElementById("userInput")) {
+    const dialog = document.querySelector('.update-dialog');
+    if (dialog) {
+      dialog.remove();
+    } else {
     showSettingsDialog();
   }
-});
+}});
 document.addEventListener('keyup', (event) => {
     var hintElement = document.getElementById('shortcut-hint');
     if (event.key === '/' || event.key.toLowerCase() === 'h') {
