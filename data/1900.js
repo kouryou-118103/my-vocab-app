@@ -1022,6 +1022,7 @@ function showSettingsDialog() {
     });
   });
   document.getElementById('SpeakingWord').disabled = true;
+  document.querySelector("label[for=SpeakingWord]").style.textDecoration = "line-through";
   const defaults = { showHistory: true, saveResults: true, leave_confirmation: false, SpeakingWord: false };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
