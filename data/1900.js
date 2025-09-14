@@ -916,6 +916,7 @@ function observeForVersionInfo() {
 }
 
 function showSettingsDialog() {
+  if (document.querySelector('.update-dialog')) return;
   const dialog = document.createElement('div');
   dialog.className = 'update-dialog';
   dialog.style.cssText = `
