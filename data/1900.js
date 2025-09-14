@@ -970,7 +970,7 @@ function showSettingsDialog() {
           <label><input type="checkbox" id="leave_confirmation"> ページ離脱確認を有効にする</label>
           <p>クイズ中にタブを閉じようとすると警告を出します。</p>
           <label><input type="checkbox" id="SpeakingWord"> 単語を読み上げる</label>
-          <p>注意:単語の読み上げが正確ではない虞があります。</p>
+          <p>技術上の理由により無効になっています。</p>
         </section>
 
         <section id="style" class="settings-section" style="display:none">
@@ -1021,12 +1021,13 @@ function showSettingsDialog() {
       tab.style.fontWeight = 'bold';
     });
   });
+  document.getElementById('SpeakingWord').disabled = true;
   const defaults = { showHistory: true, saveResults: true, leave_confirmation: false, SpeakingWord: false };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
   const leaveConfirmVal = localStorage.getItem("leave_confirmation");
   const SpeakingWord = localStorage.getItem("SpeakingWord");
-
+  
   document.getElementById("showHistory").checked =
     showHistoryVal === null ? defaults.showHistory : (showHistoryVal === "true");
 
