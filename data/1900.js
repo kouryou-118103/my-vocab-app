@@ -60,7 +60,8 @@ if (window.内部バージョン === "3") {
     var ABCnum = []
     var usersettings = {
       showHistory: localStorage.getItem("showHistory") === null ? true : localStorage.getItem("showHistory") === "true",
-      saveResults: localStorage.getItem("saveResults") === null ? true : localStorage.getItem("saveResults") === "true"
+      saveResults: localStorage.getItem("saveResults") === null ? true : localStorage.getItem("saveResults") === "true",
+      leave_confirmation: localStorage.getItem("leave_confirmation") === null ? true : localStorage.getItem("leave_confirmation") === "false"
     };
     let mark_タイトル = ``;
     let mark = "";
@@ -946,7 +947,9 @@ function showSettingsDialog() {
         <h2>設定</h2>
         <ul id="settingsTabs" style="list-style: none; padding: 0; margin: 0;">
           <li data-target="sec-display" style="cursor: pointer; padding: 5px;">記録・表示</li>
-          <li data-target="sec-storage" style="cursor: pointer; padding: 5px;">その他</li>
+          <li data-target="testing" style="cursor: pointer; padding: 5px;">クイズ中</li>
+          <li data-target="style" style="cursor: pointer; padding: 5px;">スタイル</li>
+          <li data-target="other" style="cursor: pointer; padding: 5px;">その他</li>
         </ul>
       </div>
       <div style="flex: 1; padding-left: 20px;">
@@ -958,6 +961,11 @@ function showSettingsDialog() {
           <p>この設定をオフにしても上記のアイコンは表示されます。</p>
           <button id="clearAll" style="margin-top: 10px;">すべて記録を消去</button>
           <p>いままでのすべての記録を消去します。もとに戻すことはできません。</p>
+        </section>
+        <section id="testing" class="settings-section">
+          <h3>クイズ中</h3>
+          <label><input type="checkbox" id="leave_confirmation"> ページ離脱確認を有効にする</label>
+          <p>クイズ中にタブを閉じようとすると警告を出します。</p>
         </section>
         <div style="text-align: right; margin-top: 1em;">
           <button style="
@@ -990,11 +998,12 @@ function showSettingsDialog() {
   tabs[0].style.fontWeight = 'bold';
 
   // 既存の設定保存処理はそのまま
-  const defaults = { showHistory: true, saveResults: true };
+  const defaults = { showHistory: true, saveResults: true, leave_confirmation:false};
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
   document.getElementById("showHistory").checked = showHistoryVal === null ? defaults.showHistory : showHistoryVal === "true";
   document.getElementById("saveResults").checked = saveResultsVal === null ? defaults.saveResults : saveResultsVal === "true";
+  document.getElementById("leave_confirmation").checked = leave_confirmation === null ? defaults.leave_confirmation : showHistoryVal === "true";
 
   document.getElementById("showHistory").addEventListener("change", e => {
     usersettings.showHistory = e.target.checked;
@@ -1010,6 +1019,11 @@ function showSettingsDialog() {
       alert("記録を消去しました");
     }
   });
+  document.getElementById("leave_confirmation").addEventListener("change", e => {
+    usersettings.leave_confirmation = e.target.checked;
+    localStorage.setItem("leave_confirmation", e.target.checked);
+  });
+
 }
 let __viGuard = false;
 function protectVersionInfo(el) {
@@ -1042,3 +1056,9 @@ function protectVersionInfo(el) {
     }
   }, 700);
 }
+  window.addEventListener("beforeunload", function (event) {
+    if (ゲーム中 && leave_confirmation) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
