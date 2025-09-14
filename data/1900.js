@@ -61,7 +61,7 @@ if (window.内部バージョン === "3") {
     var usersettings = {
       showHistory: localStorage.getItem("showHistory") === null ? true : localStorage.getItem("showHistory") === "true",
       saveResults: localStorage.getItem("saveResults") === null ? true : localStorage.getItem("saveResults") === "true",
-      leave_confirmation: localStorage.getItem("leave_confirmation") === null ? true : localStorage.getItem("leave_confirmation") === "false"
+      leave_confirmation: localStorage.getItem("leave_confirmation") === null ? false : localStorage.getItem("leave_confirmation") === "true"
     };
     let mark_タイトル = ``;
     let mark = "";
@@ -80,6 +80,7 @@ document.addEventListener("keydown", function(event) {
   var hintElement = document.getElementById('shortcut-hint');
   var active = document.activeElement;
   var modeToggle = document.getElementById("mode-toggle");
+  var linkDialog = document.getElementById("linkDialog");
 if (event.key === '/' || event.key.toLowerCase() === 'h') {
   hintElement.style.display = 'block';
   const dl = hintElement.querySelector("dl.shortcuts");
@@ -108,7 +109,7 @@ if (event.key === '/' || event.key.toLowerCase() === 'h') {
 }
 
   if (event.key === "Escape") {
-    if (linkDialog.classList.contains("show")) {
+    if (linkDialog && linkDialog.classList.contains("show")) {
       closeDialog();
       return;
     }
@@ -953,7 +954,7 @@ function showSettingsDialog() {
         </ul>
       </div>
       <div style="flex: 1; padding-left: 20px;">
-        <section id="sec-display" class="settings-section">
+        <section id="sec-display" class="settings-section" style="display:none">
           <h3>記録・表示</h3>
           <label><input type="checkbox" id="showHistory"> 過去の記録を表示</label>
           <p>すべてのモードにおいて、右上に過去の正解率が表示されます。<br>(80%以上:☀️ 50%以上:⛅ 20%以上:🌧️ それ未満:⚡)</p>
@@ -962,11 +963,23 @@ function showSettingsDialog() {
           <button id="clearAll" style="margin-top: 10px;">すべて記録を消去</button>
           <p>いままでのすべての記録を消去します。もとに戻すことはできません。</p>
         </section>
-        <section id="testing" class="settings-section">
+
+        <section id="testing" class="settings-section" style="display:none">
           <h3>クイズ中</h3>
           <label><input type="checkbox" id="leave_confirmation"> ページ離脱確認を有効にする</label>
           <p>クイズ中にタブを閉じようとすると警告を出します。</p>
         </section>
+
+        <section id="style" class="settings-section" style="display:none">
+          <h3>スタイル</h3>
+          <p>作成中</p>
+        </section>
+
+        <section id="other" class="settings-section" style="display:none">
+          <h3>その他</h3>
+          <p>作成中</p>
+        </section>
+
         <div style="text-align: right; margin-top: 1em;">
           <button style="
             background: var(--bbg);
@@ -985,25 +998,39 @@ function showSettingsDialog() {
   // タブ切り替え処理
   const tabs = dialog.querySelectorAll('#settingsTabs li');
   const sections = dialog.querySelectorAll('.settings-section');
-  tabs.forEach(tab => {
+
+  sections.forEach(sec => { sec.style.display = 'none'; });
+  const first = dialog.querySelector('#sec-display');
+  if (first) first.style.display = 'block';
+
+  tabs.forEach((tab, idx) => {
+    if (idx === 0) tab.style.fontWeight = 'bold'; // 初期タブ強調
     tab.addEventListener('click', () => {
       sections.forEach(sec => sec.style.display = 'none');
       tabs.forEach(t => t.style.fontWeight = 'normal');
       const target = dialog.querySelector('#' + tab.dataset.target);
-      if (target) target.style.display = 'block';
+      if (target) {
+        target.style.display = 'block';
+      } else {
+        first.innerHTML = '<h3>準備中</h3><p>このセクションはまだありません。</p>';
+        first.style.display = 'block';
+      }
       tab.style.fontWeight = 'bold';
     });
   });
-  // 初期タブを強調
-  tabs[0].style.fontWeight = 'bold';
-
-  // 既存の設定保存処理はそのまま
-  const defaults = { showHistory: true, saveResults: true, leave_confirmation:false};
+  const defaults = { showHistory: true, saveResults: true, leave_confirmation: false };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
-  document.getElementById("showHistory").checked = showHistoryVal === null ? defaults.showHistory : showHistoryVal === "true";
-  document.getElementById("saveResults").checked = saveResultsVal === null ? defaults.saveResults : saveResultsVal === "true";
-  document.getElementById("leave_confirmation").checked = leave_confirmation === null ? defaults.leave_confirmation : showHistoryVal === "true";
+  const leaveConfirmVal = localStorage.getItem("leave_confirmation");
+
+  document.getElementById("showHistory").checked =
+    showHistoryVal === null ? defaults.showHistory : (showHistoryVal === "true");
+
+  document.getElementById("saveResults").checked =
+    saveResultsVal === null ? defaults.saveResults : (saveResultsVal === "true");
+
+  document.getElementById("leave_confirmation").checked =
+    leaveConfirmVal === null ? defaults.leave_confirmation : (leaveConfirmVal === "true");
 
   document.getElementById("showHistory").addEventListener("change", e => {
     usersettings.showHistory = e.target.checked;
@@ -1023,8 +1050,8 @@ function showSettingsDialog() {
     usersettings.leave_confirmation = e.target.checked;
     localStorage.setItem("leave_confirmation", e.target.checked);
   });
-
 }
+
 let __viGuard = false;
 function protectVersionInfo(el) {
   if (!el || el.__viObserved) return;
@@ -1056,9 +1083,9 @@ function protectVersionInfo(el) {
     }
   }, 700);
 }
-  window.addEventListener("beforeunload", function (event) {
-    if (ゲーム中 && leave_confirmation) {
-      event.preventDefault();
-      event.returnValue = "";
-    }
-  });
+window.addEventListener("beforeunload", function (event) {
+  if (ゲーム中 && usersettings.leave_confirmation) {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+});
