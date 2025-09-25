@@ -982,21 +982,20 @@ function showSettingsDialog() {
         </section>
 
         <section id="other" class="settings-section" style="display:none">
-          <h3>推奨環境</h3>
-          <ul>
-            <li>OS: ChromeOS,Windows10/11</li>
-            <li>ブラウザ: Chrome最新版</li>
-            <li>画面サイズ: 横幅675px以上推奨</li>
-            <li>JavaScript有効 必須 / LocalStorage有効</li>
-          </ul>
-          <h4>あなたの環境</h4>
-          <ul>
-            <li>OS/デバイス: <span id="env-os"></span></li>
-            <li>ブラウザ: <span id="env-browser"></span></li>
-            <li>画面サイズ: <span id="env-size"></span></li>
-            <li>JavaScript: 有効</li>
-            <li>Cookie: <span id="env-cookie"></span></li>
-            <li>LocalStorage: <span id="env-ls"></span></li>
+        <h3>推奨環境</h3>
+        <ul>
+          <li>OS: <b>ChromeOS, Windows10/11</b></li>
+          <li>ブラウザ: <b>Chrome最新版</b></li>
+          <li>画面サイズ: <b>横幅675px以上推奨</b></li>
+          <li>JavaScript有効 <b>必須</b> / LocalStorage有効</li>
+        </ul>
+        <h4>あなたの環境</h4>
+        <ul>
+          <li>OS/デバイス: <span id="env-os"></span></li>
+          <li>ブラウザ: <span id="env-browser"></span></li>
+          <li>画面サイズ: <span id="env-size"></span></li>
+          <li>JavaScript: <b>有効</b></li>
+          <li>LocalStorage: <span id="env-ls"></span></li>
         </ul>
         <p style="font-size:0.9em;color:#888;">※推奨環境以外でも使えますが、一部機能が正しく動作しない場合があります。</p>
         </section>
@@ -1136,12 +1135,12 @@ function speakWord(word) {
   utterance.lang = "en-US";
   window.speechSynthesis.speak(utterance);
   }
-}
-function detectEnv() {
+}function detectEnv() {
   // OS/デバイス
   let ua = navigator.userAgent;
   let os = "不明";
   if (ua.match(/Windows/)) os = "Windows";
+  else if (ua.match(/CrOS/)) os = "ChromeOS";
   else if (ua.match(/Macintosh|Mac OS/)) os = "Mac";
   else if (ua.match(/iPhone|iPad/)) os = "iOS";
   else if (ua.match(/Android/)) os = "Android";
@@ -1154,14 +1153,13 @@ function detectEnv() {
   else if (ua.match(/Edge/)) browser = "Edge";
   // 画面サイズ
   let size = `${window.innerWidth}px × ${window.innerHeight}px`;
-  // Cookie/LocalStorage
-  let cookie = navigator.cookieEnabled ? "有効" : "無効";
+  // LocalStorage
   let ls = "有効";
   try { localStorage.setItem("__test","1"); localStorage.removeItem("__test"); } catch(e){ ls = "無効"; }
 
   document.getElementById("env-os").textContent = os;
   document.getElementById("env-browser").textContent = browser;
   document.getElementById("env-size").textContent = size;
-  document.getElementById("env-cookie").textContent = cookie;
   document.getElementById("env-ls").textContent = ls;
+}
 }
