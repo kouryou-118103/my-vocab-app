@@ -984,18 +984,18 @@ function showSettingsDialog() {
         <section id="other" class="settings-section" style="display:none">
         <h3>推奨環境</h3>
         <ul>
-          <li>OS: <b>ChromeOS, Windows10/11</b></li>
+           <li>OS: <b>ChromeOS, Windows10/11</b></li>
           <li>ブラウザ: <b>Chrome最新版</b></li>
           <li>画面サイズ: <b>横幅675px以上推奨</b></li>
           <li>JavaScript有効 <b>必須</b> / LocalStorage有効</li>
         </ul>
         <h4>あなたの環境</h4>
         <ul>
-          <li>OS/デバイス: <span id="env-os"></span></li>
-          <li>ブラウザ: <span id="env-browser"></span></li>
-          <li>画面サイズ: <span id="env-size"></span></li>
-          <li>JavaScript: <b>有効</b></li>
-          <li>LocalStorage: <span id="env-ls"></span></li>
+          <li>OS/デバイス: <span id="env-os"></span> <span id="os-status"></span></li>
+          <li>ブラウザ: <span id="env-browser"></span> <span id="browser-status"></span></li>
+          <li>画面サイズ: <span id="env-size"></span> <span id="size-status"></span></li>
+          <li>JavaScript: <b>有効</b> <span id="js-status" style="color:green;font-weight:bold">OK</span></li>
+          <li>LocalStorage: <span id="env-ls"></span> <span id="ls-status"></span></li>
         </ul>
         <p style="font-size:0.9em;color:#888;">※推奨環境以外でも使えますが、一部機能が正しく動作しない場合があります。</p>
         </section>
@@ -1135,31 +1135,47 @@ function speakWord(word) {
   utterance.lang = "en-US";
   window.speechSynthesis.speak(utterance);
   }
-}function detectEnv() {
-  // OS/デバイス
+}
+function statusTag(status) {
+  switch (status) {
+    case "OK": return '<span style="color:green;font-weight:bold">OK</span>';
+    case "注意": return '<span style="color:orange;font-weight:bold">注意</span>';
+    case "NG": return '<span style="color:red;font-weight:bold">NG</span>';
+    default: return '';
+  }
+}
+
+function detectEnv() {
   let ua = navigator.userAgent;
-  let os = "不明";
-  if (ua.match(/Windows/)) os = "Windows";
-  else if (ua.match(/CrOS/)) os = "ChromeOS";
-  else if (ua.match(/Macintosh|Mac OS/)) os = "Mac";
-  else if (ua.match(/iPhone|iPad/)) os = "iOS";
-  else if (ua.match(/Android/)) os = "Android";
-  else if (ua.match(/Linux/)) os = "Linux";
-  // ブラウザ簡易判別
-  let browser = "不明";
-  if (ua.match(/Chrome/)) browser = "Chrome";
-  else if (ua.match(/Safari/) && !ua.match(/Chrome/)) browser = "Safari";
-  else if (ua.match(/Firefox/)) browser = "Firefox";
-  else if (ua.match(/Edge/)) browser = "Edge";
-  // 画面サイズ
-  let size = `${window.innerWidth}px × ${window.innerHeight}px`;
-  // LocalStorage
-  let ls = "有効";
-  try { localStorage.setItem("__test","1"); localStorage.removeItem("__test"); } catch(e){ ls = "無効"; }
+  let os = "不明", osOK = false;
+  if (ua.match(/CrOS/)) { os = "ChromeOS"; osOK = true; }
+  else if (ua.match(/Windows NT 10/)) { os = "Windows10"; osOK = true; }
+  else if (ua.match(/Windows NT 11/)) { os = "Windows11"; osOK = true; }
+  else if (ua.match(/Windows/)) { os = "Windows"; osOK = true; }
+  else if (ua.match(/Macintosh|Mac OS/)) { os = "Mac"; }
+  else if (ua.match(/iPhone|iPad/)) { os = "iOS"; }
+  else if (ua.match(/Android/)) { os = "Android"; }
+  else if (ua.match(/Linux/)) { os = "Linux"; }
+
+  let browser = "不明", browserOK = false;
+  if (ua.match(/Chrome/) && !ua.match(/Edg/)) { browser = "Chrome"; browserOK = true; }
+  else if (ua.match(/Safari/) && !ua.match(/Chrome/)) { browser = "Safari"; }
+  else if (ua.match(/Firefox/)) { browser = "Firefox"; }
+  else if (ua.match(/Edg/)) { browser = "Edge"; }
+
+  let sizeW = window.innerWidth || document.documentElement.clientWidth;
+  let size = `${sizeW}px × ${window.innerHeight}px`;
+  let sizeOK = sizeW >= 675;
+
+  let ls = "有効", lsOK = true;
+  try { localStorage.setItem("__test","1"); localStorage.removeItem("__test"); } catch(e){ ls = "無効"; lsOK = false; }
 
   document.getElementById("env-os").textContent = os;
+  document.getElementById("os-status").innerHTML = statusTag(osOK ? "OK" : "注意");
   document.getElementById("env-browser").textContent = browser;
+  document.getElementById("browser-status").innerHTML = statusTag(browserOK ? "OK" : "注意");
   document.getElementById("env-size").textContent = size;
+  document.getElementById("size-status").innerHTML = statusTag(sizeOK ? "OK" : "NG");
   document.getElementById("env-ls").textContent = ls;
-}
+  document.getElementById("ls-status").innerHTML = statusTag(lsOK ? "OK" : "NG");
 }
