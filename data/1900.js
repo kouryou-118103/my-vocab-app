@@ -1094,49 +1094,67 @@ function showSettingsDialog() {
     localStorage.setItem("SpeakingWord", e.target.checked);
   });
   detectEnv();
-  const backupSection = dialog.querySelector('#save');
-  // ここでイベントを追加
-  backupSection.querySelector("#lsExportFile").addEventListener("click", function(){
-    let obj = {};
-    for(let i=0; i<localStorage.length; i++){
-      let k = localStorage.key(i);
-      obj[k] = localStorage.getItem(k);
-    }
-    let blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement("a");
-    a.href = url;
-    a.download = "my-vocab-app-localstorage.json";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+const backupSection = dialog.querySelector('#save');
 
-    backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルをダウンロードしました";
+// ダウンロード（wordStatsのみ）
+backupSection.querySelector("#lsExportFile").addEventListener("click", function(){
+  const key = "wordStats";
+  const value = localStorage.getItem(key);
+  if (value === null) {
+    backupSection.querySelector("#lsFileMsg").textContent = "wordStatsが見つかりません";
     setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";},2000);
-  });
+    return;
+  }
+  const obj = { [key]: value };
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "wordStats.json";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
 
-  backupSection.querySelector("#lsImportFile").addEventListener("click", function(){
-    backupSection.querySelector("#lsFileInput").click();
-  });
-  backupSection.querySelector("#lsFileInput").addEventListener("change", function(e){
-    let file = e.target.files[0];
-    if(!file) return;
-    let reader = new FileReader();
-    reader.onload = function(ev){
-      try {
-        let obj = JSON.parse(ev.target.result);
-        if(typeof obj === "object" && obj !== null){
-          for(let k in obj) localStorage.setItem(k, obj[k]);
-          backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルを読み込みました。リロードしてください";
-        } else throw new Error("形式が不正です");
-      } catch(e){
-        backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルが不正です: " + e.message;
-        backupSection.querySelector("#lsFileMsg").style.color = "red";
-        setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";backupSection.querySelector("#lsFileMsg").style.color="green";},3000);
+  backupSection.querySelector("#lsFileMsg").textContent = "wordStatsをダウンロードしました";
+  setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";},2000);
+});
+
+// インポート（wordStatsのみ&警告あり）
+backupSection.querySelector("#lsImportFile").addEventListener("click", function(){
+  backupSection.querySelector("#lsFileInput").click();
+});
+
+backupSection.querySelector("#lsFileInput").addEventListener("change", function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try {
+      const obj = JSON.parse(ev.target.result);
+      if(obj.wordStats === undefined){
+        throw new Error("wordStatsキーが見つかりません");
       }
-    };
-    reader.readAsText(file);
-  });
+      // 上書き警告
+      const currentValue = localStorage.getItem("wordStats");
+      let msg = "wordStatsの内容を上書きします。よろしいですか？";
+      if (currentValue !== null) {
+        msg += "\n（現在の内容は消えます）";
+      }
+      if (!confirm(msg)) {
+        backupSection.querySelector("#lsFileMsg").textContent = "キャンセルしました";
+        setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";},2000);
+        return;
+      }
+      localStorage.setItem("wordStats", obj.wordStats);
+      backupSection.querySelector("#lsFileMsg").textContent = "wordStatsを読み込みました。リロードしてください";
+    } catch(e){
+      backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルが不正です: " + e.message;
+      backupSection.querySelector("#lsFileMsg").style.color = "red";
+      setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";backupSection.querySelector("#lsFileMsg").style.color="green";},3000);
+    }
+  };
+  reader.readAsText(file);
+});
 }
 
 let __viGuard = false;
