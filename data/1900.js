@@ -985,6 +985,7 @@ function showSettingsDialog() {
 
         <section id="save" class="settings-section" style="display:none">
           <h3>バックアップ</h3>
+          <p>いままでの単語の正解率などのデータを出力します。バックアップや機種変更のときに使います。</p>
           <button id="lsExportFile" style="margin-bottom:8px;">保存ファイルをダウンロード</button>
           <button id="lsImportFile" style="margin-bottom:8px;">保存ファイルを読み込む</button>
           <input type="file" id="lsFileInput" accept=".json" style="display:none;">
