@@ -1094,6 +1094,49 @@ function showSettingsDialog() {
     localStorage.setItem("SpeakingWord", e.target.checked);
   });
   detectEnv();
+  const backupSection = dialog.querySelector('#save');
+  // ここでイベントを追加
+  backupSection.querySelector("#lsExportFile").addEventListener("click", function(){
+    let obj = {};
+    for(let i=0; i<localStorage.length; i++){
+      let k = localStorage.key(i);
+      obj[k] = localStorage.getItem(k);
+    }
+    let blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "my-vocab-app-localstorage.json";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+
+    backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルをダウンロードしました";
+    setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";},2000);
+  });
+
+  backupSection.querySelector("#lsImportFile").addEventListener("click", function(){
+    backupSection.querySelector("#lsFileInput").click();
+  });
+  backupSection.querySelector("#lsFileInput").addEventListener("change", function(e){
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = function(ev){
+      try {
+        let obj = JSON.parse(ev.target.result);
+        if(typeof obj === "object" && obj !== null){
+          for(let k in obj) localStorage.setItem(k, obj[k]);
+          backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルを読み込みました。リロードしてください";
+        } else throw new Error("形式が不正です");
+      } catch(e){
+        backupSection.querySelector("#lsFileMsg").textContent = "保存ファイルが不正です: " + e.message;
+        backupSection.querySelector("#lsFileMsg").style.color = "red";
+        setTimeout(()=>{backupSection.querySelector("#lsFileMsg").textContent="";backupSection.querySelector("#lsFileMsg").style.color="green";},3000);
+      }
+    };
+    reader.readAsText(file);
+  });
 }
 
 let __viGuard = false;
@@ -1196,46 +1239,3 @@ function detectEnv() {
   document.getElementById("env-local").textContent = isLocal ? "ローカル" : "非ローカル";
   document.getElementById("local-status").innerHTML = statusTag(isLocal ? "OK" : "注意");
 }
-  div.querySelector("#lsExportFile").addEventListener("click", function(){
-    let obj = {};
-    for(let i=0; i<localStorage.length; i++){
-      let k = localStorage.key(i);
-      obj[k] = localStorage.getItem(k);
-    }
-    let blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement("a");
-    a.href = url;
-    a.download = "my-vocab-app-localstorage.json";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
-
-    div.querySelector("#lsFileMsg").textContent = "保存ファイルをダウンロードしました";
-    setTimeout(()=>{div.querySelector("#lsFileMsg").textContent="";},2000);
-  });
-
-  // インポート（アップロード→復元）
-  div.querySelector("#lsImportFile").addEventListener("click", function(){
-    div.querySelector("#lsFileInput").click();
-  });
-  div.querySelector("#lsFileInput").addEventListener("change", function(e){
-    let file = e.target.files[0];
-    if(!file) return;
-    let reader = new FileReader();
-    reader.onload = function(ev){
-      try {
-        let obj = JSON.parse(ev.target.result);
-        if(typeof obj === "object" && obj !== null){
-          for(let k in obj) localStorage.setItem(k, obj[k]);
-          div.querySelector("#lsFileMsg").textContent = "保存ファイルを読み込みました。リロードしてください";
-        } else throw new Error("形式が不正です");
-      } catch(e){
-        div.querySelector("#lsFileMsg").textContent = "保存ファイルが不正です: " + e.message;
-        div.querySelector("#lsFileMsg").style.color = "red";
-        setTimeout(()=>{div.querySelector("#lsFileMsg").textContent="";div.querySelector("#lsFileMsg").style.color="green";},3000);
-      }
-    };
-    reader.readAsText(file);
-  });
-})();
