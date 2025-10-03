@@ -84,7 +84,7 @@ document.addEventListener("keydown", function(event) {
   var active = document.activeElement;
   var modeToggle = document.getElementById("mode-toggle");
   var linkDialog = document.getElementById("linkDialog");
-if (event.key === '/' || event.key.toLowerCase() === 'h') {
+if ((event.key === '/' || event.key.toLowerCase() === 'h') && document.activeElement !== document.getElementById("userInput")) {
   hintElement.style.display = 'block';
   const dl = hintElement.querySelector("dl.shortcuts");
   if (dl && !Array.from(dl.querySelectorAll("dt")).some(dt => dt.textContent === "S")) {
