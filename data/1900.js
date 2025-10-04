@@ -1018,11 +1018,26 @@ function showSettingsDialog() {
         <section id="set-info" class="settings-section" style="display:none">
         <h3>バージョン情報他</h3>
         <ul>
-          <li>外部JSのバージョン:${バージョン}</li>
-          <li>アプリ側のバージョン:${内部バージョン}</li>
-          <li>いままで解いた問題の数:${総問題数}(再読み込み後に反映)</li>
-          <li>いままで正解した問題の数:${総正解数}(再読み込み後に反映)</li>
-          <li>いままでの正解率${Math.round(総正解数/総問題数*1000)/10}</li>
+          <li>外部JSのバージョン: ${バージョン}</li>
+          <li>アプリ側のバージョン: ${内部バージョン}</li>
+          <li>いままで解いた問題の数: ${総問題数}</li>
+          <li>いままで正解した問題の数: ${総正解数}</li>
+          <li>いままでの正解率: ${Math.round(総正解数/総問題数*1000)/10}%</li>
+          <li>現在のクイズモード: ${フラッシュカード ? "フラッシュカード" : (入力モード ? "入力モード" : "通常モード")}</li>
+          <li>いやらしいモード: ${いやらしいモード ? "ON" : "OFF"}</li>
+          <li>記録モード: ${記録モード ? "ON" : "OFF"}</li>
+          <li>過去の記録表示: ${usersettings.showHistory ? "ON" : "OFF"}</li>
+          <li>結果記録: ${usersettings.saveResults ? "ON" : "OFF"}</li>
+          <li>ページ離脱確認: ${usersettings.leave_confirmation ? "ON" : "OFF"}</li>
+          <li>選択肢数: ${numChoices}</li>
+          <li>出題方向: ${出題方向}</li>
+          <li>出題範囲: ${範囲下+1}〜${範囲上}</li>
+          <li>自動次の問題間隔: ${autoNextInterval} ms</li>
+          <li>アクセス元: ${アクセス元}</li>
+          <li>CSV読込: ${間違い英単語.length > 0 ? "読み込み済み" : "なし"}</li>
+          <li>現在ラウンド: ${ラウンド}</li>
+          <li>現在問題番号: ${問題番号}</li>
+          <li>残り問題数: ${残り問題番号.length}</li>
         </ul>
         </section>
 
