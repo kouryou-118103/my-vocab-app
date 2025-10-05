@@ -80,6 +80,20 @@ if (!(サポートバージョン.includes(利用者内部版))) {
 } else {
     // バージョン一致時の処理
 }
+// 保存済みの色を復元（ライト／ダーク両方）
+["", "dark_"].forEach(prefix => {
+  colorVars.forEach(v => {
+    const saved = localStorage.getItem(`color_${prefix}${v}`);
+    if (saved) {
+      const target = prefix === "dark_" ? document.body : document.documentElement;
+      target.style.setProperty(v, saved);
+      const input = colorPickerArea.querySelector(`#color-${v.slice(2)}`);
+      if (!document.body.classList.contains("dark") && prefix === "") input.value = saved;
+      if (document.body.classList.contains("dark") && prefix === "dark_") input.value = saved;
+    }
+  });
+});
+
 document.addEventListener("keydown", function(event) {
   var hintElement = document.getElementById('shortcut-hint');
   var active = document.activeElement;
@@ -992,6 +1006,7 @@ function showSettingsDialog() {
           <p>フォントを変更します。</p>
 
           <h4 style="margin-top:15px;">カラーテーマ編集</h4>
+          <button id="resetColors" style="margin-top:10px;">色設定をリセット</button>
           <div id="colorPickerArea" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;"></div>
           <p style="font-size:0.9em;color:#888;">変更は即時反映されます。</p>
         </section>
@@ -1353,3 +1368,11 @@ function detectEnv() {
   document.getElementById("env-local").textContent = isLocal ? "ローカル" : "非ローカル";
   document.getElementById("local-status").innerHTML = statusTag(isLocal ? "OK" : "注意");
 }
+document.getElementById("resetColors").addEventListener("click", () => {
+  if (!confirm("すべてのカラーカスタムをリセットしますか？OKを押すとページを再読み込みします。")) return;
+  colorVars.forEach(v => {
+    localStorage.removeItem(`color_${v}`);
+    localStorage.removeItem(`color_dark_${v}`);
+  });
+  location.reload(); // 再読み込みでデフォルトに戻す
+});
