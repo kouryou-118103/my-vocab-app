@@ -1011,8 +1011,31 @@ function showSettingsDialog() {
           <p>フォントを変更します。</p>
 
           <h4 style="margin-top:15px;">カラーテーマ編集</h4>
+          <p>ダークモードには反映されません。今後のアップデートでダークモードでも使えるようになるかもしれません。</p>
           <button id="resetColors" style="margin-top:10px;">色設定をリセット</button>
           <div id="colorPickerArea" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;"></div>
+          <div style="margin: 1em 0;">
+          <table border="1" cellpadding="6" style="border-collapse:collapse; font-size:1em; background:#f9fafb;">
+            <thead>
+              <tr style="background:#eee;">
+                <th>変数名</th>
+                <th>用途</th>
+                <th>例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--b</code></td><td>ベース背景色（全体の背景）</td><td style="background:#f9fafb;">#f9fafb</td></tr>
+              <tr><td><code>--t</code></td><td>メインテキスト色（普通の文字）</td><td style="background:#333; color:#fff;">#333</td></tr>
+              <tr><td><code>--lk</code></td><td>リンク色</td><td style="background:#6093ee; color:#fff;">#6093ee</td></tr>
+              <tr><td><code>--lkh</code></td><td>リンクホバー時の色</td><td style="background:#1e3a8a; color:#fff;">#1e3a8a</td></tr>
+              <tr><td><code>--cbg</code></td><td>カードやダイアログの背景色</td><td style="background:#fff;">#fff</td></tr>
+              <tr><td><code>--bbg</code></td><td>ボタン背景色</td><td style="background:#6093ee; color:#fff;">#6093ee</td></tr>
+              <tr><td><code>--bt</code></td><td>ボタン文字色</td><td style="background:#fff;">#fff</td></tr>
+              <tr><td><code>--bh</code></td><td>ボタンホバー時の色</td><td style="background:#1553db; color:#fff;">#1553db</td></tr>
+              <tr><td><code>--h1c</code></td><td>見出し（h1など）の文字色</td><td style="background:#5987cb; color:#fff;">#5987cb</td></tr>
+            </tbody>
+          </table>
+        </div>
           <p style="font-size:0.9em;color:#888;">変更は即時反映されます。</p>
         </section>
 
