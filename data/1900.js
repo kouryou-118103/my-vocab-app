@@ -90,6 +90,10 @@ function applySavedColors() {
       target.style.setProperty(v, saved);
     });
   });
+  const savedFont = localStorage.getItem("appFont");
+  if (savedFont) {
+    document.body.style.fontFamily = savedFont;
+  }
 }
 
 // ページ読み込み時に即反映
