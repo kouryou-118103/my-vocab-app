@@ -40,7 +40,7 @@ if (window.内部バージョン === "3") {
     var 選択肢範囲 = [];
     var 出題語句ABC = [];
     var 選択肢ABC用 = [];
-    var 範囲下 = 1;
+    var 範囲下 = 0;
     var 範囲上 = 1900;
     var 出題方向 = "en-ja";
     var numChoices = 4;
@@ -982,7 +982,18 @@ function showSettingsDialog() {
 
         <section id="style" class="settings-section" style="display:none">
           <h3>スタイル</h3>
-          <p>作成中</p>
+          <h4>フォント設定</h4>
+          <select id="fontSelect" style="margin-bottom:10px; width: 200px;">
+            <option value="sans-serif">Sans-serif</option>
+            <option value="serif">Serif</option>
+            <option value="monospace">Monospace</option>
+            <option value="Noto Sans JP">Noto Sans JP</option>
+          </select>
+          <p>フォントを変更します。</p>
+
+          <h4 style="margin-top:15px;">カラーテーマ編集</h4>
+          <div id="colorPickerArea" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;"></div>
+          <p style="font-size:0.9em;color:#888;">変更は即時反映されます。</p>
         </section>
 
         <section id="save" class="settings-section" style="display:none">
@@ -1123,6 +1134,62 @@ function showSettingsDialog() {
     localStorage.setItem("SpeakingWord", e.target.checked);
   });
   detectEnv();
+// ===== スタイル設定 =====
+const colorVars = ["--b", "--t", "--lk", "--lkh", "--cbg", "--bbg", "--bt", "--bh", "--h1c"];
+const colorPickerArea = dialog.querySelector("#colorPickerArea");
+const fontSelect = dialog.querySelector("#fontSelect");
+
+// カラーピッカーを生成
+colorVars.forEach(v => {
+  const current = getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const wrapper = document.createElement("div");
+  wrapper.style.display = "flex";
+  wrapper.style.alignItems = "center";
+  wrapper.style.gap = "8px";
+  wrapper.innerHTML = `
+    <label style="width:60px;">${v}</label>
+    <input type="color" id="color-${v.slice(2)}" value="${rgbToHex(current)}" style="width:60px;height:30px;cursor:pointer;">
+  `;
+  colorPickerArea.appendChild(wrapper);
+
+  wrapper.querySelector("input").addEventListener("input", e => {
+    document.documentElement.style.setProperty(v, e.target.value);
+    localStorage.setItem(`color_${v}`, e.target.value);
+  });
+});
+
+// 保存済みの色を復元
+colorVars.forEach(v => {
+  const saved = localStorage.getItem(`color_${v}`);
+  if (saved) {
+    document.documentElement.style.setProperty(v, saved);
+    const input = colorPickerArea.querySelector(`#color-${v.slice(2)}`);
+    if (input) input.value = saved;
+  }
+});
+
+// フォント設定
+const savedFont = localStorage.getItem("appFont");
+if (savedFont) {
+  document.body.style.fontFamily = savedFont;
+  fontSelect.value = savedFont;
+}
+
+fontSelect.addEventListener("change", e => {
+  document.body.style.fontFamily = e.target.value;
+  localStorage.setItem("appFont", e.target.value);
+});
+
+// RGB → HEX 変換関数
+function rgbToHex(rgb) {
+  rgb = rgb.replace(/[^\d,]/g, "").split(",");
+  if (rgb.length < 3) return "#000000";
+  return "#" + rgb.slice(0,3).map(x => {
+    const hex = parseInt(x).toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  }).join("");
+}
+
 const backupSection = dialog.querySelector('#save');
 
 // ダウンロード（wordStatsのみ）
