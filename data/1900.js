@@ -784,13 +784,13 @@ function loadMistakeCSV() {
     updateCSVStatus(false);
     return;
   }
-
+  
   var lines = csv.trim().split('\n');
   間違い英単語 = [];
   間違い日本語 = [];
 
   for (var i = 1; i < lines.length; i++) {
-    var cols = lines[i].split(',');
+    var cols = parseCSVLine(lines[i]);
     var result = cols[4]?.trim();
 
     if (result === "×") {
@@ -802,6 +802,9 @@ function loadMistakeCSV() {
       }
     }
   }
+  console.log(間違い日本語)
+  console.log(間違い英単語)
+  console.log("length", 間違い日本語.length)
   残り問題番号 = [...Array(間違い英単語.length).keys()];
   shuffle(残り問題番号);
   updateCSVStatus(true);
