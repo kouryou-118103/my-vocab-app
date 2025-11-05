@@ -28,13 +28,6 @@ if (window.内部バージョン === "3") {
     } catch (e) {}
   })();
 }
-  const settingsButton = document.getElementById('openSettings');
-  if (settingsButton) {
-    settingsButton.addEventListener('click', showSettingsDialog);
-    console.log('設定ボタンにクリックイベントを追加しました');
-  } else {
-    console.error('設定ボタン (#openSettings) が見つかりません');
-  }
 
     if (typeof バージョン === "undefined") {var バージョン = "2.08.5";}//過去バージョン(バージョン2以前)で、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
     if (typeof アクセス元 === "undefined") {var アクセス元 = "1900";}//バージョン3以前用
@@ -945,6 +938,13 @@ function initializeVersionInfo(versionInfo) {
     showUpdateNoticeIfNeeded();
   } 
   protectVersionInfo(versionInfo);
+  const settingsButton = document.getElementById('openSettings');
+  if (settingsButton) {
+    settingsButton.addEventListener('click', showSettingsDialog);
+    console.log('設定ボタンにクリックイベントを追加しました');
+  } else {
+    console.error('設定ボタン (#openSettings) が見つかりません');
+  }
   }
 
 function observeForVersionInfo() {
