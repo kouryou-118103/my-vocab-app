@@ -922,31 +922,17 @@ function initializeVersionInfo(versionInfo) {
   `;
   const btn = versionInfo.querySelector('#openSettings');
   if (btn) {
-    btn.addEventListener('click', () => {
-      try {
-        showSettingsDialog();
-      } catch (err) {
-        console.error('showSettingsDialog failed:', err);
-      }
-    });
-  } else {
-    console.warn('#openSettings button not found');
-  }  if (
-    typeof showUpdateNoticeIfNeeded === "function" &&
-    !document.querySelector('.update-dialog')
-  ) {
-    showUpdateNoticeIfNeeded();
-  } 
-  protectVersionInfo(versionInfo);
-  const settingsButton = document.getElementById('openSettings');
-  if (settingsButton) {
-    settingsButton.addEventListener('click', showSettingsDialog);
+    btn.addEventListener('click', showSettingsDialog);
     console.log('設定ボタンにクリックイベントを追加しました');
   } else {
-    console.error('設定ボタン (#openSettings) が見つかりません');
+    console.warn('#openSettings button not found');
   }
+  if (typeof showUpdateNoticeIfNeeded === "function" && !document.querySelector('.update-dialog')) {
+    showUpdateNoticeIfNeeded();
   }
 
+  protectVersionInfo(versionInfo);
+}
 function observeForVersionInfo() {
   if (!document.body) {
     document.addEventListener("DOMContentLoaded", () => observeForVersionInfo(), { once: true });
