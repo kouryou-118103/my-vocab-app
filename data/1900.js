@@ -29,12 +29,12 @@ if (window.内部バージョン === "3") {
   })();
 }
 document.addEventListener('DOMContentLoaded', () => {
-  const settingsButton = document.getElementById('settings-button');
+  const settingsButton = document.getElementById('openSettings');
   if (settingsButton) {
     settingsButton.addEventListener('click', showSettingsDialog);
     console.log('設定ボタンにクリックイベントを追加しました');
   } else {
-    console.error('設定ボタン (#settings-button) が見つかりません');
+    console.error('設定ボタン (#openSettings) が見つかりません');
   }
 });
     if (typeof バージョン === "undefined") {var バージョン = "2.08.5";}//過去バージョン(バージョン2以前)で、アプリ本体でバージョン定義があるため、二重定義を避ける(アプリ本体はconstで定義されている)
