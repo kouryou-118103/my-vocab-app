@@ -953,7 +953,7 @@ function observeForVersionInfo() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 }
-
+window.showSettingsDialog = showSettingsDialog;
 function showSettingsDialog() {
   if (document.querySelector('.update-dialog')) return;
   const dialog = document.createElement('div');
