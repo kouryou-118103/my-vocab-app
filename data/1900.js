@@ -920,13 +920,16 @@ function initializeVersionInfo(versionInfo) {
     | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
     | <a href="javascript:void(0)" id="openSettings">設定</a>
   `;
-  const btn = versionInfo.querySelector('#openSettings');
-  if (btn) {
-    btn.addEventListener('click', showSettingsDialog);
-    console.log('設定ボタンにクリックイベントを追加しました');
-  } else {
-    console.warn('#openSettings button not found');
-  }
+const btn = versionInfo.querySelector('#openSettings');
+if (btn) {
+  btn.addEventListener('click', () => {
+    try {
+      window.showSettingsDialog(); // ✅ windowを明示
+    } catch (err) {
+      console.error('showSettingsDialog failed:', err);
+    }
+  });
+}
   if (typeof showUpdateNoticeIfNeeded === "function" && !document.querySelector('.update-dialog')) {
     showUpdateNoticeIfNeeded();
   }
