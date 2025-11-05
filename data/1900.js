@@ -918,7 +918,7 @@ function initializeVersionInfo(versionInfo) {
   versionInfo.innerHTML = `
     v${v}(${iv})
     | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
-    | <a href="javascript:void(0)" id="openSettings">設定</a>
+    | <a href="#" id="openSettings">設定</a>
   `;
 const btn = versionInfo.querySelector('#openSettings');
 if (btn) {
