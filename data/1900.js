@@ -635,9 +635,26 @@ function loadSettings() {
   },0);
 });
 }
-window.addEventListener("load", function() {
-  loadSettings();
-});
+(function ensureSettingsInit() {
+  const init = () => {
+    try {
+      if (typeof window.loadSettings === "function") {
+        window.loadSettings();
+      }
+    } catch (e) {
+      console.error("loadSettings failed:", e);
+    }
+  };
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    // DOM is already ready: run immediately
+    init();
+  } else {
+    // Fallback: whichever fires first, only once
+    window.addEventListener("DOMContentLoaded", init, { once: true });
+    window.addEventListener("load", init, { once: true });
+  }
+})();
 document.getElementById('resetSettings').addEventListener('click', function() {
   if (confirm('設定を初期状態に戻しますか？OKを押したら自動で再読み込みします。')) {
     var cleanUrl = window.location.origin + window.location.pathname;
