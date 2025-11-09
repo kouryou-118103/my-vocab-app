@@ -168,14 +168,17 @@ if ((event.key === '/' || event.key.toLowerCase() === 'h') && document.activeEle
       buttons[key - 1].click();
     }
   }
-  if (event.key.toLowerCase() === "s" && document.activeElement !== document.getElementById("userInput")) {
-    const dialog = document.querySelector('.update-dialog');
-    if (dialog) {
-      dialog.remove();
-    } else {
+const userInput = document.getElementById("userInput");
+if (event.key.toLowerCase() === "s" && (!userInput || document.activeElement !== userInput)) {
+  const dialog = document.querySelector('.update-dialog');
+  if (dialog) {
+    dialog.remove();
+  } else {
     showSettingsDialog();
   }
-}});
+}
+});
+
 document.addEventListener('keyup', (event) => {
     var hintElement = document.getElementById('shortcut-hint');
     if (event.key === '/' || event.key.toLowerCase() === 'h') {
