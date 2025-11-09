@@ -1332,7 +1332,7 @@ const superReloadBtn = dialog.querySelector("#super-reload");
 reloadBtn.addEventListener("click", () => {
   if (confirm("再読み込みします。設定画面に戻ります。")) {
     location.reload();
-  }});});
+  }});
 
 superReloadBtn.addEventListener("click", () => {
   if (confirm("キャッシュを削除して最新版を再適用します。これを実行したあとに再び再読み込みが必要な場合があります。")) {
