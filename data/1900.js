@@ -1411,7 +1411,7 @@ function speakWord(word) {
   //const utterance = new SpeechSynthesisUtterance(word);
   //utterance.lang = "en-US";
   //window.speechSynthesis.speak(utterance);
-  }
+  //}
 }
 function statusTag(status) {
   switch (status) {
