@@ -938,7 +938,11 @@ function showCurrentFlashcard() {
       過去正解 = wordStats[正解] ? wordStats[正解].correct : 0;
       過去出題 = wordStats[正解] ? wordStats[正解].total : 0;
     }
-    mark_タイトル = `過去の正解割合です。${過去出題}問問中${過去正解}問正解(${Math.round(過去正解/過去出題*100)}%)`;
+    if (過去出題 > 0) {
+      mark_タイトル = `過去の正解割合です。${過去出題}問問中${過去正解}問正解(${Math.round(過去正解/過去出題*100)}%)`;
+    } else {
+      mark_タイトル = ``;
+    }
   } else {
     mark_タイトル = ``;
   }
