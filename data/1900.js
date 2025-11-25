@@ -57,6 +57,7 @@ if (window.内部バージョン === "3") {
     var ゲーム中 = false;
     var ラウンド = 1;
     var 問題番号 = 0;
+    var 問題履歴 = [];
     var csv = ""
     var usersettings = {
       showHistory: localStorage.getItem("showHistory") === null ? true : localStorage.getItem("showHistory") === "true",
@@ -128,6 +129,9 @@ if ((event.key === '/' || event.key.toLowerCase() === 'h') && document.activeEle
     var 表示語句 = document.querySelector("#quiz strong, #quiz p").textContent.trim();
     var 正解 = document.getElementById("flashcard-meaning")?.textContent.trim();
     markUnknown(問題番号);
+  }
+  if (event.key === "4") {
+    showPreviousQuestion();
   }
 }
 
@@ -280,6 +284,7 @@ shuffle(残り問題番号);
       問題数 = 0;
       ミス記録 = [];
       全結果 = [];
+      問題履歴 = [];
 
       document.getElementById("settings").classList.add("hidden");
       document.getElementById("quiz").style.display = "block";
@@ -333,6 +338,8 @@ if (残り問題番号.length === 0) {
       if (document.getElementById("flashcard-mode").checked) {
       var totalCount = 表示語句範囲.length;
       var solvedCount = totalCount - 残り問題番号.length;
+      var prevButtonStyle = 問題履歴.length > 0 ? "" : "opacity:0.5; cursor:not-allowed;";
+      var prevButtonDisabled = 問題履歴.length > 0 ? "" : "disabled";
 var html = `
   <p style="display:flex; align-items:center;">
     <span>${escapeHTML(solvedCount)}/${escapeHTML(totalCount)}</span>
@@ -342,6 +349,7 @@ var html = `
   <p id="flashcard-meaning" style="font-size: 1.5em; display:none; margin-bottom: 1.5em;">${escapeHTML(正解)}</p>
 
   <div style="margin-top: 1em; display: flex; flex-direction: row; gap: 1em; flex-wrap: wrap;">
+    <button style="padding: 0.5em 1.2em; font-size: 1em; ${prevButtonStyle}" onclick="showPreviousQuestion()" ${prevButtonDisabled}>⬅️戻る</button>
     <button style="padding: 0.5em 1.2em; font-size: 1em;" onclick="document.getElementById('flashcard-meaning').style.display='block'">表示</button>
     <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markKnown(${問題番号})">✅覚えた</button>
     <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markUnknown(${問題番号})">❌わからない</button>
@@ -882,6 +890,7 @@ function loadMistakeCSV() {
   updateTitle(); // 初期表示用
 function markKnown(index) {
   if (フラッシュカード) {
+    問題履歴.push(index);
     残り問題番号 = 残り問題番号.filter(n => n !== index);
   }
   showNextQuestion();
@@ -889,6 +898,7 @@ function markKnown(index) {
 
 function markUnknown(index) {
   if (フラッシュカード) {
+    問題履歴.push(index);
     ミス記録.push({
       番号: index,
       表示語句: 表示語句範囲[index],
@@ -899,10 +909,71 @@ function markUnknown(index) {
   showNextQuestion();
 }
 
+function showPreviousQuestion() {
+  if (問題履歴.length === 0) return;
+  var 前の問題番号 = 問題履歴.pop();
+  // 前の問題を残り問題の先頭に戻す
+  残り問題番号.unshift(前の問題番号);
+  // ミス記録から削除（戻った問題は再評価するため）
+  ミス記録 = ミス記録.filter(m => m.番号 !== 前の問題番号);
+  問題数--;
+  // 問題を表示
+  showCurrentFlashcard();
+}
+
+function showCurrentFlashcard() {
+  let wordStats = JSON.parse(localStorage.getItem("wordStats") || "{}");
+  問題番号 = 残り問題番号[0];
+  var 表示語句 = 表示語句範囲[問題番号];
+  正解 = 選択肢範囲[問題番号];
+  let 過去正解 = 0;
+  let 過去出題 = 0;
+  if (usersettings.showHistory){
+    if (出題方向 == "en-ja") {
+      mark = getWordMark(表示語句, wordStats);
+      過去正解 = wordStats[表示語句] ? wordStats[表示語句].correct : 0;
+      過去出題 = wordStats[表示語句] ? wordStats[表示語句].total : 0;
+    } else {
+      mark = getWordMark(正解, wordStats);
+      過去正解 = wordStats[正解] ? wordStats[正解].correct : 0;
+      過去出題 = wordStats[正解] ? wordStats[正解].total : 0;
+    }
+    if (過去出題 > 0) {
+      mark_タイトル = `過去の正解割合です。${過去出題}問問中${過去正解}問正解(${Math.round(過去正解/過去出題*100)}%)`;
+    } else {
+      mark_タイトル = ``;
+    }
+  } else {
+    mark_タイトル = ``;
+  }
+  
+  var totalCount = 表示語句範囲.length;
+  var solvedCount = totalCount - 残り問題番号.length;
+  var prevButtonStyle = 問題履歴.length > 0 ? "" : "opacity:0.5; cursor:not-allowed;";
+  var prevButtonDisabled = 問題履歴.length > 0 ? "" : "disabled";
+  var html = `
+    <p style="display:flex; align-items:center;">
+      <span>${escapeHTML(solvedCount)}/${escapeHTML(totalCount)}</span>
+      <span style="margin-left:auto; font-size:1.5em;" title="${mark_タイトル}">${mark}</span>
+    </p>
+    <p style="font-size: 2em; font-weight: bold; margin-bottom: 1.5em;">${escapeHTML(表示語句)}</p>
+    <p id="flashcard-meaning" style="font-size: 1.5em; display:none; margin-bottom: 1.5em;">${escapeHTML(正解)}</p>
+
+    <div style="margin-top: 1em; display: flex; flex-direction: row; gap: 1em; flex-wrap: wrap;">
+      <button style="padding: 0.5em 1.2em; font-size: 1em; ${prevButtonStyle}" onclick="showPreviousQuestion()" ${prevButtonDisabled}>⬅️戻る</button>
+      <button style="padding: 0.5em 1.2em; font-size: 1em;" onclick="document.getElementById('flashcard-meaning').style.display='block'">表示</button>
+      <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markKnown(${問題番号})">✅覚えた</button>
+      <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markUnknown(${問題番号})">❌わからない</button>
+    </div>
+  `;
+  document.getElementById("quiz").innerHTML = html;
+}
+
 function startNextRound() {
   ゲーム中 = true;
   残り問題番号 = ミス記録.map(m => m.番号); // ← 番号を直接使う
   ミス記録 = [];
+  問題履歴 = [];
   問題数 = 0;
   正解回数 = 0;
   showNextQuestion();
