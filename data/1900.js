@@ -349,10 +349,10 @@ var html = `
   <p id="flashcard-meaning" style="font-size: 1.5em; display:none; margin-bottom: 1.5em;">${escapeHTML(正解)}</p>
 
   <div style="margin-top: 1em; display: flex; flex-direction: row; gap: 1em; flex-wrap: wrap;">
-    <button style="padding: 0.5em 1.2em; font-size: 1em; ${prevButtonStyle}" onclick="showPreviousQuestion()" ${prevButtonDisabled}>⬅️戻る</button>
-    <button style="padding: 0.5em 1.2em; font-size: 1em;" onclick="document.getElementById('flashcard-meaning').style.display='block'">表示</button>
-    <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markKnown(${問題番号})">✅覚えた</button>
-    <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markUnknown(${問題番号})">❌わからない</button>
+    <button style="padding: 0.5em 1.2em; font-size: 1em;" onclick="document.getElementById('flashcard-meaning').style.display='block'">表示(1)</button>
+    <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markKnown(${問題番号})">✅覚えた(2)</button>
+    <button style="padding:0.5em 1.2em;font-size:1em;" onclick="markUnknown(${問題番号})">❌わからない(3)</button>
+    <button style="padding: 0.5em 1.2em; font-size: 1em; ${prevButtonStyle}" onclick="showPreviousQuestion()" ${prevButtonDisabled}>⬅️戻る(4)</button>
   </div>
 `;
   全結果.push("A")
