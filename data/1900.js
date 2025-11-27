@@ -330,7 +330,11 @@ if (残り問題番号.length === 0) {
         過去正解 = wordStats[正解] ? wordStats[正解].correct : 0;
         過去出題 = wordStats[正解] ? wordStats[正解].total : 0;
       }
-      mark_タイトル = `過去の正解割合です。${過去出題}問問中${過去正解}問正解(${Math.round(過去正解/過去出題*100)}%)`;
+      if (過去出題 > 0) {
+        mark_タイトル = `過去の正解割合です。${過去出題}問問中${過去正解}問正解(${Math.round(過去正解/過去出題*100)}%)`;
+      } else {
+        mark_タイトル = ``;
+      }
       }else{
       mark_タイトル = ``;
       }
@@ -409,17 +413,35 @@ var html = `
 
       var html = "";
       if (入力モード && 出題方向 === "ja-en") {
-  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${mark_タイトル}">${mark}</span></p>`
-  html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${正解[0]}」</div>`;
+  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`
+  html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${escapeHTML(正解[0])}」</div>`;
   html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocomplete="off">`;
   html += `<p id="charCount">現在の文字数: 0文字</p>`;
-  html += `<button onclick="submitAnswer('${escapeHTML(表示語句)}', '${escapeHTML(正解)}', ${問題番号})">送信</button>`;      } else {
-  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${mark_タイトル}">${mark}</span></p>`;
+  html += `<button id="submitBtn" data-idx="${問題番号}">送信</button>`;
+      } else {
+  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
         options.forEach((item, i) => {
-          html += `<div class="option"><button onclick="checkAnswer('${escapeHTML(item)}', '${escapeHTML(正解)}', ${問題番号})">${i + 1}. ${escapeHTML(item)}</button></div>`;
+          html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(item)}</button></div>`;
         });
       }
       document.getElementById("quiz").innerHTML = html;
+      
+      // Attach event listeners for input mode submit button
+      var submitBtn = document.getElementById("submitBtn");
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function() {
+          submitAnswer(表示語句, 正解, 問題番号);
+        });
+      }
+      
+      // Attach event listeners for multiple-choice option buttons
+      var answerBtns = document.querySelectorAll("#quiz .answer-btn");
+      answerBtns.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var idx = parseInt(btn.getAttribute("data-idx"));
+          checkAnswer(options[idx], 正解, 問題番号);
+        });
+      });
     }
 
     function submitAnswer(表示語句, 正解, 問題番号) {
@@ -445,7 +467,7 @@ var result = `<div class="result-block">`;
   }
   wordStats[word].total += 1;
   }
-if (selected === 正解) {
+if (isCorrect) {
   正解回数++;
   result += `<p class="correct">✅ 正解！</p>`;
   result += `<p class="question">${escapeHTML(表示語句)}<br>${escapeHTML(selected)}</p>`;
@@ -453,7 +475,8 @@ if (selected === 正解) {
   wordStats[word].correct += 1;
   }
 } else {
-  var userLang = 日本語[英語.indexOf(selected)] ?? "不明";
+  var userLangIdx = findIndexNormalized(英語, selected);
+  var userLang = userLangIdx !== -1 ? 日本語[userLangIdx] : "不明";
   result += `<p class="incorrect">❌ 不正解</p>`;
   result += `<p class="question">${escapeHTML(表示語句)}<br>${escapeHTML(正解)}</p>`;
   result += `<p>${escapeHTML(userLang)}<br>${escapeHTML(selected).replace(/(.{100})/g, '$1<br>')}</p>`;  ミス記録.push({ 表示語句, 正解, あなたの答え: selected });
@@ -476,9 +499,10 @@ saveStudyLog(word, isCorrect);
 }
 function checkAnswer(selected, answer, 問題番号) {
   var 表示語句 = 表示語句範囲[問題番号];
-  var isCorrect = selected === answer;
+  var isCorrect = selected !== "わからない" && normalizeForAnswer(selected) === normalizeForAnswer(answer);
   var 正誤 = isCorrect ? "○" : "×";
-  let word = 出題方向 == "ja-en" ? answer : 英語[日本語.indexOf(answer)];
+  var answerIdx = findIndexNormalized(出題方向 == "ja-en" ? 英語 : 日本語, answer);
+  let word = 出題方向 == "ja-en" ? answer : (answerIdx !== -1 ? 英語[answerIdx] : answer);
   if (usersettings.saveResults){
   let wordStats = JSON.parse(localStorage.getItem("wordStats") || "{}");
   if (!wordStats[word]) wordStats[word] = { correct: 0, total: 0 };
@@ -500,13 +524,15 @@ if (isCorrect) {
 } else {
   ミス記録.push({ 表示語句, 正解: answer, あなたの答え: selected });
   result += `<p class="incorrect">❌ 不正解</p>`;
-  result += `<p class="question">${escapeHTML(表示語句)}<br>${answer}</p>`;
+  result += `<p class="question">${escapeHTML(表示語句)}<br>${escapeHTML(answer)}</p>`;
 
   if (出題方向 == "ja-en") {
-    var en = 日本語[英語.indexOf(selected)];
+    var enIdx = findIndexNormalized(英語, selected);
+    var en = enIdx !== -1 ? 日本語[enIdx] : "不明";
     result += `<p>${escapeHTML(en)}<br>${escapeHTML(selected)}</p>`;
   } else {
-    var ja = 英語[日本語.indexOf(selected)];
+    var jaIdx = findIndexNormalized(日本語, selected);
+    var ja = jaIdx !== -1 ? 英語[jaIdx] : "不明";
     result += `<p>${escapeHTML(ja)}<br>${escapeHTML(selected)}</p>`;
   }
 }
@@ -981,6 +1007,13 @@ function startNextRound() {
 function normalizeForAnswer(s) {
   if (s == null) return "";
   return s.normalize("NFKC").trim().toLowerCase();
+}
+function findIndexNormalized(arr, target) {
+  var normTarget = normalizeForAnswer(target);
+  for (var i = 0; i < arr.length; i++) {
+    if (normalizeForAnswer(arr[i]) === normTarget) return i;
+  }
+  return -1;
 }
 function getWordMark(word, stats) {
   stats = stats || {};        // stats が null の場合に備える
