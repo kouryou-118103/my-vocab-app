@@ -1289,12 +1289,13 @@ function showSettingsDialog() {
   const sw = document.getElementById("SpeakingWord");
   sw.disabled = true;
   sw.parentElement.style.textDecoration = "line-through";
-  const defaults = { showHistory: true, saveResults: true, leave_confirmation: false, SpeakingWord: false, updateNotice: false};
+  const defaults = { showHistory: true, saveResults: true, leave_confirmation: false, SpeakingWord: false, updateNotice: false };
   const showHistoryVal = localStorage.getItem("showHistory");
   const saveResultsVal = localStorage.getItem("saveResults");
   const leaveConfirmVal = localStorage.getItem("leave_confirmation");
-  const SpeakingWord = localStorage.getItem("SpeakingWord");
-  
+  const SpeakingWordVal = localStorage.getItem("SpeakingWord");
+  const updateNoticeVal = localStorage.getItem("updateNotice");
+
   document.getElementById("showHistory").checked =
     showHistoryVal === null ? defaults.showHistory : (showHistoryVal === "true");
 
@@ -1305,11 +1306,11 @@ function showSettingsDialog() {
     leaveConfirmVal === null ? defaults.leave_confirmation : (leaveConfirmVal === "true");
 
   document.getElementById("SpeakingWord").checked =
-    SpeakingWord === null ? defaults.SpeakingWord : (SpeakingWord === "true");
+    SpeakingWordVal === null ? defaults.SpeakingWord : (SpeakingWordVal === "true");
 
   document.getElementById("showUpdateNotice").checked =
-    updateNotice === null ? defaults.updateNotice : (updateNotice === "true");
-  
+    updateNoticeVal === null ? defaults.updateNotice : (updateNoticeVal === "true");
+
   document.getElementById("showHistory").addEventListener("change", e => {
     usersettings.showHistory = e.target.checked;
     localStorage.setItem("showHistory", e.target.checked);
@@ -1329,7 +1330,7 @@ function showSettingsDialog() {
     localStorage.setItem("leave_confirmation", e.target.checked);
   });
   document.getElementById("SpeakingWord").addEventListener("change", e => {
-    usersettings.leave_confirmation = e.target.checked;
+    usersettings.SpeakingWord = e.target.checked; // ← 修正: leave_confirmation ではなく SpeakingWord を更新
     localStorage.setItem("SpeakingWord", e.target.checked);
   });
   detectEnv();
