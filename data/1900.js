@@ -64,7 +64,7 @@ if (window.内部バージョン === "3") {
       saveResults: localStorage.getItem("saveResults") === null ? true : localStorage.getItem("saveResults") === "true",
       leave_confirmation: localStorage.getItem("leave_confirmation") === null ? false : localStorage.getItem("leave_confirmation") === "true",
       SpeakingWord: localStorage.getItem("SpeakingWord") === null ? false : localStorage.getItem("SpeakingWord") === "true",
-      updateNotice: localStorage.getItem("SpeakingWord") === null ? false : localStorage.getItem("SpeakingWord") === "true"
+      updateNotice: localStorage.getItem("updateNotice") === null ? false : localStorage.getItem("updateNotice") === "true"
     };
     let mark_タイトル = ``;
     let mark = "";
@@ -82,7 +82,7 @@ if (!(サポートバージョン.includes(利用者内部版))) {
 } else {
     // バージョン一致時の処理
 }
-if (updateNotice){
+if (usersettings.updateNotice){
 document.querySelectorAll('.update-dialog').forEach(el => el.remove());//アップデートログ削除(なんか邪魔って言われた,設定で変えられるように)
 }
 function applySavedColors() {
