@@ -82,8 +82,34 @@ if (!(サポートバージョン.includes(利用者内部版))) {
 } else {
     // バージョン一致時の処理
 }
-if (usersettings.updateNotice){
-document.querySelectorAll('.update-dialog').forEach(el => el.remove());//アップデートログ削除(なんか邪魔って言われた,設定で変えられるように)
+if (usersettings.updateNotice) {//アップデートログ削除(なんか邪魔って言われた,設定で変えられるように)
+  // 既にあるものは消す
+  document.querySelectorAll('.update-dialog').forEach(el => el.remove());
+
+  const obs = new MutationObserver((mutations, observer) => {
+    for (const m of mutations) {
+      for (const node of m.addedNodes) {
+        if (!(node instanceof Element)) continue;
+        if (node.classList && node.classList.contains('update-dialog')) {
+          node.remove();
+        }
+        const found = node.querySelectorAll?.('.update-dialog') || [];
+        if (found.length) {
+          found.forEach(el => el.remove());
+        }
+      }
+    }
+  });
+
+  const startObserving = () => {
+    if (document.body) {
+      obs.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => obs.disconnect(), 1500);
+    } else {
+      window.addEventListener('DOMContentLoaded', startObserving, { once: true });
+    }
+  };
+  startObserving();
 }
 function applySavedColors() {
   const colorVars = ["--b","--t","--lk","--lkh","--cbg","--bbg","--bt","--bh","--h1c"];
