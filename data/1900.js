@@ -82,36 +82,65 @@ if (!(サポートバージョン.includes(利用者内部版))) {
 } else {
     // バージョン一致時の処理
 }
-if (usersettings.updateNotice) {//アップデートログ削除(なんか邪魔って言われた,設定で変えられるように)
-  // 既にあるものは消す
-  document.querySelectorAll('.update-dialog').forEach(el => el.remove());
+(function removeUpdateDialogsShortly() {
+  const stored = localStorage.getItem('updateNotice');
+  const shouldShow = stored === 'true' ? true : (typeof usersettings !== 'undefined' ? !!usersettings.updateNotice : false);
 
-  const obs = new MutationObserver((mutations, observer) => {
+  if (shouldShow) return;
+
+  const DURATION_MS = 1500;
+
+  function removeAll() {
+    const nodes = document.querySelectorAll('.update-dialog');
+    if (nodes.length) {
+      console.log(`[removeUpdateDialogsShortly] removing ${nodes.length} update-dialog(s)`);
+      nodes.forEach(n => n.remove());
+    }
+  }
+
+  removeAll();
+
+  const observer = new MutationObserver((mutations) => {
     for (const m of mutations) {
-      for (const node of m.addedNodes) {
-        if (!(node instanceof Element)) continue;
-        if (node.classList && node.classList.contains('update-dialog')) {
-          node.remove();
+      for (const n of m.addedNodes) {
+        if (!(n instanceof Element)) continue;
+        if (n.classList && n.classList.contains('update-dialog')) {
+          console.log('[removeUpdateDialogsShortly] removed newly added update-dialog (direct node)');
+          n.remove();
+          continue;
         }
-        const found = node.querySelectorAll?.('.update-dialog') || [];
-        if (found.length) {
-          found.forEach(el => el.remove());
+        const inner = n.querySelectorAll?.('.update-dialog') || [];
+        if (inner.length) {
+          console.log(`[removeUpdateDialogsShortly] removed ${inner.length} newly added update-dialog(s) (descendant)`);
+          inner.forEach(el => el.remove());
         }
       }
     }
   });
 
-  const startObserving = () => {
-    if (document.body) {
-      obs.observe(document.body, { childList: true, subtree: true });
-      setTimeout(() => obs.disconnect(), 1500);
-    } else {
-      window.addEventListener('DOMContentLoaded', startObserving, { once: true });
+  function startObserving() {
+    if (!document.body) {
+      document.addEventListener('DOMContentLoaded', startObserving, { once: true });
+      return;
     }
-  };
+    observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => {
+      observer.disconnect();
+      console.log('[removeUpdateDialogsShortly] stopped observing after', DURATION_MS, 'ms');
+    }, DURATION_MS);
+  }
   startObserving();
-}
-function applySavedColors() {
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'updateNotice' && e.newValue !== 'true') {
+      removeAll();
+    }
+  });
+  document.addEventListener('change', (e) => {
+    if (e.target && e.target.id === 'showUpdateNotice') {
+      if (!e.target.checked) removeAll();
+    }
+  }, true);
+})();function applySavedColors() {
   const colorVars = ["--b","--t","--lk","--lkh","--cbg","--bbg","--bt","--bh","--h1c"];
   ["", "dark_"].forEach(prefix => {
     colorVars.forEach(v => {
@@ -126,10 +155,7 @@ function applySavedColors() {
     document.body.style.fontFamily = savedFont;
   }
 }
-
-// ページ読み込み時に即反映
 applySavedColors();
-
 document.addEventListener("keydown", function(event) {
   if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
     return;
