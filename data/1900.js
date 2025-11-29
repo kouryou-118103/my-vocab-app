@@ -1385,6 +1385,10 @@ function showSettingsDialog() {
     usersettings.SpeakingWord = e.target.checked; // ← 修正: leave_confirmation ではなく SpeakingWord を更新
     localStorage.setItem("SpeakingWord", e.target.checked);
   });
+  document.getElementById("showUpdateNotice").addEventListener("change", e => {
+    usersettings.updateNotice = e.target.checked;
+    localStorage.setItem("updateNotice", e.target.checked);
+  });
   detectEnv();
 // ===== スタイル設定 =====
 const colorVars = ["--b", "--t", "--lk", "--lkh", "--cbg", "--bbg", "--bt", "--bh", "--h1c"];
