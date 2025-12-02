@@ -727,7 +727,11 @@ function loadSettings() {
   document.getElementById("evilMode").checked = urlParams.evilMode || false;
   document.getElementById("flashcard-mode").checked = urlParams.flashcardMode || false;
   document.getElementById("startButton").addEventListener("click", function() {
-  startQuiz();     // クイズを開始
+  if ((範囲上-範囲下+1)>=numChoices){
+  }else{
+    numChoices=範囲上-範囲下+1
+  }
+    startQuiz();// クイズを開始
   },0);
 });
 }
