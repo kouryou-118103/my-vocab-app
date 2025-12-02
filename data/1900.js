@@ -78,18 +78,13 @@ if (!(サポートバージョン.includes(利用者内部版))) {
         "このバージョンではデータが古いため、正常に動作しません。\n" +
         "Gmailより最新のデータをダウンロードしてください。"
     );
-    // 必要に応じて処理停止
-} else {
-    // バージョン一致時の処理
 }
 (function removeUpdateDialogsShortly() {
   const stored = localStorage.getItem('updateNotice');
   const shouldShow = stored === 'true' ? true : (typeof usersettings !== 'undefined' ? !!usersettings.updateNotice : false);
-
   if (shouldShow) return;
-
   const DURATION_MS = 1500;
-
+  
   function removeAll() {
     const nodes = document.querySelectorAll('.update-dialog');
     if (nodes.length) {
@@ -97,7 +92,6 @@ if (!(サポートバージョン.includes(利用者内部版))) {
       nodes.forEach(n => n.remove());
     }
   }
-
   removeAll();
 
   const observer = new MutationObserver((mutations) => {
