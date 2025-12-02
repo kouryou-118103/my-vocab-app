@@ -287,9 +287,9 @@ document.addEventListener('click', () => {
       ゲーム中 = true;
       var newUrl = generateShareableLink(); // ← 関数の返り値を受け取る
       window.history.replaceState({}, '', newUrl); // ← URLだけを書き換える（リロードなし）
-      numChoices = parseInt(document.getElementById("numChoices").value);
       範囲下 = parseInt(document.getElementById("rangeLow").value)-1;
       範囲上 = parseInt(document.getElementById("rangeHigh").value);
+      numChoices = Math.min(parseInt(document.getElementById("numChoices").value),範囲上-範囲下);
       出題方向 = document.getElementById("direction").value;
       入力モード = document.getElementById("inputMode").checked;
       記録モード = document.getElementById("recordMode").checked;
@@ -727,9 +727,6 @@ function loadSettings() {
   document.getElementById("evilMode").checked = urlParams.evilMode || false;
   document.getElementById("flashcard-mode").checked = urlParams.flashcardMode || false;
   document.getElementById("startButton").addEventListener("click", function() {
-  if ((範囲上-範囲下)<numChoices){
-    numChoices=範囲上-範囲下
-  }
     startQuiz();// クイズを開始
   },0);
 });
