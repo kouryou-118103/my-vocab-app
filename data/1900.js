@@ -287,7 +287,7 @@ document.addEventListener('click', () => {
       ゲーム中 = true;
       var newUrl = generateShareableLink(); // ← 関数の返り値を受け取る
       window.history.replaceState({}, '', newUrl); // ← URLだけを書き換える（リロードなし）
-      範囲下 = parseInt(document.getElementById("rangeLow").value)-1;
+      範囲下 = Math.max(parseInt(document.getElementById("rangeLow").value)-1,0);
       範囲上 = parseInt(document.getElementById("rangeHigh").value);
       numChoices = Math.min(parseInt(document.getElementById("numChoices").value),範囲上-範囲下,800);
       if (parseInt(document.getElementById("numChoices").value)>800){
