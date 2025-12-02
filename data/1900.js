@@ -727,9 +727,9 @@ function loadSettings() {
   document.getElementById("evilMode").checked = urlParams.evilMode || false;
   document.getElementById("flashcard-mode").checked = urlParams.flashcardMode || false;
   document.getElementById("startButton").addEventListener("click", function() {
-  if ((範囲上-範囲下+1)>=numChoices){
+  if ((範囲上-範囲下)>=numChoices){
   }else{
-    numChoices=範囲上-範囲下+1
+    numChoices=範囲上-範囲下
   }
     startQuiz();// クイズを開始
   },0);
