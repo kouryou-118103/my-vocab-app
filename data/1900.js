@@ -289,7 +289,7 @@ document.addEventListener('click', () => {
       window.history.replaceState({}, '', newUrl); // ← URLだけを書き換える（リロードなし）
       範囲下 = parseInt(document.getElementById("rangeLow").value)-1;
       範囲上 = parseInt(document.getElementById("rangeHigh").value);
-      numChoices = Math.min(parseInt(document.getElementById("numChoices").value),範囲上-範囲下);
+      numChoices = Math.min(parseInt(document.getElementById("numChoices").value),範囲上-範囲下,1900);
       出題方向 = document.getElementById("direction").value;
       入力モード = document.getElementById("inputMode").checked;
       記録モード = document.getElementById("recordMode").checked;
