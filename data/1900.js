@@ -381,13 +381,35 @@ function showNextQuestion() {
     html += `<button id="submitBtn" data-idx="${問題番号}">送信</button>`;
   } else {
     html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
+options = generateOptions(正解);
+var 選択肢リスト = [`\n${問題数}問目\n`,`正解: [${options.indexOf(正解) + 1}] ${escapeHTML(正解)}\n`,"選択肢:\n"];
+html = "";
 
-    // options を生成
-    options = generateOptions(正解);
+for (var i = 0; i < options.length; i++) {
+  var en, ja, index, abc;
 
-    options.forEach((item, i) => {
-      html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(item)}</button></div>`;
-    });
+  if (出題方向 === "ja-en") {
+    en = options[i];
+    index = 英語.indexOf(en);
+    ja = 日本語[index];
+  } else {
+    ja = options[i];
+    index = 日本語.indexOf(ja);
+    en = 英語[index];
+  }
+  abc = ABCnum[index];
+
+  // テキスト版リストに追加
+  選択肢リスト.push(`${i + 1}: ${escapeHTML(en)} / ${escapeHTML(ja)}（問題番号: ${index + 1}, ABC順: ${abc}）\n`);
+
+  // HTML版に追加
+  html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(options[i])}</button></div>`;
+}
+
+console.log(選択肢リスト.slice(0, 100).join(""));
+if (選択肢リスト.length > 100) {
+  console.log(`...他 ${選択肢リスト.length - 100} 件省略`);
+}
   }
 
   document.getElementById("quiz").innerHTML = html;
