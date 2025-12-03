@@ -391,6 +391,7 @@ function showNextQuestion() {
         submitBtn.addEventListener("click", function() {
           submitAnswer(表示語句, 正解, 問題番号);
         });
+        return;
       }
 
   // フラッシュカードモード
