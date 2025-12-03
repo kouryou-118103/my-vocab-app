@@ -347,28 +347,6 @@ shuffle(残り問題番号);
 function showNextQuestion() {
   問題数++;
   let wordStats = JSON.parse(localStorage.getItem("wordStats") || "{}");
-      var html = "";
-      if (入力モード && 出題方向 === "ja-en") {
-  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`
-  html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${escapeHTML(正解[0])}」</div>`;
-  html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocomplete="off">`;
-  html += `<p id="charCount">現在の文字数: 0文字</p>`;
-  html += `<button id="submitBtn" data-idx="${問題番号}">送信</button>`;
-      } else {
-  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
-        options.forEach((item, i) => {
-          html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(item)}</button></div>`;
-        });
-      }
-      document.getElementById("quiz").innerHTML = html;
-      
-      // Attach event listeners for input mode submit button
-      var submitBtn = document.getElementById("submitBtn");
-      if (submitBtn) {
-        submitBtn.addEventListener("click", function() {
-          submitAnswer(表示語句, 正解, 問題番号);
-        });
-      }
 
   // 残りの問題がない場合
   if (残り問題番号.length === 0) {
@@ -392,6 +370,28 @@ function showNextQuestion() {
 
   // 過去の成績データの取得
   mark_タイトル = getMarkTitle(表示語句, 正解, wordStats);
+      var html = "";
+      if (入力モード && 出題方向 === "ja-en") {
+  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`
+  html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${escapeHTML(正解[0])}」</div>`;
+  html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocomplete="off">`;
+  html += `<p id="charCount">現在の文字数: 0文字</p>`;
+  html += `<button id="submitBtn" data-idx="${問題番号}">送信</button>`;
+      } else {
+  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
+        options.forEach((item, i) => {
+          html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(item)}</button></div>`;
+        });
+      }
+      document.getElementById("quiz").innerHTML = html;
+      
+      // Attach event listeners for input mode submit button
+      var submitBtn = document.getElementById("submitBtn");
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function() {
+          submitAnswer(表示語句, 正解, 問題番号);
+        });
+      }
 
   // フラッシュカードモード
   if (document.getElementById("flashcard-mode").checked) {
