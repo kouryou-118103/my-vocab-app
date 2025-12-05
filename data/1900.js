@@ -452,44 +452,33 @@ function generateOptions(正解) {
   const total = 選択肢範囲.length;
   const correctIndex = 選択肢範囲.indexOf(正解);
 
-  let start = Math.floor(Math.random() * total);
-
-  if (Math.abs(start - correctIndex) < numChoices) {
-    start = (start + numChoices * 2) % total;
-  }
-
-  const pairs = [];
-
-  for (let i = 0; i < numChoices * 3; i++) {
-    const idx = (start + i) % total;
-    pairs.push({
-      en: 英語[idx],
-      ja: 日本語[idx],
-      idx
-    });
-  }
-
+  // 正解ペア
   const correctPair = {
     en: 英語[correctIndex],
     ja: 日本語[correctIndex],
     idx: correctIndex
   };
 
-  shuffle(pairs);
-
-  const options = [correctPair];
-  const usedIdx = new Set([correctIndex]);
-
-  for (let i = 0; i < pairs.length && options.length < numChoices; i++) {
-    if (!usedIdx.has(pairs[i].idx)) {
-      options.push(pairs[i]);
-      usedIdx.add(pairs[i].idx);
-    }
+  // 正解以外のインデックスを作る
+  const otherIndices = [];
+  for (let i = 0; i < total; i++) {
+    if (i !== correctIndex) otherIndices.push(i);
   }
 
-  const result = options.map(
-    p => (出題方向 === "ja-en" ? p.en : p.ja)
-  );
+  // ランダムに (numChoices - 1) 個選ぶ
+  shuffle(otherIndices);
+  const options = [correctPair];
+  for (let i = 0; i < numChoices - 1; i++) {
+    const idx = otherIndices[i];
+    options.push({
+      en: 英語[idx],
+      ja: 日本語[idx],
+      idx
+    });
+  }
+
+  // 出題方向に合わせて文字列化
+  let result = options.map(p => 出題方向 === "ja-en" ? p.en : p.ja);
 
   shuffle(result);
   result.push("わからない");
@@ -507,7 +496,6 @@ function prepareQuizUI(表示語句, options, 正解, mark_タイトル) {
 
   document.getElementById("quiz").innerHTML = html;
 
-  // 選択肢ボタンにイベントリスナーを追加
   document.querySelectorAll("#quiz .answer-btn").forEach(btn => {
     btn.addEventListener("click", function() {
       const idx = parseInt(btn.getAttribute("data-idx"));
