@@ -345,9 +345,30 @@ shuffle(残り問題番号);
     }
 
 function showNextQuestion() {
-  var options = []; // options を事前に定義
   問題数++;
   let wordStats = JSON.parse(localStorage.getItem("wordStats") || "{}");
+      var html = "";
+      if (入力モード && 出題方向 === "ja-en") {
+  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`
+  html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${escapeHTML(正解[0])}」</div>`;
+  html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocomplete="off">`;
+  html += `<p id="charCount">現在の文字数: 0文字</p>`;
+  html += `<button id="submitBtn" data-idx="${問題番号}">送信</button>`;
+      } else {
+  html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
+        options.forEach((item, i) => {
+          html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(item)}</button></div>`;
+        });
+      }
+      document.getElementById("quiz").innerHTML = html;
+      
+      // Attach event listeners for input mode submit button
+      var submitBtn = document.getElementById("submitBtn");
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function() {
+          submitAnswer(表示語句, 正解, 問題番号);
+        });
+      }
 
   // 残りの問題がない場合
   if (残り問題番号.length === 0) {
@@ -371,59 +392,8 @@ function showNextQuestion() {
 
   // 過去の成績データの取得
   mark_タイトル = getMarkTitle(表示語句, 正解, wordStats);
-  let html = ""; // HTML ビルドの基礎
 
-  if (入力モード && 出題方向 === "ja-en") {
-    html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
-    html += `<div class="hint">ヒント：${正解.length}文字、最初の文字は「${escapeHTML(正解[0])}」</div>`;
-    html += `<input type="text" id="userInput" autofocus oninput="updateCharCount()" autocomplete="off">`;
-    html += `<p id="charCount">現在の文字数: 0文字</p>`;
-    html += `<button id="submitBtn" data-idx="${問題番号}">送信</button>`;
-  } else {
-    html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong> は${出題方向 === "en-ja" ? "日本語" : "英語"}で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
-options = generateOptions(正解);
-var 選択肢リスト = [`\n${問題数}問目\n`,`正解: [${options.indexOf(正解) + 1}] ${escapeHTML(正解)}\n`,"選択肢:\n"];
-html = "";
-
-for (var i = 0; i < options.length; i++) {
-  var en, ja, index, abc;
-
-  if (出題方向 === "ja-en") {
-    en = options[i];
-    index = 英語.indexOf(en);
-    ja = 日本語[index];
-  } else {
-    ja = options[i];
-    index = 日本語.indexOf(ja);
-    en = 英語[index];
-  }
-  abc = ABCnum[index];
-
-  // テキスト版リストに追加
-  選択肢リスト.push(`${i + 1}: ${escapeHTML(en)} / ${escapeHTML(ja)}（問題番号: ${index + 1}, ABC順: ${abc}）\n`);
-
-  // HTML版に追加
-  html += `<div class="option"><button class="answer-btn" data-idx="${i}">${i + 1}. ${escapeHTML(options[i])}</button></div>`;
-}
-
-console.log(選択肢リスト.slice(0, 100).join(""));
-if (選択肢リスト.length > 100) {
-  console.log(`...他 ${選択肢リスト.length - 100} 件省略`);
-}
-  }
-
-  document.getElementById("quiz").innerHTML = html;
-
-  // 入力モードの submit ボタンにイベントリスナを追加
-  const submitBtn = document.getElementById("submitBtn");
-  if (submitBtn) {
-    submitBtn.addEventListener("click", function () {
-      submitAnswer(表示語句, 正解, 問題番号);
-    });
-    return;
-  }
-
-  // フラッシュカードモード操作
+  // フラッシュカードモード
   if (document.getElementById("flashcard-mode").checked) {
     const solvedCount = 表示語句範囲.length - 残り問題番号.length;
     handleFlashcardMode(solvedCount, 表示語句, 正解, mark_タイトル);
@@ -431,12 +401,15 @@ if (選択肢リスト.length > 100) {
   }
 
   // 通常モードまたは「いやらしいモード」
+  let options = generateOptions(正解);
   prepareQuizUI(表示語句, options, 正解, mark_タイトル);
 }
 function getMarkTitle(表示語句, 正解, wordStats) {
   if (!usersettings.showHistory) return "";
+
   let 過去正解 = 0;
   let 過去出題 = 0;
+
   if (出題方向 === "en-ja") {
     過去正解 = wordStats[表示語句]?.correct || 0;
     過去出題 = wordStats[表示語句]?.total || 0;
@@ -444,6 +417,7 @@ function getMarkTitle(表示語句, 正解, wordStats) {
     過去正解 = wordStats[正解]?.correct || 0;
     過去出題 = wordStats[正解]?.total || 0;
   }
+
   return 過去出題 > 0
     ? `過去の正解割合です。${過去出題}問中${過去正解}問正解(${Math.round((過去正解 / 過去出題) * 100)}%)`
     : "";
