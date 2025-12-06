@@ -170,7 +170,7 @@ if ((event.key === '/' || event.key.toLowerCase() === 'h') && document.activeEle
     dl.appendChild(dd);
   }
 }
-  if (フラッシュカード && ゲーム中) {
+  if (フラッシュカード && !入力モード && ゲーム中) {
   if (event.key === "1") {
     var meaning = document.getElementById("flashcard-meaning");
     if (meaning) meaning.style.display = 'block';
@@ -207,7 +207,7 @@ if ((event.key === '/' || event.key.toLowerCase() === 'h') && document.activeEle
   if (!quizDiv.innerHTML.trim()) return;
 
   if (event.key === "Enter" || event.key === " ") {
-      if (フラッシュカード && !ゲーム中) {
+      if (フラッシュカード && !入力モード && !ゲーム中) {
     return;
     }
     if (active === modeToggle) {
@@ -351,7 +351,7 @@ function showNextQuestion() {
 
   // 残りの問題がない場合
   if (残り問題番号.length === 0) {
-    if (フラッシュカード && ミス記録.length > 0) {
+    if (フラッシュカード && !入力モード && ミス記録.length > 0) {
       ラウンド++;
       ゲーム中 = false;
       document.getElementById("quiz").innerHTML = `
@@ -365,7 +365,7 @@ function showNextQuestion() {
     return;
   }
 
-  問題番号 = フラッシュカード ? 残り問題番号[0] : 残り問題番号.shift();
+  問題番号 =フラッシュカード && !入力モード ? 残り問題番号[0] : 残り問題番号.shift();
   const 表示語句 = 表示語句範囲[問題番号];
   const 正解 = 選択肢範囲[問題番号];
 
@@ -614,7 +614,7 @@ if (isCorrect) {
 
     function showResults(){
       var html= ``;
-      if (フラッシュカード){
+      if (フラッシュカード && !入力モード){
         html += `<h2>クイズ終了</h2><p>暗記完了！</p>`;  
       }else{
         html += `<h2>クイズ終了</h2><p>${問題数-1}問中${正解回数}問正解 (${Math.floor(正解回数 / (問題数-1) * 100)}%)</p>`;
@@ -972,7 +972,7 @@ function loadMistakeCSV() {
   directionSelect.addEventListener('change', updateTitle);
   updateTitle(); // 初期表示用
 function markKnown(index) {
-  if (フラッシュカード) {
+  if (フラッシュカード && !入力モード) {
     問題履歴.push(index);
     残り問題番号 = 残り問題番号.filter(n => n !== index);
   }
@@ -980,7 +980,7 @@ function markKnown(index) {
 }
 
 function markUnknown(index) {
-  if (フラッシュカード) {
+  if (フラッシュカード && !入力モード) {
     問題履歴.push(index);
     ミス記録.push({
       番号: index,
