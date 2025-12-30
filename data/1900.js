@@ -151,7 +151,7 @@ if (!(サポートバージョン.includes(利用者内部版))) {
 }
 applySavedColors();
 document.addEventListener("keydown", function(event) {
-  if (!document.getElementById("settings").classList.contains("hidden") && event.key === "Enter" && !["flashcard-mode","evilMode","inputMode","recordMode"].some(id => document.getElementById(id) === document.activeElement)){
+  if (event.key === "Enter" && event.ctrlKey && !document.getElementById("settings").classList.contains("hidden")){
     startQuiz()
     return;
   }
@@ -170,6 +170,14 @@ if ((event.key === '/' || event.key.toLowerCase() === 'h') && document.activeEle
     dt.textContent = "S";
     const dd = document.createElement("dd");
     dd.textContent = "設定を表示";
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+  }
+  if (dl && !Array.from(dl.querySelectorAll("dt")).some(dt => dt.textContent === "Ctrl+Enter")) {
+    const dt = document.createElement("dt");
+    dt.textContent = "Ctrl+Enter";
+    const dd = document.createElement("dd");
+    dd.textContent = "ゲームを開始する";
     dl.appendChild(dt);
     dl.appendChild(dd);
   }
