@@ -381,6 +381,12 @@ function showNextQuestion() {
   // 過去の成績データの取得
   mark_タイトル = getMarkTitle(表示語句, 正解, wordStats);
   let html = ""; // HTML ビルドの基礎
+  if (usersettings.showHistory) {
+  const key = (出題方向 === "en-ja") ? 表示語句 : 正解;
+  mark = getWordMark(key, wordStats);
+  } else {
+    mark = "";
+  }
 
   if (入力モード && 出題方向 === "ja-en") {
     html += `<p style="display:flex; align-items:center;"><strong>${escapeHTML(表示語句)}</strong>を英語で？<span style="margin-left:auto; font-size:1.2em;" title="${escapeHTML(mark_タイトル)}">${mark}</span></p>`;
@@ -402,7 +408,6 @@ if (いやらしいモード) {
 } else {
   options = generateOptions(正解);
 }var 選択肢リスト = [`\n${問題数}問目\n`,`正解: [${options.indexOf(正解) + 1}] ${escapeHTML(正解)}\n`,"選択肢:\n"];
-html = "";
 
 for (var i = 0; i < options.length; i++) {
   var en, ja, index, abc;
