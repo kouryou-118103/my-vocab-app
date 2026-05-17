@@ -749,8 +749,7 @@ function loadSettings() {
   document.getElementById("numChoices").value = urlParams.numChoices || 4;
   
   document.getElementById("rangeLow").value = urlParams.rangeLow || 1;
-  document.getElementById("rangeHigh").value = urlParams.rangeHigh || parseInt(アクセス元);
-
+　document.getElementById("rangeHigh").value =　urlParams.rangeHigh ?? 英語.length;
   document.getElementById("autoNextInterval").value = urlParams.autoNextInterval || 0;
 
   document.getElementById("recordMode").checked = urlParams.recordMode || false;
