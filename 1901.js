@@ -1,4 +1,4 @@
-if (window.内部バージョン === "3") {
+if (window.内部バージョン === "3") {//画面のちらつきを抑えるために入れたコード。4以降は.html内に記述
   (function suppressInitialTransitionAndDark(){
     try {
       var st = document.createElement('style');
@@ -76,7 +76,7 @@ if (!(サポートバージョン.includes(利用者内部版))) {
         "このバージョンではデータが古いため、正常に動作しません。\n" +
         "Gmailより最新のデータをダウンロードしてください。"
     );
-}
+}//現在不要な関数。いつか消す
 (function removeUpdateDialogsShortly() {
   const stored = localStorage.getItem('updateNotice');
   const shouldShow = stored === 'true' ? true : (typeof usersettings !== 'undefined' ? !!usersettings.updateNotice : false);
