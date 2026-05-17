@@ -68,8 +68,6 @@ if (window.内部バージョン === "3") {
     };
     let mark_タイトル = ``;
     let mark = "";
-    日本語[108] = 日本語[108].replace(/,/g, "，");
-    日本語[887] = 日本語[887].replace(/,/g, "，");
     var 総問題数 = Object.values(JSON.parse(localStorage.wordStats || "{}")).reduce((sum, v) => sum + (v.total || 0), 0);
     var 総正解数 = Object.values(JSON.parse(localStorage.wordStats || "{}")).reduce((sum, v) => sum + (v.correct || 0), 0);
 var 利用者内部版 = (typeof 内部バージョン !== "undefined") ? 内部バージョン : null;
