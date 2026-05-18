@@ -1567,7 +1567,7 @@ reloadBtn.addEventListener("click", () => {
  // if (confirm("キャッシュを削除して最新版を再適用します。これを実行したあとに再び再読み込みが必要な場合があります。")) {
    // 強制読み込み();
   //}});
-//}
+}
 
 let __viGuard = false;
 function protectVersionInfo(el) {
