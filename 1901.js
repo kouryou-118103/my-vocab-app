@@ -1296,7 +1296,7 @@ function showSettingsDialog() {
           <li>JavaScript: <b>有効</b> <span id="js-status" style="color:green;font-weight:bold">OK</span></li>
           <li>LocalStorage: <span id="env-ls"></span> <span id="ls-status"></span></li>
         </ul>
-        <p style="font-size:0.9em;color:#888;">※推奨環境以外でも使えますが、一部機能が正しく動作しない場合があります。FireFoxで動作しないという報告があります。</p>
+        <p style="font-size:0.9em;color:#888;">※推奨環境以外でも使えますが、一部機能が正しく動作しない場合があります。Firefoxで動作しないという報告があります。</p>
         </section>
         
         <section id="set-info" class="settings-section" style="display:none">
