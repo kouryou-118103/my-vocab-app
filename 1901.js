@@ -1228,7 +1228,7 @@ function showSettingsDialog() {
           <label><input type="checkbox" id="leave_confirmation"> ページ離脱確認を有効にする</label>
           <p>クイズ中にタブを閉じようとすると警告を出します。</p>
           <label><input type="checkbox" id="SpeakingWord"> 単語を読み上げる</label>
-          <p>技術上の理由により無効になっています。</p>
+          <p>一部の環境下では使えないことがあります。</p>
         </section>
 
         <section id="style" class="settings-section" style="display:none">
