@@ -3,7 +3,8 @@
 ## 新機能 / New Features
 
 ### v2.12 (2026/06/18)
-* **日本語:** * アプリを公開 → https://kouryou-118103.github.io/my-vocab-app/
+* **日本語:** 
+	* アプリを公開 → https://kouryou-118103.github.io/my-vocab-app/
   * ヘルプページ（使い方）を追加
 * **English:**
   * Publicly released the app -> https://kouryou-118103.github.io/my-vocab-app/
@@ -14,7 +15,8 @@
 ## 過去の更新 / Past Updates
 
 ### v2.11.6 (2026/05/19)
-* **日本語:** * 設定画面の安定性を改善
+* **日本語:** 
+	* 設定画面の安定性を改善
   * バグがバグを呼ぶ‥
   * コメントアウトしすぎて、`}` が閉じれていなかったのを修正
 * **English:**
@@ -35,7 +37,8 @@
 * **English:** Fixed errors caused by remaining references to elements that were deleted in the v2.11.2 update.
 
 ### v2.11.2 (2026/05/18)
-* **日本語:** * カラーピッカーが再読み込み時に初期設定になる問題を修正
+* **日本語:** 
+	* カラーピッカーが再読み込み時に初期設定になる問題を修正
   * 推奨環境にEdgeを追加
   * 推奨環境からローカルを削除
 * **English:**
@@ -44,14 +47,16 @@
   * Removed "Local" from the recommended environment.
 
 ### v2.11.1 (2026/05/17)
-* **日本語:** * 過去の正解率をアイコンで表示できる機能が正常に動作していなかったので修正
+* **日本語:** 
+	* 過去の正解率をアイコンで表示できる機能が正常に動作していなかったので修正
   * HTMLファイルを公開するために依存関係を調整中
 * **English:**
   * Fixed an issue where the feature to display past accuracy rates via icons was not working properly.
   * Adjusting dependencies to publish the HTML file.
 
 ### v2.11 (2026/05/17)
-* **日本語:** * ポートフォリオに使えるように改造
+* **日本語:** 
+	* ポートフォリオに使えるように改造
   * 1. 単語データをCC BY-SA 4.0のデータに変更
   * 2. 1に伴ういくつかのデータ変更
   * 3. 単語数が変わったことにより動作しなくなった機能の書き換え
@@ -62,7 +67,8 @@
   * 3. Rewrote features that broke due to the change in total word count.
 
 ### v2.10.6 (2025/12/30)
-* **日本語:** * 設定画面でエンターキーでクイズが始められる機能について、Ctrl+Enterに変更
+* **日本語:** 
+	* 設定画面でエンターキーでクイズが始められる機能について、Ctrl+Enterに変更
   * `h` で表示できるショートカットキー一覧にCtrl+Enterを追加
   * (今年最後の更新です。このアプリを使っていただきありがとうございました。良いお年を)
 * **English:**
@@ -87,7 +93,8 @@
 * **English:** Fixed a bug where the settings screen shortcuts did not work on the home screen.
 
 ### v2.10.1 (2025/12/06)
-* **日本語:** * 選択肢に正解が含まれない不具合を修正
+* **日本語:** 
+	* 選択肢に正解が含まれない不具合を修正
   * 入力モードとフラッシュカードを同時にオンにしたときに、表示がおかしくなる問題を修正
 * **English:**
   * Fixed a bug where the correct answer was sometimes missing from the choices.
@@ -110,7 +117,8 @@
 * **English:** Adjusted performance to prevent freezing when there are too many options.
 
 ### v2.09.4 (2025/11/29)
-* **日本語:** * アップデート後にでる感謝メッセージをデフォルトで表示しないように変更
+* **日本語:** 
+	* アップデート後にでる感謝メッセージをデフォルトで表示しないように変更
   * 設定→アプリの更新・修復から元に戻すこともできる
 * **English:**
   * Changed the post-update thank-you message to be hidden by default.
@@ -121,7 +129,8 @@
 * **English:** Fixed an issue to prevent shortcut keys from being intercepted by the browser defaults.
 
 ### v2.09.2 (2025/11/25)
-* **日本語:** * フラッシュカードモードに戻る機能を追加
+* **日本語:** 
+	* フラッシュカードモードに戻る機能を追加
   * フラッシュカードのショートカットキーをわかりやすく
 * **English:**
   * Added a feature to return to Flashcard Mode.
@@ -164,7 +173,8 @@
 * **English:** Minor UI tweaks.
 
 ### v2.08 (2025/10/06)
-* **日本語:** * ローカルストレージへの履歴保存を調整
+* **日本語:** 
+	* ローカルストレージへの履歴保存を調整
   * v2.7.10は見づらいのでv2.8へ
 * **English:**
   * Adjusted history saving in LocalStorage.
@@ -175,7 +185,8 @@
 * **English:** Fixed a bug where the app froze when "Tricky Mode" was enabled.
 
 ### v2.07.8 (2025/10/05)
-* **日本語:** * 変数の初期値変更
+* **日本語:** 
+	* 変数の初期値変更
   * スタイル設定を追加
 * **English:**
   * Changed default values for variables.
@@ -190,7 +201,8 @@
 * **English:** Added a feature to download accumulated user data.
 
 ### v2.07.5 (2025/09/30)
-* **日本語:** * 推奨環境を更新
+* **日本語:** 
+	* 推奨環境を更新
   * アップデートログが複数出る問題を修正(バージョン5以降)
 * **English:**
   * Updated the recommended environment specifications.
@@ -201,14 +213,16 @@
 * **English:** Added "Recommended Environment" to the settings items.
 
 ### v2.07.3 (2025/09/24)
-* **日本語:** * 一部の単語が復習できないバグを修正
+* **日本語:** 
+	* 一部の単語が復習できないバグを修正
   * 結果を記録をオフにするとアイコンが表示されなくなる不具合を修正
 * **English:**
   * Fixed a bug preventing certain words from being reviewed.
   * Fixed an issue where icons disappeared when "Record Results" was turned off.
 
 ### v2.07.2 (2025/09/14)
-* **日本語:** * 設定をSキーで出せるように変更
+* **日本語:** 
+	* 設定をSキーで出せるように変更
   * テスト中にタブを消そうとしたときに確認する機能を設定に追加
 * **English:**
   * Changed the shortcut key to open settings to the `s` key.
@@ -247,7 +261,8 @@
 * **English:** Fixed a bug where uppercase input in Input Mode was incorrectly marked as wrong.
 
 ### v2.05.3 (2025/08/24)
-* **日本語:** * Dキーを長押しすると重くなる不具合を修正
+* **日本語:** 
+	* Dキーを長押しすると重くなる不具合を修正
   * ダークモード設定時に最初にぴかってなる現象の低減
 * **English:**
   * Fixed lag caused by holding down the `D` key.
@@ -258,7 +273,8 @@
 * **English:** Moved most JavaScript files to a remote server. They are now fetched once a day. Running `強制読み込み()` (Force Load) in the console forces an immediate update to the latest version. The app remains functional offline as JS is cached in LocalStorage.
 
 ### v2.05.1 (2025/08/21)
-* **日本語:** * データをネットから持ってくるときの実行順序によって起こるバグを修正
+* **日本語:** 
+	* データをネットから持ってくるときの実行順序によって起こるバグを修正
   * 過去のバージョンを使っているユーザーに対し警告を表示する機能を追加
 * **English:**
   * Fixed a bug caused by the execution order when fetching data from the web.
@@ -269,14 +285,16 @@
 * **English:** Reduced file size by 11% by hosting "Tricky Mode" data and other resources online.
 
 ### v2.04.1 (2025/08/15)
-* **日本語:** * フラッシュカードモードのバグ修正
+* **日本語:** 
+	* フラッシュカードモードのバグ修正
   * ショートカットキーの追加(Dキーでダークモード切り替え,Hか/でショートカット一覧表示)
 * **English:**
   * Fixed bugs in Flashcard Mode.
   * Added new shortcuts (`D` to toggle Dark Mode, `H` or `/` to display the shortcuts list).
 
 ### v2.04 (2025/08/12)
-* **日本語:** * フラッシュカードモードを追加
+* **日本語:** 
+	* フラッシュカードモードを追加
   * フラッシュカードモードのキーボード対応、URL追加
 * **English:**
   * Added Flashcard Mode.
@@ -287,14 +305,16 @@
 * **English:** Reduced file capacity by 11% through optimizing word data structures.
 
 ### v2.03.2 (2025/08/11)
-* **日本語:** * コントラスト比の調整
+* **日本語:** 
+	* コントラスト比の調整
   * ダークモード時のbox-shadow調整
 * **English:**
   * Adjusted color contrast ratios.
   * Adjusted `box-shadow` properties during Dark Mode.
 
 ### v2.03.1 (2025/08/10)
-* **日本語:** * css変数化によるファイルサイズの軽量化
+* **日本語:** 
+	* css変数化によるファイルサイズの軽量化
   * 色数の削減
   * ショートカットの追加。Qキーで終了できるように。
 * **English:**
@@ -303,7 +323,8 @@
   * Added a shortcut: press the `Q` key to quit.
 
 ### v2.03 (2025/08/08)
-* **日本語:** * csvを出力する場所を変更不可能に
+* **日本語:** 
+	* csvを出力する場所を変更不可能に
   * csvをアップロードするときの脆弱な場所を修正
   * その他軽微な内部変更
 * **English:**
@@ -320,7 +341,8 @@
 * **English:** Added CSV Import Mode (Beta), allowing users to review questions they got wrong last time. (This versatile feature can be adapted for non-vocabulary usage too).
 
 ### v2.01 (2025/07/20)
-* **日本語:** * バージョンアップ後の初回起動時に更新情報がでるように
+* **日本語:** 
+	* バージョンアップ後の初回起動時に更新情報がでるように
   * 過去バージョンで使用されていたデータをPCから削除するように変更
   * 設定画面で再読込しても設定が保持されるように
 * **English:**
@@ -333,7 +355,8 @@
 * **English:** UI improvements.
 
 ### v2.00 (2025/07/19)
-* **日本語:** * URLパラメータの生成方法を変更(破壊的変更のためメジャーアップデート)
+* **日本語:** 
+	* URLパラメータの生成方法を変更(破壊的変更のためメジャーアップデート)
   * リンク生成ダイヤログがEscキーで閉じるように
   * 記録モード、単語入力モード、いやらしいモードのURLパラメーターが反応しないことがある問題を修正
   * localStorageに設定を保存する機能の削除
@@ -348,7 +371,8 @@
   * Improved Dark Mode.
 
 ### v1.10.3 (2025/07/06)
-* **日本語:** * UI改善
+* **日本語:** 
+	* UI改善
   * CSS整理
 * **English:**
   * UI improvements.
@@ -359,7 +383,8 @@
 * **English:** Internal changes: Added `for` attributes to `<label>` tags.
 
 ### v1.10.1 (2025/06/28)
-* **日本語:** * 特定の状況でキーが反応しないバグを修正
+* **日本語:** 
+	* 特定の状況でキーが反応しないバグを修正
   * ダークモード切り替え時の不具合を修正
 * **English:**
   * Fixed a bug where keys stopped responding under specific conditions.
@@ -370,7 +395,8 @@
 * **English:** Implemented "Tricky Mode" (which pulls distractors that are alphabetically close to the correct answer).
 
 ### v1.09.4 (2025/05/23)
-* **日本語:** * 再読み込み時の設定の競合を改善
+* **日本語:** 
+	* 再読み込み時の設定の競合を改善
   * UIの微修正
   * URLの仕様変更(競合を防ぐため)
 * **English:**
@@ -379,7 +405,8 @@
   * Updated URL specifications to prevent structural conflicts.
 
 ### v1.09.3 (2025/05/23)
-* **日本語:** * ダークモードを改善
+* **日本語:** 
+	* ダークモードを改善
   * 範囲選択のインデックスがずれていたのを修正
 * **English:**
   * Improved Dark Mode.
@@ -410,7 +437,8 @@
 * **English:** Patched the legendary "FALSE" bug.
 
 ### v1.07.4 (2025/05/05)
-* **日本語:** * 単語の範囲方法の変更
+* **日本語:** 
+	* 単語の範囲方法の変更
   * 範囲下限が含まれるように
 * **English:**
   * Changed how word ranges are selected.
@@ -421,7 +449,8 @@
 * **English:** Changed the visual display layout for the word range specification.
 
 ### v1.07.2 (2025/05/05)
-* **日本語:** * 選択肢「分からない」がキー入力で反応しないバグを修正
+* **日本語:** 
+	* 選択肢「分からない」がキー入力で反応しないバグを修正
   * オート次へ間隔(ms)がクリエに対応
   * 範囲をクリエで設定できない問題を解決
   * 「コピーしました！」が出ないバグを修正(MOD制作者F氏より逆輸入)
@@ -436,21 +465,24 @@
 * **English:** Improved the range selector so that choosing a range dynamically adjusts the subsequent lower bounds.
 
 ### v1.07 (2025/05/04)
-* **日本語:** * 設定画面の大幅改善(MOD制作者F氏より逆輸入)
+* **日本語:** 
+	* 設定画面の大幅改善(MOD制作者F氏より逆輸入)
   * 既知のバグ「範囲指定」がリンクで変更できない
 * **English:**
   * Major overhaul of the settings screen (backport from Modder F).
   * Known Issue: Word range specifications cannot be modified via links.
 
 ### v1.06 (2025/05/04)
-* **日本語:** * urlで設定を指定できる機能を追加
+* **日本語:** 
+	* urlで設定を指定できる機能を追加
   * 「現在の設定でリンクを生成」ボタンを追加
 * **English:**
   * Added a feature to configure settings via URL parameters.
   * Added a "Generate link with current configurations" button.
 
 ### v1.05.4 (2025/05/02)
-* **日本語:** * ゲーム終了時や再読み込み時に以前の設定を復元するように変更
+* **日本語:** 
+	* ゲーム終了時や再読み込み時に以前の設定を復元するように変更
   * 「初期設定に戻す」ボタンを追加
 * **English:**
   * Configured the app to restore previous settings upon game completion or page reloads.
@@ -469,7 +501,8 @@
 * **English:** Fixed a bug where the "I don't know" option failed to sit at the bottom of the choices list.
 
 ### v1.05 (2025/04/28)
-* **日本語:** * 文字数カウント機能追加
+* **日本語:** 
+	* 文字数カウント機能追加
   * 回答表示の改善
   * キータイプのみでの操作が可能に
 * **English:**
@@ -482,7 +515,8 @@
 * **English:** Added Word Input Mode (Japanese to English).
 
 ### v1.03 (4月中旬頃 / Mid-April)
-* **日本語:** * 記録モードがOFFでもCSVが出るバグを修正
+* **日本語:** 
+	* 記録モードがOFFでもCSVが出るバグを修正
   * 回答後に自動で次に進む機能を追加
 * **English:**
   * Fixed a bug where CSV files were generated even when Record Mode was turned off.
@@ -497,7 +531,8 @@
 * **English:** (Note added 2025/12/21): The Python edition added support for quiz formats other than 4-choice. This marks the final update for the Python standalone version.
 
 ### v1.01 (2025/04/19)
-* **日本語:** * 4択以外の形式に対応
+* **日本語:** 
+	* 4択以外の形式に対応
   * 単語範囲の指定が可能に
   * 英語→日本語モードを追加 (2025/12/21追記)多分日本語→英語の誤記。
 * **English:**
@@ -506,7 +541,8 @@
   * Added English -> Japanese mode. (Note added 2025/12/21: This was likely a typo in the original text for Japanese -> English).
 
 ### v1.00 (2025/04/19)
-* **日本語:** * 4択クイズ（英語→日本語）を初実装
+* **日本語:** 
+	* 4択クイズ（英語→日本語）を初実装
   * (2025/12/21追記) Python版をhtmlに移行した。初実装という書き方は、間違っていたと思う
 * **English:**
   * First release of the 4-choice quiz mode (English to Japanese).
