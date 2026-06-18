@@ -1137,7 +1137,7 @@ function initializeVersionInfo(versionInfo) {
     v${v}(${iv})
     | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
     | <a href="javascript:void(0)" id="openSettings">設定</a>
-    | <a href="javascript:history.back()" class="back-link">← 戻る</a>
+    | <a href="https://kouryou-118103.github.io/my-vocab-app/help/" id="openHelp">使い方</a>
   `;
 const btn = versionInfo.querySelector('#openSettings');
 if (btn) {
