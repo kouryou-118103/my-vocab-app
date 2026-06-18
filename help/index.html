@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Zealous9344クイズ 使い方ガイド</title>
+  <style>
+    :root {
+      --primary: #4a77bc;
+      --primary-dark: #2b4c7e;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --accent: #dd6b20;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    /* アプリに戻るリンクのスタイル */
+    .back-link-container {
+      margin-bottom: 15px;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 10.5pt;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background-color: #edf2f7;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .back-link:hover {
+      background-color: var(--primary-dark);
+      color: #ffffff;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24pt;
+      font-weight: bold;
+    }
+
+    .header p {
+      margin: 10px 0 0 0;
+      font-size: 12pt;
+      opacity: 0.9;
+    }
+
+    h2 {
+      font-size: 16pt;
+      color: var(--primary-dark);
+      border-left: 5px solid var(--primary);
+      padding-left: 12px;
+      margin-top: 35px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .card-title {
+      font-weight: bold;
+      font-size: 12pt;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .table th, .table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table th {
+      background-color: #edf2f7;
+      color: var(--primary-dark);
+      font-weight: bold;
+    }
+
+    .key {
+      background-color: #f7fafc;
+      border: 1px solid #cbd5e0;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+      padding: 2px 6px;
+      font-family: monospace;
+      font-size: 10pt;
+      display: inline-block;
+    }
+
+    .note {
+      background-color: #fffaf0;
+      border-left: 4px solid var(--accent);
+      padding: 15px;
+      border-radius: 0 8px 8px 0;
+      margin: 25px 0;
+    }
+
+    .note-title {
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    code {
+      font-family: monospace;
+      background-color: #edf2f7;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- アプリに戻るナビゲーション -->
+    <div class="back-link-container">
+      <a href="https://kouryou-118103.github.io/my-vocab-app/" class="back-link">← アプリに戻る</a>
+    </div>
+
+    <div class="header">
+      <h1>Zealous9344クイズ 使い方ガイド</h1>
+      <p>効率的な英単語学習をサポートする多機能システムのマニュアル</p>
+    </div>
+
+    <h2>1. 基本設定と開始方法</h2>
+    <p>アプリを起動すると表示される設定画面で、学習スタイルに合わせたカスタマイズを行えます。画面下部の「開始」ボタンでクイズが始まります。</p>
+    
+    <div class="card">
+      <div class="card-title">● 出題方向の選択</div>
+      <p>「英語 → 日本語」または「日本語 → 英語」のいずれかを選択できます。</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">● 選択肢の数（1 〜 9344択）</div>
+      <p>標準的な択一クイズの選択肢の数を、<strong>1択から最大9344択まで</strong>非常に自由に設定することができます（※実際のクイズ画面では、設定した数に加えて「分からない」ボタンが1つ自動配置されます）。極端に大きな数に設定すると、収録されている全単語から選択肢が生成されるため、究極の4択ならぬ「9344択クイズ」に挑戦することも可能です。</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">● 出題範囲の指定</div>
+      <p>セクション単位での選択のほか、開始番号と終了番号を<code>1</code>〜<code>9344</code>の間で細かく手入力して指定することができます。</p>
+    </div>
+
+    <h2>2. 特殊な学習モード</h2>
+    <p>目的に応じて以下のチェックボックスをオンにすることで、出題形式をガラリと変えられます。</p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">モード名</th>
+          <th>特徴と効果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>記録モード</strong></td>
+          <td>指定範囲の全単語を網羅して出題。終了時に「間違えた問題」のデータを含む結果CSVが生成されるため、弱点の把握に最適です。</td>
+        </tr>
+        <tr>
+          <td><strong>単語入力モード</strong></td>
+          <td>キーボードでスペルを直接タイピングする記述式テストです（※日本語→英語設定時のみ有効）。</td>
+        </tr>
+        <tr>
+          <td><strong>いやらしいモード</strong></td>
+          <td>選択肢に、綴り（ABC順）が非常に似通った紛らわしい単語が優先的に並ぶようになります。うろ覚えの排除に効果抜群です。</td>
+        </tr>
+        <tr>
+          <td><strong>フラッシュカード</strong></td>
+          <td>選択肢を選ばず、カードをめくる感覚で「意味表示」→「覚えた/覚えていない」を自己申告でテンポよく仕分ける超高速学習モードです。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. 便利な機能</h2>
+    <div class="card">
+      <div class="card-title">● CSV読み込みによるピンポイント復習</div>
+      <p>「記録モード」の終了後に生成される結果CSVテキストを保存しておき、次回起動時に<strong>「CSV読み込み」</strong>ボタンからペーストして読み込ませることで、<strong>前回間違えた問題だけを抽出して再挑戦</strong>することができます。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">● 現在の設定でリンクを生成</div>
+      <p>設定した出題範囲や選択肢の数、各種モードの状態をすべて保持したURLを発行できます。ブラウザのブックマークに登録しておけば、次回から1クリックで同じ設定から開始できます。</p>
+    </div>
+
+    <h2>4. キーボードショートカット一覧</h2>
+    <p>画面をクリックせず、キーボードだけでサクサク操作が可能です。</p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 35%;">キー</th>
+          <th>操作内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="key">1</span> 〜 <span class="key">9</span></td>
+          <td>n択クイズの選択肢（1番目〜9番目）を素早く選択します。</td>
+        </tr>
+        <tr>
+          <td><span class="key">Space</span> / <span class="key">Enter</span></td>
+          <td>正誤判定後の「次の問題へ」進む、またはフラッシュカードの「意味表示」をします。</td>
+        </tr>
+        <tr>
+          <td><span class="key">1</span> <small>(フラッシュカード時)</small></td>
+          <td>単語の意味を表示します。</td>
+        </tr>
+        <tr>
+          <td><span class="key">2</span> <small>(フラッシュカード時)</small></td>
+          <td>「覚えた」として次のカードへ進みます。</td>
+        </tr>
+        <tr>
+          <td><span class="key">3</span> <small>(フラッシュカード時)</small></td>
+          <td>「覚えていない」として次のカードへ進みます。</td>
+        </tr>
+        <tr>
+          <td><span class="key">Q</span></td>
+          <td>クイズを途中で中断し、終了します。</td>
+        </tr>
+        <tr>
+          <td><span class="key">S</span></td>
+          <td>クイズを中断し、設定画面に戻ります。</td>
+        </tr>
+        <tr>
+          <td><span class="key">D</span></td>
+          <td>ダークモード（画面の明暗）の切り替え。</td>
+        </tr>
+        <tr>
+          <td><span class="key">/</span> または <span class="key">H</span></td>
+          <td>画面上にショートカットキーのヘルプを表示します。</td>
+        </tr>
+        <tr>
+          <td><span class="key">Escape</span></td>
+          <td>開いているダイアログを閉じる、またはアプリを再読込します。</td>
+        </tr>
+      </tbody>
+    </table>
+</body>
+</html>
