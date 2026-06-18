@@ -1,7 +1,8 @@
 {
 "newFeature":
-    {"version":"v2.12","date":"2026/6/18","changes":["アプリを公開→https://kouryou-118103.github.io/my-vocab-app/","ヘルプページ（使い方）を追加"]},
+    {"version":"v2.12.1","date":"2026/6/19","changes":["音声読み上げをコメントアウト解除。設定→クイズ中→単語を読み上げるから設定可能"]},
 "updates": [
+    {"version":"v2.12","date":"2026/6/18","changes":["アプリを公開→https://kouryou-118103.github.io/my-vocab-app/","ヘルプページ（使い方）を追加"]},
     {"version":"v2.11.6","date":"2026/5/19","changes":["設定画面の安定性を改善","バグがバグを呼ぶ‥","コメントアウトしすぎて、}が閉じれていなかったのを修正"]},
     {"version":"v2.11.5","date":"2026/5/18","changes":["設定画面の参照先を整理"]},
     {"version":"v2.11.4","date":"2026/5/18","changes":["2.11.3で消しきれなかった部分の修正"]},
