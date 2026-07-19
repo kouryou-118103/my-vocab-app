@@ -28,8 +28,11 @@ These dictionary data files are licensed under CC BY-SA 4.0:
 
 https://creativecommons.org/licenses/by-sa/4.0/
 
+
+なお、本ソフトウェアのコード内に辞書データが直接埋め込まれていますが、辞書データ部分のみを抽出・再配布・改変することは、CC BY-SA 4.0の条件に従う限り自由です。上記「禁止事項」はコード部分（アプリケーションロジック等）にのみ適用され、辞書データ部分の権利には影響しません。
+
 ## 免責
 
 本ソフトウェアは現状のまま提供され、いかなる保証も行いません。
 
-© 2025 kouryou-118103
+© 2025-2026 kouryou-118103
