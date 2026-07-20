@@ -235,12 +235,9 @@ if (event.key.toLowerCase() === "s" && (!userInput || document.activeElement !==
     }
   }
 
-  var key = parseInt(event.key);
-  if (!isNaN(key) && key >= 1 && key <= numChoices + 1) {
-    var buttons = document.querySelectorAll("#quiz .option button");
-    if (buttons[key - 1]) {
-      buttons[key - 1].click();
-    }
+var key = parseInt(event.key);
+  if (!isNaN(key) && key >= 1 && key <= numChoices + 1 && 現在options && 現在options[key - 1] !== undefined) {
+    checkAnswer(現在options[key - 1], 現在正解, 問題番号);
   }
 });
 
