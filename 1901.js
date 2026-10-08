@@ -598,7 +598,7 @@ function handleFlashcardMode(solvedCount, 表示語句, 正解, mark_タイト�
   const html = `
     <p style="display:flex; align-items:center;">
       <span>${escapeHTML(solvedCount + 1)}/${escapeHTML(totalCount)}</span>
-      <span style="margin-left:auto; font-size:1.5em;" title="${mark_タイトル}">${mark}</span>
+      <span style="margin-left:auto; font-size:1.5em;" title="${escapeHTML(mark_タイトル)}">${mark}</span>
     </p>
     <p style="font-size: 2em; font-weight: bold; margin-bottom: 1.5em;">${escapeHTML(表示語句)}</p>
     <p id="flashcard-meaning" style="font-size: 1.5em; display:none; margin-bottom: 1.5em;">${escapeHTML(正解)}</p>
@@ -1185,7 +1185,7 @@ function showCurrentFlashcard() {
   var html = `
     <p style="display:flex; align-items:center;">
       <span>${escapeHTML(solvedCount+1)}/${escapeHTML(totalCount)}</span>
-      <span style="margin-left:auto; font-size:1.5em;" title="${mark_タイトル}">${mark}</span>
+      <span style="margin-left:auto; font-size:1.5em;" title="${escapeHTML(mark_タイトル)}">${mark}</span>
     </p>
     <p style="font-size: 2em; font-weight: bold; margin-bottom: 1.5em;">${escapeHTML(表示語句)}</p>
     <p id="flashcard-meaning" style="font-size: 1.5em; display:none; margin-bottom: 1.5em;">${escapeHTML(正解)}</p>
@@ -1653,6 +1653,19 @@ backupSection.querySelector("#lsFileInput").addEventListener("change", function(
       const obj = JSON.parse(ev.target.result);
       if(obj.wordStats === undefined){
         throw new Error("wordStatsキーが見つかりません");
+      }
+      // 各単語の correct / total が数値であることを検証(細工されたファイル対策)
+      const parsedStats = JSON.parse(obj.wordStats);
+      if (parsedStats === null || typeof parsedStats !== "object" || Array.isArray(parsedStats)) {
+        throw new Error("wordStatsの形式が不正です");
+      }
+      for (const k of Object.keys(parsedStats)) {
+        const s = parsedStats[k];
+        if (s === null || typeof s !== "object" ||
+            (s.correct !== undefined && !Number.isFinite(s.correct)) ||
+            (s.total !== undefined && !Number.isFinite(s.total))) {
+          throw new Error("wordStatsに数値でない値があります");
+        }
       }
       // 上書き警告
       const currentValue = localStorage.getItem("wordStats");
