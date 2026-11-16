@@ -40,8 +40,8 @@ if (window.内部バージョン === "3") {//画面のちらつきを抑える�
     var 正解;
     var 表示語句範囲 = [];
     var 選択肢範囲 = [];
-    var 出題語句ABC = [];
-    var 選択肢ABC用 = [];
+    //var 出題語句ABC = [];
+    //var 選択肢ABC用 = [];
     var 範囲下 = 0;
     var 範囲上 = 9344;
     var 出題方向 = "en-ja";
@@ -95,11 +95,27 @@ if (window.内部バージョン === "3") {//画面のちらつきを抑える�
       updateNotice: localStorage.getItem("updateNotice") === null ? false : localStorage.getItem("updateNotice") === "true"
     };
     function 読み込みJSON(key){//あとでローカルストレージに投げる 
-      try { return JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch (e) { return {}; }
+      const 入れ物 = Object.create(null); //CSVで逆に設定した時でも異常にならないように。
+try { return Object.assign(入れ物, JSON.parse(localStorage.getItem(key) || "{}")); } catch (e) { return 入れ物; }
     }
     var wordStatsCache = 読み込みJSON("wordStats");
-    var studyLogCache = 読み込みJSON("studyLog");
-    var 保存待ち = false;
+    function 学習記録を読み込む() { // 旧形式(1回答ごとの配列)は日ごとの集計にまとめ直す
+      const log = 読み込みJSON("studyLog");
+      for (const key of Object.keys(log)) {
+        const list = log[key];
+        if (!Array.isArray(list)) continue;
+        const day = { total: 0, correct: 0, mistakes: {} };
+        for (const item of list) {
+          if (!item || typeof item !== "object") continue;
+          day.total++;
+          if (item.correct === true) day.correct++;
+          else if (typeof item.word === "string") day.mistakes[item.word] = (Object.hasOwn(day.mistakes, item.word) ? day.mistakes[item.word] : 0) + 1;
+        }
+        log[key] = day;
+      }
+      return log;
+    }
+    var studyLogCache = 学習記録を読み込む();    var 保存待ち = false;
     function 記録を書き込む(){//日本語関数good
       if (!保存待ち) return;
       保存待ち = false;
@@ -117,7 +133,7 @@ if (window.内部バージョン === "3") {//画面のちらつきを抑える�
     });
     window.addEventListener("storage", (e) => { // 別タブで記録が変わったら読み直す
       if (e.key === "wordStats" || e.key === null) wordStatsCache = 読み込みJSON("wordStats");
-      if (e.key === "studyLog" || e.key === null) studyLogCache = 読み込みJSON("studyLog");
+      if (e.key === "studyLog" || e.key === null) studyLogCache = 学習記録を読み込む();
     });
     let mark_タイトル = ``;
     let mark = "";
@@ -379,9 +395,9 @@ document.getElementById("quiz").addEventListener("click", function(e) {
         出題方向 = "ja-en";
         document.getElementById("direction").value = "ja-en";
       }
-if (間違い日本語.length === 0 && いやらしいモード) {
-  出題語句ABC = ABCnum.slice(範囲下, 範囲上).sort((a, b) => a - b);
-}
+//if (間違い日本語.length === 0 && いやらしいモード) {
+  //出題語句ABC = ABCnum.slice(範囲下, 範囲上).sort((a, b) => a - b);
+//}
 if (アクセス元==="1000" && いやらしいモード){
   alert("想定していないエラーが発生しました。OKで再読込します。詳細:熟語モードでいやらしいモードがONになっている")
   location.reload()
@@ -559,14 +575,21 @@ function getMarkTitle(表示語句, 正解, wordStats) {
     : "";
 }
 function generateOptions(correct) {
-  // 選択肢範囲から正解以外の選択肢を取得
-  const otherChoices = shuffle(選択肢範囲.filter(word => word !== correct));
-
-  // 正解 + ランダムに (numChoices - 1) 個
-  const options = [correct, ...otherChoices.slice(0, numChoices - 1)];
-
-  shuffle(options);
-  options.push("わからない");
+// 正解 + ランダムに (numChoices - 1) 個。全体を並べ替えず、必要な数だけ引く
+const picked = new Set([correct]);
+let 試行 = 0;
+while (picked.size < numChoices && 試行 < numChoices * 20) {
+  picked.add(選択肢範囲[Math.floor(Math.random() * 選択肢範囲.length)]);
+  試行++;
+}
+if (picked.size < numChoices) { // 重複が多くて集まらないときは全体から順に足す
+  for (const word of shuffle(選択肢範囲.slice())) {
+    if (picked.size >= numChoices) break;
+    picked.add(word);
+  }
+}
+const options = shuffle([...picked]);
+options.push("わからない");
 
   return options;
 }
@@ -804,7 +827,7 @@ changelog.innerHTML = html;
         changelog.dataset.loaded = "true";
       })
       .catch(err => {
-        changelog.innerHTML = `<p>読み込みに失敗しました: ${err}</p>`;
+        changelog.innerHTML = `<p>読み込みに失敗しました: ${escapeHTML(err)}</p>`;
       });
   }
 }
@@ -1016,10 +1039,10 @@ rangeSelect.addEventListener('change', () => {
     }
   })();
 
-function extractVersionFromHTML(html) {
-  var match = html.match(/v(\d+(?:\.\d+)*)(?:（|\()/);
-  return match ? match[1] : null;
-}
+//function extractVersionFromHTML(html) {
+  //var match = html.match(/v(\d+(?:\.\d+)*)(?:（|\()/);
+  //return match ? match[1] : null;
+//}
 
 function updateCSVStatus(loaded) {
   var label = document.getElementById("csvStatus");
@@ -1518,7 +1541,7 @@ function showSettingsDialog() {
   document.getElementById("clearAll").addEventListener("click", () => {
     if (confirm("本当にすべての記録を消去しますか？")) {
       localStorage.removeItem("wordStats");
-      wordStatsCache = {};
+      wordStatsCache = Object.create(null);
       alert("記録を消去しました");
     }
   });
@@ -1810,9 +1833,12 @@ function saveStudyLog(word, isCorrect) {
   const d = new Date(); //UTC→端末の時刻
   const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; // YYYY-MM-DD
   let studyLog = studyLogCache;
-  if (!studyLog[today]) studyLog[today] = [];
-  studyLog[today].push({ word, correct: isCorrect });
-  記録を後で保存();
+  if (!studyLog[today]) studyLog[today] = { total: 0, correct: 0, mistakes: {} };
+  const day = studyLog[today];
+  day.total++;
+  if (isCorrect) day.correct++;
+  else day.mistakes[word] = (Object.hasOwn(day.mistakes, word) ? day.mistakes[word] : 0) + 1;
+    記録を後で保存();
 }
 document.addEventListener("click", function(event) {
   const updateDialog = document.querySelector(".update-dialog");
@@ -1821,6 +1847,6 @@ document.addEventListener("click", function(event) {
     updateDialog.remove();
   }
 }, true);
-document.addEventListener("click", function(event) {
-  const settingsDialog = document.querySelector(".settings-dialog");
-});
+//document.addEventListener("click", function(event) {
+  //const settingsDialog = document.querySelector(".settings-dialog");
+//});
