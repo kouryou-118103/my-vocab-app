@@ -1273,6 +1273,7 @@ function initializeVersionInfo(versionInfo) {
     | <a href="javascript:void(0)" onclick="toggleUpdateLog(); return false;">更新情報を見る</a>
     | <a href="javascript:void(0)" id="openSettings">設定</a>
     | <a href="help/" id="openHelp">使い方</a>
+    | <a href="stats/" id="openstats">情報ページ(β版)</a>
   `;//相対パスにした
 const btn = versionInfo.querySelector('#openSettings');
 if (btn) {
