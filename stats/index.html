@@ -169,18 +169,28 @@
       const 日別 = new Map();
       if (typeof raw !== "object" || Array.isArray(raw)) return 日別;
       for (const [key, list] of Object.entries(raw)) {
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(key) || !Array.isArray(list)) continue;
-        let total = 0, correct = 0;
-        const mistakes = new Map(); // 単語 → 間違えた回数
-        for (const item of list) {
-          if (!item || typeof item !== "object") continue;
-          total++;
-          if (item.correct === true) {
-            correct++;
-          } else if (typeof item.word === "string") {
-            mistakes.set(item.word, (mistakes.get(item.word) || 0) + 1);
-          }
-        }
+if (!/^\d{4}-\d{2}-\d{2}$/.test(key) || !list || typeof list !== "object") continue;
+let total = 0, correct = 0;
+const mistakes = new Map(); // 単語 → 間違えた回数
+if (Array.isArray(list)) { // 旧形式（1回答ごとの配列）
+  for (const item of list) {
+    if (!item || typeof item !== "object") continue;
+    total++;
+    if (item.correct === true) {
+      correct++;
+    } else if (typeof item.word === "string") {
+      mistakes.set(item.word, (mistakes.get(item.word) || 0) + 1);
+    }
+  }
+} else { // 新形式（日ごとの集計）
+  if (Number.isFinite(list.total) && list.total > 0) total = list.total;
+  if (Number.isFinite(list.correct) && list.correct > 0) correct = Math.min(list.correct, total);
+  if (list.mistakes && typeof list.mistakes === "object") {
+    for (const [word, n] of Object.entries(list.mistakes)) {
+      if (Number.isFinite(n) && n > 0) mistakes.set(word, n);
+    }
+  }
+}
         if (total > 0) 日別.set(key, { total, correct, mistakes });
       }
       return 日別;
