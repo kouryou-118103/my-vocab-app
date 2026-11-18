@@ -476,9 +476,25 @@ function showUpdateNoticeIfNeeded() {
         // oldVersion 以降の更新だけ抽出
         const newUpdates = updates.filter(u => !oldVersion || compareVersions(u.version.replace("v",""), oldVersion.replace("v","")) > 0);
 
-        const liHTML = newUpdates.map(u => 
-          `<strong>${u.version}</strong> (${u.date})<ul>${u.changes.map(c => `<li>${c}</li>`).join("")}</ul>`
-        ).join("");
+        // 更新内容が多すぎるので、新しい順に上位10件まで表示する。
+        // 10件に達する途中のバージョンは、そのバージョンの最後まで書き切る。
+        // 表示しなかった分は「その他n件のアップデート」にまとめる。
+        const MAX_SHOWN_CHANGES = 10;
+        let shownCount = 0;
+        let cutIndex = newUpdates.length;
+        for (let i = 0; i < newUpdates.length; i++) {
+          if (shownCount >= MAX_SHOWN_CHANGES) { cutIndex = i; break; }
+          shownCount += newUpdates[i].changes.length;
+        }
+        const shownUpdates = newUpdates.slice(0, cutIndex);
+        const omittedCount = newUpdates.slice(cutIndex).reduce((sum, u) => sum + u.changes.length, 0);
+
+        let liHTML = shownUpdates.map(u =>
+           `<strong>${u.version}</strong> (${u.date})<ul>${u.changes.map(c => `<li>${c}</li>`).join("")}</ul>`
+         ).join("");
+        if (omittedCount > 0) {
+          liHTML += `<p>その他${omittedCount}件のアップデート</p>`;
+        }
 
         const message = oldVersion
 			? `${escapeHTML(oldVersion)} → ${バージョン} にアップデートしました！<br>新機能はこちら↓↓↓　画面端をクリックでもダイアログを消せます。<ul>${liHTML}</ul>`
