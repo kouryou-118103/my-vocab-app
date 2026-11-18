@@ -2,66 +2,164 @@
 
 ## 新機能 / New Features
 
-### v2.12 (2026/06/18)
-* **日本語:** 
-	* アプリを公開 → https://kouryou-118103.github.io/my-vocab-app/
-  * ヘルプページ（使い方）を追加
+### v3.03.5 (2026/11/18)
+* **日本語:**
+  * バージョンをつけ直しました。旧v2.11をv3.00としてつけ直しています(旧v2.11が明らかに破壊的変更のため)。
+  * アップデート内容を上位10件程度の表示に収めるように変更
 * **English:**
-  * Publicly released the app -> https://kouryou-118103.github.io/my-vocab-app/
-  * Added a Help page (Usage guide)
+  * Re-numbered the versions. The former v2.11 has been re-labeled as v3.00 (because the former v2.11 was clearly a breaking change).
+  * Changed the update notice so that it shows only about the top 10 changes.
 
 ---
 
 ## 過去の更新 / Past Updates
 
-### v2.11.6 (2026/05/19)
-* **日本語:** 
-	* 設定画面の安定性を改善
+### v3.03.4 (2026/11/16)
+* **日本語:**
+  * (旧v2.14.4) 学習記録の保存を軽量化。今までの記録は自動で新形式に変換されます。
+  * 学習カレンダー(β版)を新しい記録形式に対応。
+  * アップデートメッセージの変更
+  * サニタイズしてなかったところを修正
+  * JSの読み込み順を変更して起動時の読み込み開始を早く
+  * 選択肢の生成を軽量化
+  * その他リファクタリング
+* **English:**
+  * (Formerly v2.14.4) Made saving of study records lighter. Existing records are automatically converted to the new format.
+  * Updated the Study Calendar (beta) to support the new record format.
+  * Changed the update message.
+  * Fixed places where input was not being sanitized.
+  * Changed the JS loading order so that loading starts earlier at launch.
+  * Made the generation of answer choices lighter.
+  * Other refactoring.
+
+### v3.03.3 (2026/10/08)
+* **日本語:** (旧v2.14.3) サニタイズしてなかったところを修正
+* **English:** (Formerly v2.14.3) Fixed places where input was not being sanitized.
+
+### v3.03.2 (2026/09/12)
+* **日本語:**
+  * (旧v2.14.2) 保存を軽量化
+  * 「結果を記録」の処理を変更
+  * 結果画面の◯問中◯問正解の基準を変更し、より安定するように
+  * その他リファクタリングなど
+* **English:**
+  * (Formerly v2.14.2) Made saving lighter.
+  * Changed the processing of "Record Results".
+  * Changed the criteria for the "X out of Y correct" count on the results screen to make it more stable.
+  * Other refactoring, etc.
+
+### v3.03.1 (2026/09/12)
+* **日本語:**
+  * (旧v2.14.1) カラーピッカーの初期値が#000になる不具合を修正
+  * 次へのタイマーが止まらない問題を修正
+  * フラッシュカードで戻るとずれる問題を修正
+  * CSVの中にある番号がただのインデックスになっていて単語リストと対応していなかったので修正
+  * 共有したリンクを読み込むときにloadで全範囲に上書きされていたので修正
+  * いやらしいモードもO(1)へ
+  * bodyをずっと見てたMutationObserverを消して入力欄を作ったらfocusを呼ぶように
+  * リンクをコピーする時にnavigator.clipboard.writeTextに変更
+* **English:**
+  * (Formerly v2.14.1) Fixed a bug where the color picker's initial value became #000.
+  * Fixed an issue where the "next" timer would not stop.
+  * Fixed an issue where going back in Flashcard Mode caused a misalignment.
+  * Fixed the numbers in the CSV being plain indices that did not correspond to the word list.
+  * Fixed an issue where opening a shared link overwrote the selected range with the full range on load.
+  * Made "Tricky Mode" $O(1)$ as well.
+  * Removed the `MutationObserver` that was constantly watching `body`; `focus` is now called right after the input field is created.
+  * Changed link copying to use `navigator.clipboard.writeText`.
+
+### v3.03 (2026/09/04)
+* **日本語:**
+  * (旧v2.14) 記録モードで出力したCSVをCSV読み込みで使う場合に単語が一致しない問題を修正
+  * 開始を押したときに複数回実行される問題を修正
+  * Escapeキーでダイアログを閉じるべき場面で再読み込みしていたので、閉じるように変更
+* **English:**
+  * (Formerly v2.14) Fixed an issue where words did not match when using a CSV exported in Record Mode with CSV Import Mode.
+  * Fixed an issue where pressing Start ran the process multiple times.
+  * Changed the `Escape` key to close dialogs where it used to reload the page instead.
+
+### v3.02.1 (2026/07/20)
+* **日本語:**
+  * (旧v2.13.1) 選択肢HTMLを2回生成しているところを削除
+  * console.logの生成を既定でしないように変更
+  * クリックイベントをイベントリスナーからコンテナへ変更
+  * いやらしいモードをv2.13で追加したMapに変更
+  * 数字キーの発火をDOM探索ではなく変数で操作
+* **English:**
+  * (Formerly v2.13.1) Removed a place where the choices HTML was generated twice.
+  * Changed `console.log` output to be disabled by default.
+  * Moved click event handling from individual event listeners to the container.
+  * Changed "Tricky Mode" to use the `Map` added in v2.13.
+  * Changed number-key handling to use variables instead of DOM lookups.
+
+### v3.02 (2026/07/19)
+* **日本語:**
+  * (旧v2.13) 選択肢数の設定が多い場合の動作が軽くなった(作者環境下で54%高速化)
+  * 「ボルト」「後」「ウェア」「紅葉」「シリアル」「相対」の日本語訳に文脈の補足を追加
+* **English:**
+  * (Formerly v2.13) Improved performance when the number-of-choices setting is large (54% faster in the author's environment).
+  * Added contextual notes to the Japanese translations of "ボルト", "後", "ウェア", "紅葉", "シリアル", and "相対".
+
+### v3.01.1 (2026/06/19)
+* **日本語:** (旧v2.12.1) 音声読み上げをコメントアウト解除。設定→クイズ中→単語を読み上げるから設定可能
+* **English:** (Formerly v2.12.1) Re-enabled the text-to-speech feature (uncommented). It can be turned on from "Settings -> During Quiz -> Read words aloud".
+
+### v3.01 (2026/06/18)
+* **日本語:**
+  * (旧v2.12) アプリを公開 → https://kouryou-118103.github.io/my-vocab-app/
+  * ヘルプページ（使い方）を追加
+* **English:**
+  * (Formerly v2.12) Publicly released the app -> https://kouryou-118103.github.io/my-vocab-app/
+  * Added a Help page (Usage guide)
+
+### v3.00.6 (2026/05/19)
+* **日本語:**
+  * (旧v2.11.6) 設定画面の安定性を改善
   * バグがバグを呼ぶ‥
   * コメントアウトしすぎて、`}` が閉じれていなかったのを修正
 * **English:**
-  * Improved the stability of the settings screen.
+  * (Formerly v2.11.6) Improved the stability of the settings screen.
   * One bug leads to another...
   * Fixed an issue where a closing `}` was missing due to excessive commenting out.
 
-### v2.11.5 (2026/05/18)
-* **日本語:** 設定画面の参照先を整理
-* **English:** Cleaned up the references in the settings screen.
+### v3.00.5 (2026/05/18)
+* **日本語:** (旧v2.11.5) 設定画面の参照先を整理
+* **English:** (Formerly v2.11.5) Cleaned up the references in the settings screen.
 
-### v2.11.4 (2026/05/18)
-* **日本語:** 2.11.3で消しきれなかった部分の修正
-* **English:** Fixed leftover issues that weren't fully resolved in v2.11.3.
+### v3.00.4 (2026/05/18)
+* **日本語:** (旧v2.11.4) 2.11.3で消しきれなかった部分の修正
+* **English:** (Formerly v2.11.4) Fixed leftover issues that weren't fully resolved in v2.11.3.
 
-### v2.11.3 (2026/05/18)
-* **日本語:** 2.11.2の修正で消した要素を参照している場所がエラーを吐いていたため修正
-* **English:** Fixed errors caused by remaining references to elements that were deleted in the v2.11.2 update.
+### v3.00.3 (2026/05/18)
+* **日本語:** (旧v2.11.3) 2.11.2の修正で消した要素を参照している場所がエラーを吐いていたため修正
+* **English:** (Formerly v2.11.3) Fixed errors caused by remaining references to elements that were deleted in the v2.11.2 update.
 
-### v2.11.2 (2026/05/18)
-* **日本語:** 
-	* カラーピッカーが再読み込み時に初期設定になる問題を修正
+### v3.00.2 (2026/05/18)
+* **日本語:**
+  * (旧v2.11.2) カラーピッカーが再読み込み時に初期設定になる問題を修正
   * 推奨環境にEdgeを追加
   * 推奨環境からローカルを削除
 * **English:**
-  * Fixed an issue where the color picker would reset to default upon reloading.
+  * (Formerly v2.11.2) Fixed an issue where the color picker would reset to default upon reloading.
   * Added Microsoft Edge to the recommended environment.
   * Removed "Local" from the recommended environment.
 
-### v2.11.1 (2026/05/17)
-* **日本語:** 
-	* 過去の正解率をアイコンで表示できる機能が正常に動作していなかったので修正
+### v3.00.1 (2026/05/17)
+* **日本語:**
+  * (旧v2.11.1) 過去の正解率をアイコンで表示できる機能が正常に動作していなかったので修正
   * HTMLファイルを公開するために依存関係を調整中
 * **English:**
-  * Fixed an issue where the feature to display past accuracy rates via icons was not working properly.
+  * (Formerly v2.11.1) Fixed an issue where the feature to display past accuracy rates via icons was not working properly.
   * Adjusting dependencies to publish the HTML file.
 
-### v2.11 (2026/05/17)
-* **日本語:** 
-	* ポートフォリオに使えるように改造
+### v3.00 (2026/05/17)
+* **日本語:**
+  * (旧v2.11) ポートフォリオに使えるように改造
   * 1. 単語データをCC BY-SA 4.0のデータに変更
   * 2. 1に伴ういくつかのデータ変更
   * 3. 単語数が変わったことにより動作しなくなった機能の書き換え
 * **English:**
-  * Revamped the app to make it suitable for a portfolio.
+  * (Formerly v2.11) Revamped the app to make it suitable for a portfolio.
   * 1. Changed word data to CC BY-SA 4.0 licensed data.
   * 2. Made several data modifications along with change #1.
   * 3. Rewrote features that broke due to the change in total word count.
